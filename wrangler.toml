@@ -1,4 +1,16 @@
-# Configurazione Cloudflare Pages (usata anche da `npm run deploy` con Wrangler).
+# Configurazione Cloudflare (Workers con asset statici).
+# `npx wrangler deploy` esegue la build e pubblica il contenuto di dist/.
+# Con Cloudflare Pages collegato a Git questo file viene ignorato e valgono le impostazioni
+# della dashboard (build command `npm run build`, output directory `dist`).
 name = "disdettafacile"
-pages_build_output_dir = "./dist"
-compatibility_date = "2025-01-01"
+compatibility_date = "2025-09-01"
+
+[build]
+command = "npm run build"
+
+[assets]
+directory = "./dist"
+# Usa dist/404.html per le pagine inesistenti.
+not_found_handling = "404-page"
+# Gli URL del sito terminano con "/" (es. /disdetta/palestre/).
+html_handling = "auto-trailing-slash"

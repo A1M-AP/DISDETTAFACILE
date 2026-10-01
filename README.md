@@ -58,8 +58,8 @@ src/
   lib/validators.ts           ← codice fiscale, IBAN, CAP, email…
   lib/data-validate.ts        ← controlli di coerenza dei file dati
 tests/                        ← test con node:test
-public/_headers               ← intestazioni HTTP (sicurezza e cache) per Cloudflare Pages
-wrangler.toml                 ← configurazione Cloudflare Pages
+public/_headers               ← intestazioni HTTP (sicurezza e cache) applicate da Cloudflare
+wrangler.toml                 ← configurazione Cloudflare (Workers con asset statici)
 ```
 
 ---
@@ -184,32 +184,34 @@ Tutto si configura in `site.config.mjs`:
 
 ---
 
-## Pubblicazione su Cloudflare Pages
+## Pubblicazione su Cloudflare
 
-Il progetto è pronto per Cloudflare Pages: sito statico in `dist/`, intestazioni in `public/_headers`, pagina `404.html`, versione di Node in `.nvmrc`.
+Il sito è statico (`dist/`) e funziona sia come **Worker con asset statici** (il flusso che Cloudflare propone oggi con *Create*) sia come **Pages**. Intestazioni di sicurezza e cache in `public/_headers`, pagina `404.html`, versione di Node in `.nvmrc`.
 
-### Collegamento al repository (consigliato)
+### Opzione A – Workers (consigliata, è quella creata da Workers & Pages → Create)
 
-1. Dashboard Cloudflare → **Workers & Pages** → **Create** → **Pages** → **Connect to Git** e scegli questo repository, branch di produzione `main`.
-2. Impostazioni di build:
-   - Framework preset: **Astro**
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-   - Variabile d'ambiente (facoltativa, `.nvmrc` è già letto): `NODE_VERSION` = `22`
-3. **Custom domains** → aggiungi `disdettafacile.it` (e `www.disdettafacile.it`). Se il dominio è già su Cloudflare i record DNS vengono creati in automatico.
-4. Reindirizza `www` al dominio principale con una regola **Redirect Rules** / **Bulk Redirects** (`https://www.disdettafacile.it/*` → `https://disdettafacile.it/${1}`, 301): l'URL canonico usato da sitemap e meta tag è `https://disdettafacile.it`.
-5. Crea la casella `info@disdettafacile.it` (ad esempio con **Email Routing** di Cloudflare, che inoltra gratis a un tuo indirizzo).
+`wrangler.toml` è già configurato: `npx wrangler deploy` esegue la build (`npm run build`) e pubblica `dist/`.
 
-Ogni push su `main` pubblica il sito; gli altri branch generano anteprime.
+1. Dashboard Cloudflare → **Workers & Pages** → **Create** → **Import a repository** e scegli questo repository, branch `main`.
+2. Lascia **Deploy command** = `npx wrangler deploy`. Il **Build command** può restare vuoto (la build parte da `wrangler.toml`) oppure `npm run build`.
+3. **Settings → Domains & Routes** → aggiungi `disdettafacile.it` (e `www.disdettafacile.it`).
 
-Impostazioni Cloudflare consigliate: lascia **disattivati** Rocket Loader e Web Analytics automatico (inietterebbero script; se vuoi le statistiche aggiornale prima nella cookie policy). Se attivi la protezione dai bot, Cloudflare può impostare cookie tecnici già indicati nella cookie policy.
+Da terminale: `npx wrangler login` e poi `npm run deploy`.
 
-### Deploy da terminale (alternativa)
+### Opzione B – Pages
 
-```bash
-npx wrangler login
-npm run deploy      # build + wrangler pages deploy dist
-```
+1. **Workers & Pages** → **Create** → scheda **Pages** → **Connect to Git**, branch `main`.
+2. Framework preset **Astro**, build command `npm run build`, output directory `dist`.
+3. **Custom domains** → `disdettafacile.it`.
+
+Con Pages `wrangler.toml` viene ignorato (Cloudflare lo segnala nel log, è normale). Da terminale: `npm run deploy:pages`.
+
+### In entrambi i casi
+
+- Reindirizza `www` al dominio principale con una **Redirect Rule** (`https://www.disdettafacile.it/*` → `https://disdettafacile.it/${1}`, 301): l'URL canonico usato da sitemap e meta tag è `https://disdettafacile.it`.
+- Crea la casella `info@disdettafacile.it`, ad esempio con **Email Routing** (inoltro gratuito a un tuo indirizzo).
+- Lascia **disattivati** Rocket Loader e Web Analytics automatico (inietterebbero script; se vuoi le statistiche aggiorna prima la cookie policy).
+- Ogni push su `main` ripubblica il sito.
 
 ### Cose da completare
 
