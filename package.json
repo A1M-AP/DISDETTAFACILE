@@ -19,6 +19,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "astro": "^7.3.5",
     "docx": "^9.8.1",
     "jspdf": "^4.2.1"

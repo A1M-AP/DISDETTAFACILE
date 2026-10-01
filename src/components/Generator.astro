@@ -35,6 +35,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
     </p>
   </div>
 
+  <div class="gen-barra" aria-hidden="true"><span></span></div>
   <ol class="gen-progress" aria-label="Avanzamento">
     {passi.map((p, i) => (
       <li data-progress={i + 1} aria-current={i === 0 ? 'step' : undefined}>
@@ -267,12 +268,14 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       <p id="g-aggiornata" class="alert alert-info" hidden></p>
       <div class="field">
         <label for="g-lettera">Anteprima della lettera (puoi modificarla)</label>
-        <textarea id="g-lettera" class="gen-lettera" rows="22" spellcheck="true" aria-describedby="g-lettera-hint"></textarea>
+        <div class="carta">
+          <textarea id="g-lettera" class="gen-lettera" rows="22" spellcheck="true" aria-describedby="g-lettera-hint"></textarea>
+        </div>
         <span class="hint" id="g-lettera-hint">Rileggi con attenzione e correggi se necessario: il testo che scarichi è quello mostrato qui.</span>
       </div>
       <div class="gen-azioni">
         <button type="button" class="btn" data-azione="pdf">Scarica PDF</button>
-        <button type="button" class="btn" data-azione="docx">Scarica Word (DOCX)</button>
+        <button type="button" class="btn" data-azione="docx">Scarica Word</button>
         <button type="button" class="btn btn-secondary" data-azione="copia">Copia il testo</button>
       </div>
       <p class="gen-stato" id="g-stato" role="status" aria-live="polite"></p>
@@ -295,37 +298,64 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
 
 <style>
   .gen {
-    border: 2px solid var(--c-primary);
-    border-radius: 14px;
-    padding: 1rem;
-    background: #fff;
-    box-shadow: var(--shadow);
-    margin: 1rem 0 1.5rem;
+    --avanzamento: 0;
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: clamp(1.1rem, 4vw, 2rem);
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+    margin: 1.4rem 0 2rem;
+    scroll-margin-top: 1rem;
+    overflow: clip;
   }
 
-  @media (min-width: 40rem) {
-    .gen {
-      padding: 1.4rem 1.6rem;
-    }
+  .gen::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 6px;
+    background: linear-gradient(90deg, var(--accent), var(--amber) 45%, var(--violet));
   }
 
   .gen-head h2 {
-    margin: 0 0 0.3rem;
+    margin: 0.2rem 0 0.5rem;
   }
 
   .gen-privacy {
-    display: flex;
-    gap: 0.4rem;
+    display: inline-flex;
+    gap: 0.45rem;
     align-items: flex-start;
-    font-size: 0.92rem;
-    color: var(--c-ok);
-    font-weight: 600;
-    margin-bottom: 0.8rem;
+    font-size: 0.88rem;
+    font-weight: 650;
+    color: var(--mint-ink);
+    background: color-mix(in srgb, var(--mint) 12%, var(--surface));
+    border-radius: var(--r-sm);
+    padding: 0.5rem 0.8rem;
+    margin-bottom: 1.2rem;
   }
 
   .gen-privacy svg {
     flex: none;
-    margin-top: 0.2rem;
+    margin-top: 0.15rem;
+  }
+
+  .gen-barra {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    overflow: hidden;
+  }
+
+  .gen-barra span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--accent), var(--amber));
+    transform-origin: left;
+    transform: scaleX(calc((var(--avanzamento) + 1) / 5));
+    transition: transform 0.6s var(--ease);
   }
 
   .gen-progress {
@@ -334,61 +364,89 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
     gap: 0.3rem;
     list-style: none;
     padding: 0;
-    margin: 0 0 1rem;
+    margin: 0.6rem 0 1.4rem;
     font-size: 0.8rem;
   }
 
   .gen-progress li {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 0.15rem;
-    color: var(--c-muted);
+    justify-content: center;
+    gap: 0.35rem;
+    color: var(--muted);
     text-align: center;
-    border-top: 4px solid var(--c-border);
-    padding-top: 0.3rem;
-  }
-
-  .gen-progress li[data-fatto] {
-    border-color: var(--c-primary);
-  }
-
-  .gen-progress li[aria-current='step'] {
-    border-color: var(--c-accent);
-    color: var(--c-text);
-    font-weight: 700;
   }
 
   .gen-progress-num {
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    font-weight: 800;
+    border: 1.5px solid var(--line-strong);
+    background: var(--surface);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+
+  .gen-progress li[data-fatto] .gen-progress-num {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--on-ink);
+  }
+
+  .gen-progress li[aria-current='step'] {
+    color: var(--ink);
     font-weight: 700;
+  }
+
+  .gen-progress li[aria-current='step'] .gen-progress-num {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #17171f;
   }
 
   .gen-progress-label {
     display: none;
   }
 
-  @media (min-width: 34rem) {
+  @media (min-width: 40rem) {
     .gen-progress-label {
-      display: block;
+      display: inline;
     }
   }
 
   .step-title {
-    margin: 0.2rem 0 1rem;
-    font-size: 1.2rem;
+    margin: 0.2rem 0 1.1rem;
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.55rem);
   }
 
   .step-title span {
     display: block;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--c-muted);
+    font-family: var(--font);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent-ink);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.2rem;
   }
 
   .step-title:focus {
     outline: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .step.step-in {
+      animation: entra-passo 0.45s var(--ease);
+    }
+  }
+
+  @keyframes entra-passo {
+    from {
+      opacity: 0;
+      transform: translateX(18px);
+    }
   }
 
   .gen-nav,
@@ -397,33 +455,83 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
     flex-wrap: wrap;
     gap: 0.6rem;
     align-items: center;
-    margin-top: 1.2rem;
+    margin-top: 1.4rem;
+  }
+
+  .gen-nav {
+    padding-top: 1.2rem;
+    border-top: 2px dashed var(--line);
   }
 
   .gen-nav .btn[type='submit'] {
     margin-left: auto;
   }
 
+  .gen-nav .btn[type='submit']::after {
+    content: '→' / '';
+    transition: transform 0.3s var(--ease);
+  }
+
+  .gen-nav .btn[type='submit']:hover::after {
+    transform: translateX(3px);
+  }
+
   .gen-azioni .btn {
     flex: 1 1 12rem;
   }
 
+  /* Anteprima: un foglio di carta con il bordo superiore perforato */
+  .carta {
+    position: relative;
+    margin-top: 0.6rem;
+    border-radius: 4px;
+    background: var(--paper);
+    box-shadow: var(--shadow);
+    padding-top: 12px;
+  }
+
+  .carta::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -7px;
+    height: 14px;
+    background: radial-gradient(circle at 8px 7px, var(--surface) 5px, transparent 5.5px) 0 0 / 18px 14px repeat-x;
+  }
+
   .gen-lettera {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.9rem;
-    min-height: 26rem;
+    display: block;
+    border: 0;
+    border-radius: 0 0 4px 4px;
+    background: transparent;
+    color: #17171f;
+    font-family: var(--font-letter);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    padding: clamp(1rem, 4vw, 2.2rem);
+    min-height: 30rem;
     white-space: pre-wrap;
+    resize: vertical;
+  }
+
+  .gen-lettera:hover {
+    border: 0;
+  }
+
+  .gen-lettera:focus {
+    box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--accent) 55%, transparent);
   }
 
   .gen-stato {
     min-height: 1.6em;
-    margin: 0.6rem 0 0;
-    font-weight: 600;
-    color: var(--c-ok);
+    margin: 0.7rem 0 0;
+    font-weight: 650;
+    color: var(--mint-ink);
   }
 
   .hint-inline {
     font-weight: 400;
-    color: var(--c-muted);
+    color: var(--muted);
   }
 </style>

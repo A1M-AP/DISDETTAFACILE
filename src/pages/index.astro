@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Ricerca from '../components/Ricerca.astro';
 import AdSlot from '../components/AdSlot.astro';
 import Faq from '../components/Faq.astro';
+import IconaCategoria from '../components/IconaCategoria.astro';
 import { categorie, config, fornitori, urlCategoria, urlFornitore } from '../lib/data.ts';
 
 const title = `Disdetta contratti: fac simile lettere gratis | ${config.nome}`;
@@ -10,7 +11,7 @@ const description = config.descrizione;
 const faq = [
   {
     domanda: 'Il servizio è gratuito?',
-    risposta: `Sì. ${config.nome} è gratuito: il sito si sostiene con pubblicità e con link di affiliazione a servizi di invio di raccomandate online e PEC, sempre segnalati.`,
+    risposta: `Sì. ${config.nome} è gratuito e non richiede registrazione. Il sito si sostiene con pubblicità e con link di affiliazione a servizi di invio di raccomandate online e PEC, sempre segnalati.`,
   },
   {
     domanda: 'I miei dati vengono salvati?',
@@ -25,24 +26,52 @@ const faq = [
     risposta: 'In generale con la disdetta comunichi che non vuoi il rinnovo del contratto alla scadenza; con il recesso chiedi di sciogliere il contratto prima della scadenza o, nei contratti a distanza, entro il periodo di ripensamento.',
   },
 ];
+const passi = [
+  { titolo: 'Compila', testo: 'Scegli il tipo di richiesta e il fornitore, poi inserisci i tuoi dati in un modulo guidato.' },
+  { titolo: 'Rileggi', testo: 'Controlla l\'anteprima della lettera e modificala liberamente, parola per parola.' },
+  { titolo: 'Stacca', testo: 'Scarica PDF o Word, firma e invia con raccomandata A/R o PEC. Fatto.' },
+];
 ---
 <Base title={title} description={description} path="/">
   <section class="hero">
-    <div class="container">
-      <h1>Disdici un contratto in pochi minuti, gratis</h1>
-      <p class="lead">Crea la lettera di disdetta o di recesso per telefono e internet, pay TV, palestra, assicurazione, luce e gas o abbonamenti. Scarichi PDF o Word e la invii con raccomandata o PEC.</p>
-      <Ricerca />
-      <p class="hint" style="margin-top:.8rem">🔒 I dati che inserisci restano nel tuo browser.</p>
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Gratis · senza registrazione</p>
+        <h1>Chiudi i contratti con un <span class="evidenzia">taglio netto</span>.</h1>
+        <p class="lead">Telefono e internet, pay TV, palestra, assicurazione, luce e gas: crea la lettera di disdetta o di recesso in pochi minuti e scaricala in PDF o Word.</p>
+        <Ricerca />
+        <ul class="fiducia">
+          <li><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>Dati solo nel tuo browser</li>
+          <li><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>PDF e Word</li>
+          <li><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>Pronta in 3 minuti</li>
+        </ul>
+      </div>
+      <div class="illustrazione" aria-hidden="true">
+        <div class="foglio foglio-alto">
+          <div class="riga corta"></div>
+          <div class="riga corta"></div>
+          <p class="oggetto">Oggetto: disdetta del contratto</p>
+          <div class="riga"></div>
+          <div class="riga"></div>
+          <div class="riga media"></div>
+          <div class="riga"></div>
+          <div class="riga corta"></div>
+        </div>
+        <div class="taglio-illustrazione"></div>
+        <div class="foglio foglio-basso"><span>Distinti saluti.</span><span class="timbro">INVIATA</span></div>
+      </div>
     </div>
   </section>
 
   <div class="container">
     <section class="section" aria-labelledby="cat-titolo">
-      <h2 id="cat-titolo">Scegli il tipo di contratto</h2>
+      <p class="eyebrow">Categorie</p>
+      <h2 id="cat-titolo" style="margin-top:0">Che contratto vuoi chiudere?</h2>
       <ul class="grid">
         {categorie.map((c) => (
           <li>
             <a class="card" href={urlCategoria(c.slug)}>
+              <IconaCategoria slug={c.slug} />
               <strong>{c.nome}</strong>
               <span>Lettera di disdetta e recesso per {c.nome_breve}</span>
             </a>
@@ -50,6 +79,7 @@ const faq = [
         ))}
         <li>
           <a class="card" href="/recesso-14-giorni/">
+            <IconaCategoria slug="recesso-14-giorni" />
             <strong>Recesso entro 14 giorni</strong>
             <span>Hai firmato online o fuori dai negozi? Ripensaci con una lettera.</span>
           </a>
@@ -57,15 +87,27 @@ const faq = [
       </ul>
     </section>
 
+    <hr class="taglio" />
+
     <section class="section" aria-labelledby="come-titolo">
-      <h2 id="come-titolo">Come funziona</h2>
-      <ol class="steps-list">
-        <li><strong>Compila il modulo guidato</strong>: tipo di richiesta, fornitore, i tuoi dati e le opzioni.</li>
-        <li><strong>Controlla l'anteprima</strong>: puoi modificare liberamente il testo.</li>
-        <li><strong>Scarica in PDF o Word</strong> oppure copia il testo, firma e invia con raccomandata A/R o PEC.</li>
+      <p class="eyebrow">Come funziona</p>
+      <h2 id="come-titolo" style="margin-top:0">Tre passi, zero carta bollata</h2>
+      <ol class="tre-passi">
+        {passi.map((p, i) => (
+          <li>
+            <span class="tre-num" aria-hidden="true">0{i + 1}</span>
+            <h3>{p.titolo}</h3>
+            <p>{p.testo}</p>
+          </li>
+        ))}
       </ol>
-      <div class="alert alert-ok">
-        <p><strong>Privacy prima di tutto.</strong> La lettera viene generata interamente sul tuo dispositivo: nessun dato personale inserito nel modulo viene inviato o archiviato sui nostri server.</p>
+    </section>
+
+    <section class="banda" aria-labelledby="privacy-titolo">
+      <svg aria-hidden="true" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2"/></svg>
+      <div>
+        <h2 id="privacy-titolo">I tuoi dati non lasciano il dispositivo</h2>
+        <p>La lettera viene generata interamente nel tuo browser. Nome, codice fiscale, IBAN: nulla viene inviato o archiviato sui nostri server. <a href="/privacy-policy/">Leggi la privacy policy</a>.</p>
       </div>
     </section>
   </div>
@@ -75,7 +117,8 @@ const faq = [
   <div class="container">
     {fornitori.length > 0 && (
       <section class="section" aria-labelledby="forn-titolo">
-        <h2 id="forn-titolo">Fornitori in archivio</h2>
+        <p class="eyebrow">Fornitori</p>
+        <h2 id="forn-titolo" style="margin-top:0">Fornitori in archivio</h2>
         <ul class="grid">
           {fornitori.map((f) => (
             <li><a class="card" href={urlFornitore(f)}><strong>Disdetta {f.nome}</strong><span>{categorie.find((c) => c.slug === f.categoria)?.nome}</span></a></li>
@@ -85,7 +128,8 @@ const faq = [
     )}
 
     <section class="section" aria-labelledby="guide-titolo">
-      <h2 id="guide-titolo">Guide utili</h2>
+      <p class="eyebrow">Guide</p>
+      <h2 id="guide-titolo" style="margin-top:0">Prima di inviare</h2>
       <ul class="grid">
         <li><a class="card" href="/come-inviare-una-disdetta/"><strong>Come inviare una disdetta</strong><span>Raccomandata A/R, PEC, area clienti e moduli online.</span></a></li>
         <li><a class="card" href="/recesso-14-giorni/"><strong>Recesso entro 14 giorni</strong><span>Contratti a distanza e fuori dai locali commerciali.</span></a></li>
@@ -95,3 +139,100 @@ const faq = [
     <Faq faq={faq} />
   </div>
 </Base>
+
+<style>
+  .tre-passi {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    counter-reset: none;
+  }
+
+  .tre-passi li {
+    position: relative;
+    padding: 1.4rem 1.3rem 1.2rem;
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .tre-passi li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -1rem;
+    top: 2.6rem;
+    width: 1rem;
+    border-top: 2px dashed var(--line-strong);
+  }
+
+  .tre-num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 2.6rem;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--accent-ink);
+  }
+
+  .tre-passi h3 {
+    margin: 0.6rem 0 0.3rem;
+  }
+
+  .tre-passi p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .banda {
+    display: grid;
+    gap: 1rem 1.5rem;
+    align-items: start;
+    margin: var(--space) 0;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: var(--r-lg);
+    background: var(--ink);
+    color: var(--on-ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .banda::after {
+    content: '';
+    position: absolute;
+    right: -6rem;
+    top: -6rem;
+    width: 16rem;
+    height: 16rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--mint) 45%, transparent), transparent 70%);
+  }
+
+  .banda svg {
+    color: var(--mint);
+  }
+
+  .banda h2 {
+    margin: 0 0 0.4rem;
+    color: var(--on-ink);
+  }
+
+  .banda p {
+    margin: 0;
+    max-width: 44rem;
+    opacity: 0.88;
+  }
+
+  .banda a {
+    color: var(--on-ink);
+  }
+
+  @media (min-width: 40rem) {
+    .banda {
+      grid-template-columns: auto 1fr;
+    }
+  }
+</style>

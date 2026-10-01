@@ -1,0 +1,27 @@
+---
+// Marchio: un foglio con la parte inferiore "staccata" lungo una linea di taglio.
+interface Props {
+  size?: number;
+}
+const { size = 34 } = Astro.props;
+---
+<svg class="logo-mark" aria-hidden="true" width={size} height={size} viewBox="0 0 64 64">
+  <rect class="logo-fondo" width="64" height="64" rx="18" />
+  <path d="M17 10h22l9 9v18H17z" fill="#faf6ef" />
+  <path d="M39 10v9h9" fill="#e6ddcf" />
+  <path d="M22 22h12M22 29h19" stroke="#b9b0a2" stroke-width="3.2" stroke-linecap="round" />
+  <path d="M8 42h48" stroke="#ff5a36" stroke-width="3.2" stroke-dasharray="4.5 3.5" stroke-linecap="round" />
+  <path d="M18 47h31v6.5a2 2 0 0 1-2 2H20a2 2 0 0 1-2-2z" fill="#faf6ef" transform="rotate(8 33 51)" />
+</svg>
+
+<style>
+  .logo-fondo {
+    fill: #17171f;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .logo-fondo {
+      fill: #2c2c3a;
+    }
+  }
+</style>

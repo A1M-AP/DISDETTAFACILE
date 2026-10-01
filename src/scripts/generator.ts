@@ -383,7 +383,16 @@ export function avviaGeneratore(root: HTMLElement) {
   // ---------------------------------------------------------------- passi
   function vaiA(n: number, focus = true) {
     passo = Math.max(1, Math.min(TOTALE_PASSI, n));
-    $$<HTMLFieldSetElement>('.step').forEach((s) => (s.hidden = Number(s.dataset.step) !== passo));
+    $$<HTMLFieldSetElement>('.step').forEach((s) => {
+      const visibile = Number(s.dataset.step) === passo;
+      s.hidden = !visibile;
+      s.classList.remove('step-in');
+      if (visibile && focus) {
+        void s.offsetWidth; // riavvia l'animazione di entrata
+        s.classList.add('step-in');
+      }
+    });
+    root.style.setProperty('--avanzamento', String(passo - 1));
     $$('[data-progress]').forEach((li) => {
       const i = Number(li.dataset.progress);
       if (i === passo) li.setAttribute('aria-current', 'step');

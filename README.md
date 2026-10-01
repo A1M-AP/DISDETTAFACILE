@@ -7,6 +7,8 @@ Titolare: **MAP TECHNOLOGIES**. Sito statico, veloce e mobile-first, in italiano
 - Costruito con [Astro](https://astro.build) (output statico), senza framework client e senza font esterni.
 - Lighthouse mobile misurato in sviluppo: 100 su performance, accessibilità, best practice e SEO (le pagine dei fornitori non verificati hanno SEO più basso perché sono volutamente in `noindex`).
 
+- Stile "taglio netto": carta calda, inchiostro e accento corallo, linee tratteggiate e bordi perforati; tipografia fluida, tema chiaro/scuro automatico, animazioni disattivate per chi preferisce ridurre il movimento. Colori e misure sono variabili CSS all'inizio di `src/styles/global.css`; il font dei titoli (Bricolage Grotesque) è servito dal sito stesso.
+
 ---
 
 ## Avvio rapido

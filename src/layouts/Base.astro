@@ -3,6 +3,8 @@ import '../styles/global.css';
 import Disclaimer from '../components/Disclaimer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Logo from '../components/Logo.astro';
+import fontTitoli from '@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2?url';
 import { categorie, config, urlCategoria } from '../lib/data.ts';
 import { jsonSicuro } from '../lib/format.ts';
 
@@ -41,6 +43,9 @@ const ldSito = {
   inLanguage: 'it-IT',
 };
 const ld = path === '/' ? [ldSito, ...jsonLd] : jsonLd;
+
+// Font dei titoli servito dal sito stesso (nessuna richiesta a terzi), precaricato.
+const fontFace = `@font-face{font-family:'Bricolage Grotesque Variable';font-style:normal;font-display:swap;font-weight:200 800;src:url(${fontTitoli}) format('woff2-variations'),url(${fontTitoli}) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212}`;
 ---
 <!doctype html>
 <html lang="it">
@@ -51,7 +56,10 @@ const ld = path === '/' ? [ldSito, ...jsonLd] : jsonLd;
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, follow" />}
-    <meta name="theme-color" content="#0b5f73" />
+    <meta name="theme-color" content="#faf6ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111117" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" href={fontTitoli} as="font" type="font/woff2" crossorigin />
+    <style set:html={fontFace}></style>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={config.nome} />
@@ -70,8 +78,8 @@ const ld = path === '/' ? [ldSito, ...jsonLd] : jsonLd;
     <header class="site-header">
       <div class="container">
         <a class="logo" href="/" aria-label={`${config.nome} – home`}>
-          <svg aria-hidden="true" width="28" height="28" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0b5f73"/><path d="M18 14h20l10 10v26a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" fill="#fff"/><path d="M22 38l7 7 13-15" fill="none" stroke="#0b5f73" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span class="logo-testo">Disdetta<span>Facile</span>.it</span>
+          <Logo />
+          <span class="logo-testo">disdetta<span>facile</span><small>.it</small></span>
         </a>
         <nav class="main-nav" aria-label="Navigazione principale">
           <ul>
@@ -126,6 +134,7 @@ const ld = path === '/' ? [ldSito, ...jsonLd] : jsonLd;
           </p>
         </div>
       </div>
+      <div class="footer-marchio" aria-hidden="true">disdettafacile</div>
     </footer>
     <CookieBanner />
   </body>
