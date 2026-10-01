@@ -5,7 +5,6 @@ import AdSlot from '../../../components/AdSlot.astro';
 import Faq from '../../../components/Faq.astro';
 import { categorie, config, fornitoriDi, urlCategoria, urlFornitore } from '../../../lib/data.ts';
 import type { Categoria } from '../../../lib/types.ts';
-import { maiuscola } from '../../../lib/format.ts';
 
 export function getStaticPaths() {
   return categorie.map((categoria) => ({ params: { categoria: categoria.slug }, props: { categoria } }));
@@ -72,8 +71,8 @@ const altre = categorie.filter((x) => x.slug !== c.slug);
     <Faq faq={c.faq} titolo={`Domande frequenti sulla disdetta ${c.nome_breve}`} />
     <section class="section" aria-labelledby="altre-titolo">
       <h2 id="altre-titolo">Altre categorie</h2>
-      <ul class="grid">
-        {altre.map((x) => <li><a class="card" href={urlCategoria(x.slug)}><strong>{maiuscola(x.nome_breve)}</strong><span>Lettera di disdetta</span></a></li>)}
+      <ul class="chips">
+        {altre.map((x) => <li><a href={urlCategoria(x.slug)}>Disdetta {x.nome_breve}</a></li>)}
       </ul>
     </section>
   </div>

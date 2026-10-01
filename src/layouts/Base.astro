@@ -22,9 +22,13 @@ interface Props {
   jsonLd?: Record<string, unknown>[];
   briciole?: Briciola[];
   ogType?: 'website' | 'article';
+  /** Pagina a tutta larghezza (altrimenti briciole e avvertenze seguono la colonna di lettura). */
+  largo?: boolean;
 }
 
-const { title, description, path, noindex = false, jsonLd = [], briciole = [], ogType = 'website' } = Astro.props;
+const { title, description, path, noindex = false, jsonLd = [], briciole = [], ogType = 'website', largo = false } = Astro.props;
+const colonna = largo || path === '/' ? 'container' : 'container narrow';
+const haAffiliazioni = config.affiliazioni.servizi.some((s) => s.attivo && /^https?:\/\//.test(s.url));
 const canonical = new URL(path, config.url).href;
 const ogImage = new URL(config.seo.immagineOg, config.url).href;
 const corrente = Astro.url.pathname;
@@ -91,12 +95,12 @@ const fontFace = `@font-face{font-family:'Bricolage Grotesque Variable';font-sty
       </div>
     </header>
     {briciole.length > 0 && (
-      <div class="container"><Breadcrumbs items={briciole} /></div>
+      <div class={colonna}><Breadcrumbs items={briciole} /></div>
     )}
     <main id="contenuto" tabindex="-1">
       <slot />
     </main>
-    <div class="container"><Disclaimer /></div>
+    <div class={colonna}><Disclaimer /></div>
     <footer class="site-footer">
       <div class="container">
         <div class="footer-cols">
@@ -127,7 +131,7 @@ const fontFace = `@font-face{font-family:'Bricolage Grotesque Variable';font-sty
           </div>
         </div>
         <div class="footer-bottom">
-          <p>{config.affiliazioni.disclosure}</p>
+          {haAffiliazioni && <p>{config.affiliazioni.disclosure}</p>}
           <p>
             © {new Date().getFullYear()} {config.titolare.nome}{config.titolare.partitaIva && ` · P. IVA ${config.titolare.partitaIva}`} ·
             {config.nome} è un servizio gratuito e indipendente, non affiliato ai fornitori citati.

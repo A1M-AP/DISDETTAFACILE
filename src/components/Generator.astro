@@ -35,7 +35,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
     </p>
   </div>
 
-  <div class="gen-barra" aria-hidden="true"><span></span></div>
+  <div class="gen-barra" id="g-barra" aria-hidden="true"><span></span></div>
   <ol class="gen-progress" aria-label="Avanzamento">
     {passi.map((p, i) => (
       <li data-progress={i + 1} aria-current={i === 0 ? 'step' : undefined}>
@@ -258,7 +258,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
 
       <div class="gen-nav">
         <button type="button" class="btn btn-secondary" data-azione="indietro">Indietro</button>
-        <button type="submit" class="btn">Vedi l'anteprima</button>
+        <button type="submit" class="btn">Anteprima</button>
       </div>
     </fieldset>
 
@@ -271,7 +271,10 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
         <div class="carta">
           <textarea id="g-lettera" class="gen-lettera" rows="22" spellcheck="true" aria-describedby="g-lettera-hint"></textarea>
         </div>
-        <span class="hint" id="g-lettera-hint">Rileggi con attenzione e correggi se necessario: il testo che scarichi è quello mostrato qui.</span>
+        <div class="gen-sotto-carta">
+          <span class="hint" id="g-lettera-hint">Rileggi e correggi se serve: scarichi esattamente il testo mostrato qui.</span>
+          <button type="button" class="btn-link" data-azione="rigenera">Annulla le modifiche</button>
+        </div>
       </div>
       <div class="gen-azioni">
         <button type="button" class="btn" data-azione="pdf">Scarica PDF</button>
@@ -281,8 +284,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       <p class="gen-stato" id="g-stato" role="status" aria-live="polite"></p>
       <div class="gen-nav">
         <button type="button" class="btn btn-secondary" data-azione="indietro">Indietro</button>
-        <button type="button" class="btn-link" data-azione="rigenera">Annulla le modifiche al testo</button>
-        <button type="button" class="btn-link" data-azione="ricomincia">Ricomincia da capo</button>
+        <button type="button" class="btn-link gen-ricomincia" data-azione="ricomincia">Ricomincia</button>
       </div>
     </fieldset>
   </form>
@@ -341,6 +343,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
   }
 
   .gen-barra {
+    scroll-margin-top: 0.75rem;
     height: 6px;
     border-radius: 999px;
     background: var(--surface-2);
@@ -463,8 +466,38 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
     border-top: 2px dashed var(--line);
   }
 
-  .gen-nav .btn[type='submit'] {
+  .gen-nav .btn[type='submit'],
+  .gen-ricomincia {
     margin-left: auto;
+  }
+
+  /* Su schermi piccoli "Indietro" e "Avanti" restano sulla stessa riga */
+  @media (max-width: 30rem) {
+    .gen {
+      margin-inline: calc(var(--gutter) * -0.5);
+      padding-inline: 1rem;
+    }
+
+    .gen-nav {
+      flex-wrap: nowrap;
+    }
+
+    .gen-nav .btn {
+      flex: 1 1 auto;
+      padding-inline: 1rem;
+    }
+  }
+
+  .gen-sotto-carta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.2rem 1rem;
+  }
+
+  .gen-sotto-carta .btn-link {
+    font-size: 0.9rem;
   }
 
   .gen-nav .btn[type='submit']::after {

@@ -179,6 +179,20 @@ p {
   text-wrap: pretty;
 }
 
+/* Righe di lettura comode anche su schermi larghi */
+main p {
+  max-width: 72ch;
+}
+
+main ol:not([class]),
+main ul:not([class]) {
+  padding-left: 1.3rem;
+}
+
+main :is(ol, ul):not([class]) > li + li {
+  margin-top: 0.25rem;
+}
+
 code {
   font-size: 0.9em;
   background: var(--surface-2);
@@ -373,9 +387,14 @@ code {
     scrollbar-width: none;
   }
 
+  .main-nav {
+    -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent);
+    mask-image: linear-gradient(90deg, #000 82%, transparent);
+  }
+
   .main-nav ul {
     flex-wrap: nowrap;
-    padding: 0 var(--gutter) 0.2rem;
+    padding: 0 3rem 0.2rem var(--gutter);
   }
 
   .main-nav a {
@@ -388,7 +407,7 @@ code {
 /* ---------- Sfondo decorativo delle pagine interne ---------- */
 main {
   position: relative;
-  padding-bottom: var(--space);
+  padding-bottom: calc(var(--space) * 0.4);
   isolation: isolate;
 }
 
@@ -595,6 +614,7 @@ main::before {
 
 .card strong {
   display: block;
+  line-height: 1.25;
   font-family: var(--font-display);
   font-size: 1.12rem;
   font-weight: 700;
@@ -622,6 +642,68 @@ main::before {
 
 .card:hover .card-icona {
   transform: rotate(-6deg) scale(1.06);
+}
+
+@media (max-width: 40rem) {
+  .card:has(.card-icona) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 0.9rem;
+    align-content: center;
+    padding: 0.9rem 2.6rem 0.9rem 0.9rem;
+  }
+
+  .card:has(.card-icona) .card-icona {
+    grid-row: 1 / span 2;
+    align-self: center;
+    margin: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .card:has(.card-icona)::after {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .card:has(.card-icona):hover::after {
+    transform: translate(4px, -50%);
+  }
+}
+
+/* Collegamenti secondari a "pillola" */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chips a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 650;
+  text-decoration: none;
+  transition: border-color 0.2s, background-color 0.2s, transform 0.25s var(--ease);
+}
+
+.chips a::after {
+  content: '→' / '';
+  color: var(--muted);
+}
+
+.chips a:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
 }
 
 /* ---------- Passi numerati ---------- */
@@ -846,6 +928,10 @@ dl.dati dd ul {
   to {
     transform: translate(-4rem, 3rem) scale(1.15);
   }
+}
+
+.hero ~ * {
+  position: relative;
 }
 
 .hero-grid {
@@ -1103,10 +1189,10 @@ input[type='checkbox'],
 input[type='radio'] {
   appearance: none;
   flex: none;
-  width: 1.4rem;
-  height: 1.4rem;
+  width: 1.5rem;
+  height: 1.5rem;
   min-height: 0;
-  margin: 0.1rem 0 0;
+  margin: 0.05rem 0 0;
   padding: 0;
   border: 2px solid var(--line-strong);
   background: var(--surface);
@@ -1311,10 +1397,22 @@ legend {
 }
 
 .subfieldset > legend {
-  font-family: var(--font-display);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 0.78rem;
   font-weight: 700;
-  font-size: 1.05rem;
-  margin-bottom: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.8rem;
+}
+
+.subfieldset > legend::after {
+  content: '';
+  flex: 1;
+  margin-left: 0.7rem;
+  border-top: 2px dashed var(--line);
 }
 
 /* ---------- Disclaimer e footer ---------- */
@@ -1599,9 +1697,15 @@ legend {
 }
 
 .cookie-actions .btn {
-  flex: 1 1 8rem;
+  flex: 1 1 6.5rem;
   min-height: 44px;
   padding: 0.5rem 1rem;
+}
+
+.cookie-actions .btn-link {
+  flex-basis: 100%;
+  text-align: center;
+  min-height: 44px;
 }
 
 .cookie-close {
@@ -1630,6 +1734,10 @@ legend {
 /* ---------- Combobox / suggerimenti ---------- */
 .combo {
   position: relative;
+}
+
+.combo input {
+  scroll-margin-top: 0.75rem;
 }
 
 .combo-list {

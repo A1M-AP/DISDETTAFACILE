@@ -156,9 +156,9 @@ const faq: FaqT[] = [
     <Faq faq={faq} titolo={`Domande frequenti sulla disdetta ${f.nome}`} />
     <section class="section" aria-labelledby="altri-titolo">
       <h2 id="altri-titolo">Altri fornitori di {c.nome_breve}</h2>
-      <ul class="grid">
-        {altri.map((x) => <li><a class="card" href={urlFornitore(x)}><strong>Disdetta {x.nome}</strong><span>Fac simile lettera</span></a></li>)}
-        <li><a class="card" href={urlCategoria(c.slug)}><strong>Tutte le disdette {c.nome_breve}</strong><span>Guida e generatore</span></a></li>
+      <ul class="chips">
+        {altri.map((x) => <li><a href={urlFornitore(x)}>Disdetta {x.nome}</a></li>)}
+        <li><a href={urlCategoria(c.slug)}>Tutte le disdette {c.nome_breve}</a></li>
       </ul>
     </section>
   </div>

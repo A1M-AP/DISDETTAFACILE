@@ -147,8 +147,13 @@ const passi = [
     margin: 0;
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
-    counter-reset: none;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 48rem) {
+    .tre-passi {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .tre-passi li {
@@ -161,12 +166,19 @@ const passi = [
   }
 
   .tre-passi li:not(:last-child)::after {
+    display: none;
     content: '';
     position: absolute;
     right: -1rem;
     top: 2.6rem;
     width: 1rem;
     border-top: 2px dashed var(--line-strong);
+  }
+
+  @media (min-width: 48rem) {
+    .tre-passi li:not(:last-child)::after {
+      display: block;
+    }
   }
 
   .tre-num {

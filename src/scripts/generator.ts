@@ -234,7 +234,7 @@ export function avviaGeneratore(root: HTMLElement) {
       div.textContent = `Recapiti di ${f.nome} inseriti dal nostro archivio (ultima verifica: ${f.ultima_verifica.split('-').reverse().join('/')}). Controllali comunque con il tuo contratto.`;
     } else {
       div.className = 'alert alert-warn';
-      div.textContent = `I recapiti per le disdette di ${f.nome} non sono ancora stati verificati dalla redazione: inserisci indirizzo e/o PEC prendendoli dal tuo contratto, dalle fatture o dal sito ufficiale del fornitore.`;
+      div.textContent = `Recapiti di ${f.nome} non ancora verificati: inserisci indirizzo o PEC presi dal contratto, dalle fatture o dal sito ufficiale.`;
     }
     info.replaceChildren(div);
   }
@@ -248,7 +248,11 @@ export function avviaGeneratore(root: HTMLElement) {
     if (fornitoreScelto && cerca.value !== fornitoreScelto.nome) deselezionaFornitore();
     apriLista();
   });
-  cerca.addEventListener('focus', apriLista);
+  cerca.addEventListener('focus', () => {
+    apriLista();
+    // Sui telefoni la tastiera copre i suggerimenti: porta il campo in alto.
+    if (window.innerHeight < 760) cerca.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  });
   cerca.addEventListener('blur', () => setTimeout(chiudiLista, 120));
   cerca.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown') {
@@ -404,7 +408,10 @@ export function avviaGeneratore(root: HTMLElement) {
     if (focus) {
       const titolo = $<HTMLElement>(`#g-step${passo}-titolo`);
       titolo?.focus({ preventScroll: true });
-      root.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      // Porta in vista la barra di avanzamento: titolo e avviso privacy restano sopra.
+      const barra = $('#g-barra');
+      if (barra && barra.getBoundingClientRect().top < 0) barra.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      else if (!barra) root.scrollIntoView({ block: 'start', behavior: 'smooth' });
     }
   }
 
