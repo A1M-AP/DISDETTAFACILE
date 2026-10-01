@@ -1,0 +1,604 @@
+{
+  "_istruzioni": "Testi delle lettere, campi e contenuti delle categorie. Segnaposto disponibili nei testi della lettera: {{fornitore}}, {{nome_completo}}, {{codice_fiscale}}, {{tipo_contratto}}, {{identificativi}}, {{data_contratto}}, {{decorrenza}}, {{motivazione}}, {{riferimento_normativo}}, {{rif_oggetto}}. Nei blocchi comuni anche {{modalita_restituzione}}, {{iban}}, {{intestatario_iban}}. I riferimenti normativi vanno modificati SOLO nella sezione riferimenti_normativi e marcati verificato: true dopo la revisione di un professionista. Vedi README.md.",
+  "versione_testi": "2026-10-01",
+  "tipi_richiesta": [
+    {
+      "id": "disdetta_scadenza",
+      "etichetta": "Disdetta alla scadenza",
+      "descrizione": "Non vuoi che il contratto si rinnovi automaticamente alla prossima scadenza.",
+      "decorrenza_predefinita": "alla prima scadenza contrattuale utile"
+    },
+    {
+      "id": "recesso_anticipato",
+      "etichetta": "Recesso anticipato",
+      "descrizione": "Vuoi chiudere il contratto prima della sua scadenza naturale.",
+      "decorrenza_predefinita": "nel più breve tempo consentito dal contratto e dalla normativa applicabile"
+    },
+    {
+      "id": "recesso_14_giorni",
+      "etichetta": "Recesso entro 14 giorni (ripensamento)",
+      "descrizione": "Hai concluso il contratto online, per telefono o fuori dai locali commerciali e vuoi ripensarci.",
+      "decorrenza_predefinita": "dalla data di ricezione della presente"
+    },
+    {
+      "id": "trasloco",
+      "etichetta": "Disdetta per trasloco",
+      "descrizione": "Cambi casa o città e non ti serve più il servizio al vecchio indirizzo.",
+      "decorrenza_predefinita": "nel più breve tempo consentito dal contratto e dalla normativa applicabile"
+    },
+    {
+      "id": "altro",
+      "etichetta": "Altra motivazione",
+      "descrizione": "Vuoi chiudere il contratto per un motivo diverso, che indicherai tu.",
+      "decorrenza_predefinita": "nel più breve tempo consentito dal contratto e dalla normativa applicabile"
+    }
+  ],
+  "riferimenti_normativi": {
+    "codice_consumo_recesso": {
+      "testo": "ai sensi degli artt. 52 e seguenti del D.Lgs. 6 settembre 2005, n. 206 (Codice del Consumo)",
+      "verificato": false,
+      "note_revisione": "DA VERIFICARE da un professionista: applicabilità del recesso di 14 giorni ai contratti a distanza e negoziati fuori dei locali commerciali ed eventuali eccezioni per categoria."
+    },
+    "dl7_2007": {
+      "testo": "ai sensi dell'art. 1, comma 3, del D.L. 31 gennaio 2007, n. 7, convertito con modificazioni dalla L. 2 aprile 2007, n. 40",
+      "verificato": false,
+      "note_revisione": "DA VERIFICARE da un professionista: ambito di applicazione (operatori di telefonia, reti televisive e comunicazioni elettroniche) e formulazione vigente."
+    }
+  },
+  "blocchi_comuni": {
+    "apparati": "Comunico inoltre di voler restituire gli apparati eventualmente forniti in comodato d'uso o noleggio e chiedo di ricevere le relative istruzioni. Modalità di restituzione preferita: {{modalita_restituzione}}.",
+    "modalita_restituzione": [
+      "ritiro a domicilio a vostra cura",
+      "consegna presso un vostro punto vendita o centro di raccolta",
+      "spedizione all'indirizzo che mi indicherete",
+      "da concordare"
+    ],
+    "rimborso": "Chiedo il rimborso dell'eventuale credito residuo e di ogni importo versato e non dovuto{{iban}}.",
+    "rimborso_iban": " mediante bonifico sul conto corrente con IBAN {{iban}} intestato a {{intestatario_iban}}",
+    "conferma": "Vi chiedo di inviarmi conferma scritta della ricezione della presente e della data di cessazione del contratto ai recapiti indicati, e di interrompere da tale data ogni addebito automatico collegato al contratto.",
+    "saluti": "Distinti saluti.",
+    "allegato_documento": "Copia del documento d'identità in corso di validità",
+    "invio": {
+      "raccomandata": "Inviata a mezzo raccomandata A/R",
+      "pec": "Inviata a mezzo PEC",
+      "altro": ""
+    }
+  },
+  "categorie": [
+    {
+      "slug": "telefonia-internet",
+      "nome": "Telefonia e internet",
+      "nome_breve": "telefonia e internet",
+      "tipo_contratto": "per servizi di telefonia e/o accesso a internet",
+      "descrizione_meta": "Fac simile gratuito della lettera di disdetta per telefono fisso, mobile e internet: compila il modulo, scarica PDF o Word e scopri come inviarla.",
+      "intro": [
+        "Per chiudere un contratto di telefonia fissa, mobile o internet di solito serve una comunicazione scritta all'operatore, che indichi chiaramente chi sei, quale contratto vuoi chiudere e da quando.",
+        "Con il generatore qui sopra crei in pochi minuti una lettera ordinata e completa, con la richiesta di restituzione del modem o di altri apparati e del rimborso dell'eventuale credito residuo. I dati che inserisci restano sul tuo dispositivo."
+      ],
+      "campi": [
+        {
+          "id": "numero_linea",
+          "etichetta": "Numero di linea (fisso o mobile)",
+          "etichetta_lettera": "numero di linea",
+          "placeholder": "Es. 06 1234567 o 333 1234567",
+          "aiuto": "Indica il numero di telefono associato al contratto. Per più linee, separale con una virgola.",
+          "pattern": "^[0-9+ ,/-]{6,60}$",
+          "messaggio_errore": "Inserisci solo cifre, spazi, il segno + e virgole tra più numeri."
+        }
+      ],
+      "motivazioni": [
+        "Passaggio ad altro operatore",
+        "Servizio non più necessario",
+        "Modifica unilaterale delle condizioni contrattuali",
+        "Disservizi ripetuti",
+        "Costi non più sostenibili"
+      ],
+      "apparati": true,
+      "allegati_suggeriti": [
+        "Copia dell'ultima fattura",
+        "Copia della comunicazione di modifica delle condizioni contrattuali"
+      ],
+      "lettera": {
+        "oggetto": {
+          "disdetta_scadenza": "Disdetta del contratto di telefonia/internet alla scadenza{{rif_oggetto}}",
+          "recesso_anticipato": "Recesso dal contratto di telefonia/internet{{rif_oggetto}}",
+          "recesso_14_giorni": "Esercizio del diritto di recesso entro 14 giorni{{rif_oggetto}}",
+          "trasloco": "Recesso dal contratto di telefonia/internet per trasloco{{rif_oggetto}}",
+          "altro": "Recesso dal contratto di telefonia/internet{{rif_oggetto}}"
+        },
+        "corpo": {
+          "disdetta_scadenza": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di disdire il contratto alla scadenza, così da impedirne il rinnovo automatico{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il contratto, comprese le opzioni e i servizi aggiuntivi collegati, cessi {{decorrenza}} e che da tale data non venga emesso alcun ulteriore addebito, fatti salvi gli importi dovuti per il periodo di effettiva fruizione del servizio.",
+          "recesso_anticipato": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dal contratto prima della sua scadenza{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}}, con la disattivazione di tutti i servizi, le opzioni e le offerte collegati al contratto, e che da tale data non venga emesso alcun ulteriore addebito, fatti salvi gli importi dovuti per il periodo di effettiva fruizione del servizio. Vi chiedo inoltre di comunicarmi in dettaglio gli eventuali importi che ritenete ancora dovuti.",
+          "recesso_14_giorni": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, comunico di voler esercitare il diritto di recesso{{riferimento_normativo}} dal contratto {{tipo_contratto}} stipulato con {{fornitore}}{{identificativi}}{{data_contratto}}. Il contratto è stato concluso a distanza (online o per telefono) o fuori dai locali commerciali e la presente comunicazione è inviata entro il termine previsto per il recesso. {{motivazione}}\n\nChiedo la disattivazione di tutti i servizi e il rimborso dei pagamenti eventualmente già effettuati, nei tempi e con le modalità previsti dalla legge.",
+          "trasloco": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dal contratto a causa del mio trasferimento presso un nuovo indirizzo{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}}, con la disattivazione di tutti i servizi collegati alla linea, e che da tale data non venga emesso alcun ulteriore addebito, fatti salvi gli importi dovuti per il periodo di effettiva fruizione del servizio.",
+          "altro": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dal contratto{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}}, con la disattivazione di tutti i servizi collegati, e che da tale data non venga emesso alcun ulteriore addebito, fatti salvi gli importi dovuti per il periodo di effettiva fruizione del servizio."
+        }
+      },
+      "riferimenti": {
+        "recesso_anticipato": "dl7_2007",
+        "trasloco": "dl7_2007",
+        "altro": "dl7_2007",
+        "recesso_14_giorni": "codice_consumo_recesso"
+      },
+      "note": [
+        "Se passi a un altro operatore mantenendo il numero, di norma è il nuovo operatore a gestire il passaggio: chiedi conferma al nuovo operatore prima di inviare la disdetta, per evitare di restare senza linea.",
+        "Controlla nel contratto e nelle ultime fatture eventuali costi di disattivazione e rate residue di smartphone, modem o altri dispositivi.",
+        "Conserva modem, decoder e altri apparati in comodato finché non ricevi le istruzioni per la restituzione, e tieni la ricevuta della consegna."
+      ],
+      "passi": [
+        "Recupera un'ultima fattura: lì trovi codice cliente, numero di contratto e numero di linea.",
+        "Verifica nelle condizioni del contratto o sul sito dell'operatore l'indirizzo e la PEC per le disdette e il termine di preavviso.",
+        "Compila il generatore, controlla l'anteprima e scarica la lettera in PDF o Word.",
+        "Firma la lettera e inviala con raccomandata A/R oppure via PEC, allegando la copia del documento d'identità.",
+        "Conserva la ricevuta di invio e controlla che nelle fatture successive non compaiano addebiti non dovuti."
+      ],
+      "faq": [
+        {
+          "domanda": "Devo inviare la disdetta se cambio operatore?",
+          "risposta": "Se passi a un altro operatore con portabilità del numero o migrazione della linea, di solito è il nuovo operatore ad avviare il passaggio. In molti casi quindi la disdetta al vecchio operatore non serve; verifica sempre con il nuovo operatore e con le condizioni del tuo contratto."
+        },
+        {
+          "domanda": "Dove trovo il codice cliente o il numero di contratto?",
+          "risposta": "Di solito sono indicati nella prima pagina della fattura, nell'area clienti online o nell'app dell'operatore."
+        },
+        {
+          "domanda": "Posso inviare la disdetta via email normale?",
+          "risposta": "Un'email ordinaria non garantisce la prova della consegna. Per avere una prova certa usa la raccomandata A/R, la PEC o i canali indicati dall'operatore nelle condizioni contrattuali."
+        },
+        {
+          "domanda": "Cosa succede al modem in comodato d'uso?",
+          "risposta": "Se il modem o altri apparati sono in comodato o noleggio, normalmente vanno restituiti secondo le istruzioni dell'operatore. Nel generatore puoi chiedere le istruzioni e indicare la modalità di restituzione che preferisci."
+        }
+      ]
+    },
+    {
+      "slug": "pay-tv-streaming",
+      "nome": "Pay TV e streaming",
+      "nome_breve": "pay TV e streaming",
+      "tipo_contratto": "di abbonamento a servizi di pay TV e/o streaming",
+      "descrizione_meta": "Lettera di disdetta per pay TV e servizi di streaming: fac simile gratuito in PDF e Word, con richiesta di restituzione del decoder e istruzioni per l'invio.",
+      "intro": [
+        "Gli abbonamenti a pay TV e piattaforme di streaming possono rinnovarsi automaticamente, spesso con addebito su carta o conto corrente. Per interromperli serve una richiesta chiara al fornitore.",
+        "Alcuni servizi permettono di disattivare il rinnovo direttamente dall'account; quando serve una comunicazione scritta, con il generatore crei una lettera completa con i dati dell'abbonamento e, se necessario, la richiesta di istruzioni per restituire decoder o smart card."
+      ],
+      "campi": [
+        {
+          "id": "codice_abbonamento",
+          "etichetta": "Codice abbonamento o numero smart card",
+          "etichetta_lettera": "codice abbonamento/smart card",
+          "placeholder": "Es. 12345678",
+          "aiuto": "Lo trovi di solito nell'area clienti, nelle comunicazioni del fornitore o sulla smart card."
+        },
+        {
+          "id": "email_account",
+          "etichetta": "Email dell'account",
+          "etichetta_lettera": "email dell'account",
+          "tipo": "email",
+          "placeholder": "nome@esempio.it",
+          "aiuto": "Utile per i servizi di streaming, che identificano l'abbonamento tramite l'indirizzo email."
+        }
+      ],
+      "motivazioni": [
+        "Servizio non più utilizzato",
+        "Aumento del prezzo dell'abbonamento",
+        "Modifica unilaterale delle condizioni contrattuali",
+        "Contenuti non più disponibili",
+        "Costi non più sostenibili"
+      ],
+      "apparati": true,
+      "allegati_suggeriti": [
+        "Copia dell'ultima fattura o ricevuta di pagamento"
+      ],
+      "lettera": {
+        "oggetto": {
+          "disdetta_scadenza": "Disdetta dell'abbonamento alla scadenza{{rif_oggetto}}",
+          "recesso_anticipato": "Recesso dall'abbonamento{{rif_oggetto}}",
+          "recesso_14_giorni": "Esercizio del diritto di recesso entro 14 giorni{{rif_oggetto}}",
+          "trasloco": "Recesso dall'abbonamento per trasloco{{rif_oggetto}}",
+          "altro": "Recesso dall'abbonamento{{rif_oggetto}}"
+        },
+        "corpo": {
+          "disdetta_scadenza": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di disdire l'abbonamento alla scadenza, così da impedirne il rinnovo automatico{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che l'abbonamento, compresi tutti i pacchetti e le opzioni aggiuntive, cessi {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito.",
+          "recesso_anticipato": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dall'abbonamento prima della sua scadenza{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}}, con la disattivazione di tutti i pacchetti e le opzioni collegati, e che da tale data non venga effettuato alcun ulteriore addebito, fatti salvi gli importi dovuti per il periodo di effettiva fruizione del servizio. Vi chiedo inoltre di comunicarmi in dettaglio gli eventuali importi che ritenete ancora dovuti.",
+          "recesso_14_giorni": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, comunico di voler esercitare il diritto di recesso{{riferimento_normativo}} dal contratto {{tipo_contratto}} stipulato con {{fornitore}}{{identificativi}}{{data_contratto}}. Il contratto è stato concluso a distanza (online o per telefono) o fuori dai locali commerciali e la presente comunicazione è inviata entro il termine previsto per il recesso. {{motivazione}}\n\nChiedo la disattivazione dell'abbonamento e il rimborso dei pagamenti eventualmente già effettuati, nei tempi e con le modalità previsti dalla legge.",
+          "trasloco": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dall'abbonamento a causa del mio trasferimento presso un nuovo indirizzo{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito, fatti salvi gli importi dovuti per il periodo di effettiva fruizione del servizio.",
+          "altro": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dall'abbonamento{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito, fatti salvi gli importi dovuti per il periodo di effettiva fruizione del servizio."
+        }
+      },
+      "riferimenti": {
+        "recesso_anticipato": "dl7_2007",
+        "trasloco": "dl7_2007",
+        "altro": "dl7_2007",
+        "recesso_14_giorni": "codice_consumo_recesso"
+      },
+      "note": [
+        "Molti servizi di streaming permettono di disattivare il rinnovo automatico dalle impostazioni dell'account: controlla se questa possibilità è disponibile prima di inviare una lettera.",
+        "Se l'abbonamento è stato attivato tramite un altro operatore (ad esempio insieme alla linea internet o tramite un app store), la disdetta potrebbe andare inviata a quel soggetto.",
+        "Conserva decoder e smart card finché non ricevi le istruzioni per la restituzione."
+      ],
+      "passi": [
+        "Verifica se il servizio consente la disattivazione del rinnovo direttamente dall'account o dall'app.",
+        "Recupera i dati dell'abbonamento: codice cliente, codice abbonamento o email dell'account.",
+        "Controlla nelle condizioni contrattuali l'indirizzo per le disdette e il termine di preavviso.",
+        "Compila il generatore, scarica la lettera e inviala con raccomandata A/R o PEC.",
+        "Verifica nei mesi successivi che non ci siano altri addebiti sulla carta o sul conto."
+      ],
+      "faq": [
+        {
+          "domanda": "Posso disdire un servizio di streaming senza lettera?",
+          "risposta": "Spesso sì: molte piattaforme consentono di annullare il rinnovo dalle impostazioni dell'account. Conserva comunque la conferma di annullamento (email o schermata)."
+        },
+        {
+          "domanda": "L'abbonamento è incluso nella mia offerta internet: a chi scrivo?",
+          "risposta": "Se il servizio è stato attivato e viene fatturato da un altro operatore, la richiesta va generalmente inviata a chi ti addebita il costo. Verifica nelle condizioni dell'offerta."
+        },
+        {
+          "domanda": "Devo restituire il decoder?",
+          "risposta": "Se il decoder o la smart card sono forniti in comodato o noleggio, di norma vanno restituiti secondo le istruzioni del fornitore. Nel generatore puoi chiedere tali istruzioni."
+        },
+        {
+          "domanda": "Come blocco gli addebiti sulla carta?",
+          "risposta": "La lettera chiede l'interruzione di ogni addebito automatico dalla data di cessazione. Se gli addebiti continuano, puoi contattare il fornitore e, se necessario, la tua banca o l'emittente della carta."
+        }
+      ]
+    },
+    {
+      "slug": "palestre",
+      "nome": "Palestre e centri sportivi",
+      "nome_breve": "palestre",
+      "tipo_contratto": "di iscrizione e abbonamento",
+      "descrizione_meta": "Fac simile lettera di disdetta palestra o centro sportivo: generala gratis, scaricala in PDF o Word e scopri come inviarla con raccomandata o PEC.",
+      "intro": [
+        "Gli abbonamenti a palestre e centri sportivi hanno spesso regole precise su rinnovo, preavviso e addebiti ricorrenti, indicate nel contratto o nel regolamento del club.",
+        "Con il generatore crei una lettera di disdetta o di recesso completa, con la richiesta di interrompere gli addebiti automatici. Leggi sempre il regolamento per conoscere termini e modalità richieste dalla tua palestra."
+      ],
+      "campi": [
+        {
+          "id": "numero_tessera",
+          "etichetta": "Numero di tessera o badge",
+          "etichetta_lettera": "numero di tessera",
+          "placeholder": "Es. 000123456"
+        },
+        {
+          "id": "sede",
+          "etichetta": "Sede o club di iscrizione",
+          "etichetta_lettera": "sede di iscrizione",
+          "placeholder": "Es. Milano Centro, via Roma 10"
+        }
+      ],
+      "motivazioni": [
+        "Trasferimento in un'altra città",
+        "Motivi di salute",
+        "Servizio non conforme a quanto pattuito",
+        "Chiusura o trasferimento della sede",
+        "Motivi personali"
+      ],
+      "apparati": false,
+      "allegati_suggeriti": [
+        "Certificato medico",
+        "Copia del contratto o del modulo di iscrizione",
+        "Documentazione del cambio di residenza"
+      ],
+      "lettera": {
+        "oggetto": {
+          "disdetta_scadenza": "Disdetta dell'abbonamento alla scadenza{{rif_oggetto}}",
+          "recesso_anticipato": "Recesso dal contratto di iscrizione e abbonamento{{rif_oggetto}}",
+          "recesso_14_giorni": "Esercizio del diritto di recesso entro 14 giorni{{rif_oggetto}}",
+          "trasloco": "Recesso dal contratto di abbonamento per trasferimento{{rif_oggetto}}",
+          "altro": "Recesso dal contratto di iscrizione e abbonamento{{rif_oggetto}}"
+        },
+        "corpo": {
+          "disdetta_scadenza": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di disdire l'abbonamento alla scadenza, così da impedirne il rinnovo automatico{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che l'abbonamento cessi {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito, anche tramite addebito diretto su conto corrente o carta di pagamento.",
+          "recesso_anticipato": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dal contratto prima della sua scadenza{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito, anche tramite addebito diretto su conto corrente o carta di pagamento. Vi chiedo inoltre di comunicarmi in dettaglio gli eventuali importi che ritenete ancora dovuti.",
+          "recesso_14_giorni": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, comunico di voler esercitare il diritto di recesso{{riferimento_normativo}} dal contratto {{tipo_contratto}} stipulato con {{fornitore}}{{identificativi}}{{data_contratto}}. Il contratto è stato concluso a distanza (online o per telefono) o fuori dai locali commerciali e la presente comunicazione è inviata entro il termine previsto per il recesso. {{motivazione}}\n\nChiedo il rimborso dei pagamenti eventualmente già effettuati, nei tempi e con le modalità previsti dalla legge, e l'interruzione di ogni addebito.",
+          "trasloco": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dal contratto a causa del mio trasferimento, che non mi consente più di frequentare la struttura{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito, anche tramite addebito diretto su conto corrente o carta di pagamento.",
+          "altro": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dal contratto{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito, anche tramite addebito diretto su conto corrente o carta di pagamento."
+        }
+      },
+      "riferimenti": {
+        "recesso_14_giorni": "codice_consumo_recesso"
+      },
+      "note": [
+        "Il regolamento della palestra indica di solito come e con quanto anticipo inviare la disdetta: leggilo prima di spedire la lettera.",
+        "Se hai firmato il contratto direttamente in palestra, il recesso di 14 giorni previsto per i contratti a distanza o fuori dai locali commerciali di norma non si applica.",
+        "Se paghi con addebito diretto su conto (SDD), oltre alla lettera puoi verificare con la tua banca la gestione dell'autorizzazione all'addebito."
+      ],
+      "passi": [
+        "Recupera il contratto o il modulo di iscrizione e il regolamento del club.",
+        "Verifica termine di preavviso, durata minima e modalità di invio della disdetta.",
+        "Compila il generatore indicando numero di tessera e sede di iscrizione.",
+        "Scarica la lettera, firmala e inviala con raccomandata A/R o PEC, oppure consegnala a mano facendoti rilasciare una ricevuta datata.",
+        "Controlla che gli addebiti si interrompano dalla data di cessazione."
+      ],
+      "faq": [
+        {
+          "domanda": "Posso disdire la palestra per motivi di salute?",
+          "risposta": "Molti regolamenti prevedono la sospensione o il recesso per gravi motivi di salute, spesso documentati da certificato medico. Le condizioni variano: verifica il tuo contratto e allega la documentazione richiesta."
+        },
+        {
+          "domanda": "Posso consegnare la disdetta a mano in palestra?",
+          "risposta": "Se il contratto lo consente, sì: fatti rilasciare una copia firmata e datata per ricevuta. In alternativa usa la raccomandata A/R o la PEC per avere una prova di invio e consegna."
+        },
+        {
+          "domanda": "Vale il recesso entro 14 giorni per la palestra?",
+          "risposta": "Il recesso di 14 giorni riguarda in generale i contratti conclusi a distanza (ad esempio online) o fuori dai locali commerciali. Se hai firmato in palestra, di norma non si applica, salvo condizioni più favorevoli previste dal contratto."
+        },
+        {
+          "domanda": "La palestra continua ad addebitarmi la quota: cosa faccio?",
+          "risposta": "Conserva la prova dell'invio della disdetta e contesta per iscritto gli addebiti successivi. Per gli addebiti diretti puoi rivolgerti anche alla tua banca."
+        }
+      ]
+    },
+    {
+      "slug": "assicurazioni",
+      "nome": "Assicurazioni",
+      "nome_breve": "assicurazioni",
+      "tipo_contratto": "assicurativo",
+      "descrizione_meta": "Fac simile lettera di disdetta polizza assicurativa (auto, casa, vita e altre): generala gratis con numero di polizza e targa, scarica PDF o Word.",
+      "intro": [
+        "Per molte polizze con tacito rinnovo la disdetta va inviata entro un termine preciso prima della scadenza, indicato nelle condizioni di assicurazione.",
+        "Con il generatore prepari una lettera di disdetta o recesso con numero di polizza ed eventuale targa del veicolo, e puoi chiedere il rimborso della parte di premio pagata e non goduta, ove previsto."
+      ],
+      "campi": [
+        {
+          "id": "numero_polizza",
+          "etichetta": "Numero di polizza",
+          "etichetta_lettera": "polizza n.",
+          "obbligatorio": true,
+          "placeholder": "Es. 123456789",
+          "aiuto": "È riportato sul certificato o sul contratto di assicurazione."
+        },
+        {
+          "id": "targa",
+          "etichetta": "Targa del veicolo (solo polizze veicoli)",
+          "etichetta_lettera": "targa",
+          "placeholder": "Es. AB123CD",
+          "pattern": "^[A-Za-z0-9 ]{4,10}$",
+          "messaggio_errore": "Inserisci una targa valida, solo lettere e numeri."
+        }
+      ],
+      "motivazioni": [
+        "Vendita del veicolo",
+        "Demolizione o rottamazione del veicolo",
+        "Sottoscrizione di una polizza con altra compagnia",
+        "Venir meno del rischio assicurato",
+        "Condizioni economiche non più convenienti"
+      ],
+      "apparati": false,
+      "allegati_suggeriti": [
+        "Copia dell'atto di vendita del veicolo",
+        "Copia del certificato di demolizione o rottamazione",
+        "Copia del certificato di assicurazione"
+      ],
+      "lettera": {
+        "oggetto": {
+          "disdetta_scadenza": "Disdetta della polizza alla scadenza{{rif_oggetto}}",
+          "recesso_anticipato": "Recesso dalla polizza{{rif_oggetto}}",
+          "recesso_14_giorni": "Esercizio del diritto di recesso entro 14 giorni{{rif_oggetto}}",
+          "trasloco": "Recesso dalla polizza per trasferimento{{rif_oggetto}}",
+          "altro": "Recesso dalla polizza{{rif_oggetto}}"
+        },
+        "corpo": {
+          "disdetta_scadenza": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di contraente del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di disdire la polizza alla scadenza, così da impedirne il rinnovo tacito{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che la polizza cessi {{decorrenza}} e che non venga emesso alcun ulteriore premio o addebito successivo a tale data.",
+          "recesso_anticipato": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di contraente del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dalla polizza prima della sua scadenza{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e, ove previsto dalle condizioni di polizza o dalla normativa applicabile, il rimborso della parte di premio pagata e non goduta.",
+          "recesso_14_giorni": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, comunico di voler esercitare il diritto di recesso{{riferimento_normativo}} dal contratto {{tipo_contratto}} stipulato con {{fornitore}}{{identificativi}}{{data_contratto}}. Il contratto è stato concluso a distanza (online o per telefono) o fuori dai locali commerciali e la presente comunicazione è inviata entro il termine previsto per il recesso. {{motivazione}}\n\nChiedo il rimborso del premio eventualmente già versato, nei tempi e con le modalità previsti dalla legge e dalle condizioni di polizza.",
+          "trasloco": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di contraente del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dalla polizza a causa del mio trasferimento, che fa venir meno l'interesse alla copertura{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e, ove previsto, il rimborso della parte di premio pagata e non goduta.",
+          "altro": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di contraente del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dalla polizza{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e, ove previsto dalle condizioni di polizza o dalla normativa applicabile, il rimborso della parte di premio pagata e non goduta."
+        }
+      },
+      "riferimenti": {
+        "recesso_14_giorni": "codice_consumo_recesso"
+      },
+      "note": [
+        "Per le polizze con tacito rinnovo il termine entro cui inviare la disdetta è indicato nelle condizioni di assicurazione: verificalo con attenzione.",
+        "Per la RC auto le regole sul rinnovo sono diverse da quelle di altre polizze e in molti casi la disdetta non è necessaria: controlla le condizioni della tua polizza o chiedi alla compagnia.",
+        "In caso di vendita o demolizione del veicolo, allega la documentazione che lo dimostra: può servire per l'eventuale rimborso del premio."
+      ],
+      "passi": [
+        "Recupera il contratto o il certificato di assicurazione con il numero di polizza.",
+        "Controlla nelle condizioni di assicurazione la data di scadenza, il termine di preavviso e l'indirizzo per le disdette.",
+        "Compila il generatore e, se serve, aggiungi gli allegati (ad esempio l'atto di vendita del veicolo).",
+        "Invia la lettera con raccomandata A/R o PEC entro il termine indicato in polizza.",
+        "Conserva la ricevuta e verifica che non vengano richiesti premi successivi alla cessazione."
+      ],
+      "faq": [
+        {
+          "domanda": "Entro quando devo inviare la disdetta della polizza?",
+          "risposta": "Il termine è indicato nelle condizioni di assicurazione e varia da polizza a polizza. Considera i tempi di consegna: con raccomandata e PEC conta in genere la data di ricezione indicata nelle condizioni."
+        },
+        {
+          "domanda": "Devo disdire l'RC auto?",
+          "risposta": "Per la RC auto le regole sul rinnovo sono specifiche e spesso la disdetta non serve. Controlla la tua polizza: eventuali garanzie accessorie abbinate potrebbero avere regole diverse."
+        },
+        {
+          "domanda": "Ho venduto l'auto: posso avere il rimborso del premio?",
+          "risposta": "In molti casi, in seguito a vendita o demolizione, è possibile chiedere il rimborso della parte di premio non goduta oppure il trasferimento della polizza su un altro veicolo. Le condizioni dipendono dal contratto."
+        },
+        {
+          "domanda": "Posso disdire una polizza abbinata a un mutuo o a un finanziamento?",
+          "risposta": "Le polizze collegate a mutui e finanziamenti possono avere regole particolari. Prima di inviare la disdetta verifica le condizioni con la compagnia o con l'ente finanziatore."
+        }
+      ]
+    },
+    {
+      "slug": "luce-gas",
+      "nome": "Luce e gas",
+      "nome_breve": "luce e gas",
+      "tipo_contratto": "di fornitura di energia elettrica e/o gas naturale",
+      "descrizione_meta": "Lettera di disdetta luce e gas con codice POD e PDR: fac simile gratuito in PDF e Word per la cessazione della fornitura o il recesso dal contratto.",
+      "intro": [
+        "Se cambi venditore di luce o gas, di norma è il nuovo venditore a occuparsi del recesso dal contratto precedente: in questo caso non serve inviare una lettera.",
+        "La lettera serve invece quando vuoi cessare la fornitura (ad esempio per trasloco o chiusura di un immobile) o recedere per altri motivi. Con il generatore inserisci i codici POD e PDR e prepari una richiesta completa."
+      ],
+      "campi": [
+        {
+          "id": "pod",
+          "etichetta": "Codice POD (luce)",
+          "etichetta_lettera": "POD",
+          "placeholder": "Es. IT001E12345678",
+          "aiuto": "Codice che identifica il punto di prelievo dell'energia elettrica, indicato in bolletta.",
+          "pattern": "^[Ii][Tt][0-9A-Za-z]{10,14}$",
+          "messaggio_errore": "Il codice POD inizia con IT seguito da lettere e numeri, come indicato in bolletta."
+        },
+        {
+          "id": "pdr",
+          "etichetta": "Codice PDR (gas)",
+          "etichetta_lettera": "PDR",
+          "placeholder": "Es. 12345678901234",
+          "aiuto": "Codice che identifica il punto di riconsegna del gas, indicato in bolletta.",
+          "pattern": "^[0-9 ]{10,20}$",
+          "messaggio_errore": "Il codice PDR è composto da sole cifre, come indicato in bolletta."
+        },
+        {
+          "id": "indirizzo_fornitura",
+          "etichetta": "Indirizzo di fornitura (se diverso dalla residenza)",
+          "etichetta_lettera": "indirizzo di fornitura",
+          "placeholder": "Es. Via Verdi 5, 20100 Milano (MI)"
+        }
+      ],
+      "motivazioni": [
+        "Trasferimento in un nuovo immobile",
+        "Chiusura o vendita dell'immobile",
+        "Immobile non più utilizzato",
+        "Modifica unilaterale delle condizioni contrattuali",
+        "Costi non più sostenibili"
+      ],
+      "apparati": false,
+      "allegati_suggeriti": [
+        "Copia dell'ultima bolletta",
+        "Fotografia della lettura del contatore"
+      ],
+      "lettera": {
+        "oggetto": {
+          "disdetta_scadenza": "Disdetta del contratto di fornitura alla scadenza{{rif_oggetto}}",
+          "recesso_anticipato": "Recesso dal contratto di fornitura e cessazione della fornitura{{rif_oggetto}}",
+          "recesso_14_giorni": "Esercizio del diritto di recesso entro 14 giorni{{rif_oggetto}}",
+          "trasloco": "Cessazione della fornitura per trasloco{{rif_oggetto}}",
+          "altro": "Recesso dal contratto di fornitura{{rif_oggetto}}"
+        },
+        "corpo": {
+          "disdetta_scadenza": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di non rinnovare il contratto alla scadenza{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il contratto cessi {{decorrenza}} e l'emissione della fattura di chiusura sulla base dei consumi effettivi.",
+          "recesso_anticipato": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dal contratto e di cessare la fornitura{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che la cessazione abbia effetto {{decorrenza}}, con la disattivazione del punto di fornitura, e l'emissione della fattura di chiusura sulla base dei consumi effettivi.",
+          "recesso_14_giorni": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, comunico di voler esercitare il diritto di recesso{{riferimento_normativo}} dal contratto {{tipo_contratto}} stipulato con {{fornitore}}{{identificativi}}{{data_contratto}}. Il contratto è stato concluso a distanza (online o per telefono) o fuori dai locali commerciali e la presente comunicazione è inviata entro il termine previsto per il recesso. {{motivazione}}\n\nChiedo il rimborso dei pagamenti eventualmente già effettuati, nei tempi e con le modalità previsti dalla legge.",
+          "trasloco": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico che a causa del mio trasferimento intendo recedere dal contratto e cessare la fornitura presso l'immobile indicato{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che la cessazione abbia effetto {{decorrenza}}, con la disattivazione del punto di fornitura, e l'emissione della fattura di chiusura sulla base dei consumi effettivi.",
+          "altro": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dal contratto{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e l'emissione della fattura di chiusura sulla base dei consumi effettivi."
+        }
+      },
+      "riferimenti": {
+        "recesso_14_giorni": "codice_consumo_recesso"
+      },
+      "note": [
+        "Se passi a un altro venditore, di norma è il nuovo venditore a gestire il recesso per tuo conto: verifica con lui prima di inviare la lettera, per evitare l'interruzione della fornitura.",
+        "La cessazione della fornitura può comportare la disattivazione del contatore: verifica tempi ed eventuali costi con il venditore.",
+        "Annota e fotografa la lettura del contatore alla data di cessazione: è utile per controllare la fattura di chiusura."
+      ],
+      "passi": [
+        "Decidi se devi cambiare venditore (in genere se ne occupa il nuovo) o cessare la fornitura.",
+        "Recupera dall'ultima bolletta codice cliente, POD (luce) e PDR (gas).",
+        "Verifica nelle condizioni contrattuali l'indirizzo, la PEC o i canali indicati per il recesso.",
+        "Compila il generatore, scarica la lettera e inviala con raccomandata A/R o PEC.",
+        "Controlla la fattura di chiusura confrontandola con la lettura del contatore."
+      ],
+      "faq": [
+        {
+          "domanda": "Devo mandare la disdetta se cambio fornitore di luce o gas?",
+          "risposta": "In genere no: quando passi a un nuovo venditore è lui a gestire il recesso dal contratto precedente. La lettera serve soprattutto se vuoi cessare la fornitura o in casi particolari."
+        },
+        {
+          "domanda": "Dove trovo i codici POD e PDR?",
+          "risposta": "Sono indicati nelle bollette, di solito nella sezione dedicata ai dati della fornitura. Il POD riguarda l'energia elettrica, il PDR il gas."
+        },
+        {
+          "domanda": "Cosa succede al contatore?",
+          "risposta": "Con la cessazione della fornitura il contatore può essere disattivato o sigillato. Tempi ed eventuali costi dipendono dal venditore e dal distributore locale."
+        },
+        {
+          "domanda": "Come controllo la fattura di chiusura?",
+          "risposta": "Confronta i consumi fatturati con la lettura del contatore che hai annotato alla data di cessazione. In caso di differenze puoi presentare un reclamo scritto al venditore."
+        }
+      ]
+    },
+    {
+      "slug": "abbonamenti",
+      "nome": "Riviste e altri abbonamenti",
+      "nome_breve": "abbonamenti",
+      "tipo_contratto": "di abbonamento",
+      "descrizione_meta": "Lettera di disdetta abbonamento a riviste, quotidiani e altri servizi: fac simile gratuito in PDF e Word, con richiesta di stop agli addebiti.",
+      "intro": [
+        "Abbonamenti a riviste, quotidiani, servizi online e altri servizi periodici si rinnovano spesso in automatico. Per evitare il rinnovo o recedere serve una richiesta chiara.",
+        "Con il generatore indichi la testata o il servizio, il numero di abbonamento e ottieni una lettera pronta da inviare, con la richiesta di interrompere ogni addebito."
+      ],
+      "campi": [
+        {
+          "id": "nome_servizio",
+          "etichetta": "Testata o servizio",
+          "etichetta_lettera": "testata/servizio",
+          "obbligatorio": true,
+          "placeholder": "Es. nome della rivista o del servizio"
+        },
+        {
+          "id": "numero_abbonamento",
+          "etichetta": "Numero di abbonamento",
+          "etichetta_lettera": "abbonamento n.",
+          "placeholder": "Es. AB-123456"
+        }
+      ],
+      "motivazioni": [
+        "Servizio non più utilizzato",
+        "Aumento del prezzo dell'abbonamento",
+        "Mancata o irregolare consegna",
+        "Modifica unilaterale delle condizioni contrattuali",
+        "Costi non più sostenibili"
+      ],
+      "apparati": false,
+      "allegati_suggeriti": [
+        "Copia della ricevuta dell'ultimo pagamento"
+      ],
+      "lettera": {
+        "oggetto": {
+          "disdetta_scadenza": "Disdetta dell'abbonamento alla scadenza{{rif_oggetto}}",
+          "recesso_anticipato": "Recesso dall'abbonamento{{rif_oggetto}}",
+          "recesso_14_giorni": "Esercizio del diritto di recesso entro 14 giorni{{rif_oggetto}}",
+          "trasloco": "Recesso dall'abbonamento per trasferimento{{rif_oggetto}}",
+          "altro": "Recesso dall'abbonamento{{rif_oggetto}}"
+        },
+        "corpo": {
+          "disdetta_scadenza": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di disdire l'abbonamento alla scadenza, così da impedirne il rinnovo automatico{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che l'abbonamento cessi {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito.",
+          "recesso_anticipato": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dall'abbonamento prima della sua scadenza{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito, fatti salvi gli importi dovuti per il periodo di effettiva fruizione del servizio.",
+          "recesso_14_giorni": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, comunico di voler esercitare il diritto di recesso{{riferimento_normativo}} dal contratto {{tipo_contratto}} stipulato con {{fornitore}}{{identificativi}}{{data_contratto}}. Il contratto è stato concluso a distanza (online o per telefono) o fuori dai locali commerciali e la presente comunicazione è inviata entro il termine previsto per il recesso. {{motivazione}}\n\nChiedo il rimborso dei pagamenti eventualmente già effettuati, nei tempi e con le modalità previsti dalla legge.",
+          "trasloco": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dall'abbonamento a causa del mio trasferimento{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito.",
+          "altro": "Con la presente, io {{nome_completo}}, codice fiscale {{codice_fiscale}}, in qualità di titolare del contratto {{tipo_contratto}} con {{fornitore}}{{identificativi}}{{data_contratto}}, comunico la mia volontà di recedere dall'abbonamento{{riferimento_normativo}}. {{motivazione}}\n\nChiedo che il recesso abbia effetto {{decorrenza}} e che da tale data non venga effettuato alcun ulteriore addebito."
+        }
+      },
+      "riferimenti": {
+        "recesso_14_giorni": "codice_consumo_recesso"
+      },
+      "note": [
+        "Verifica nelle condizioni dell'abbonamento se è previsto il rinnovo automatico e con quale preavviso va comunicata la disdetta.",
+        "Se l'abbonamento è stato acquistato tramite un negozio online o un app store, la disattivazione del rinnovo potrebbe andare fatta da lì.",
+        "Se hai cambiato indirizzo, valuta se è sufficiente chiedere la variazione dell'indirizzo di consegna invece di recedere."
+      ],
+      "passi": [
+        "Recupera la conferma di abbonamento o l'ultima ricevuta con il numero di abbonamento.",
+        "Verifica nelle condizioni la presenza del rinnovo automatico e il termine di preavviso.",
+        "Compila il generatore indicando testata o servizio e numero di abbonamento.",
+        "Scarica la lettera e inviala con raccomandata A/R o PEC, o tramite il canale indicato dall'editore.",
+        "Controlla che non vengano effettuati altri addebiti."
+      ],
+      "faq": [
+        {
+          "domanda": "Come faccio a sapere se l'abbonamento si rinnova da solo?",
+          "risposta": "L'eventuale rinnovo automatico è indicato nelle condizioni di abbonamento e spesso nella conferma ricevuta via email al momento dell'attivazione."
+        },
+        {
+          "domanda": "Ho pagato con carta: basta bloccare la carta?",
+          "risposta": "Bloccare la carta non chiude il contratto. Invia la disdetta al fornitore e conserva la prova dell'invio; se ci sono addebiti non dovuti, contestali per iscritto."
+        },
+        {
+          "domanda": "Posso recedere da un abbonamento acquistato online?",
+          "risposta": "Per i contratti conclusi a distanza è previsto in generale un diritto di recesso entro un termine stabilito dalla legge, con alcune eccezioni (ad esempio per giornali, periodici e riviste, salvo gli abbonamenti, e per contenuti digitali già forniti). Verifica le condizioni del tuo caso."
+        }
+      ]
+    }
+  ]
+}

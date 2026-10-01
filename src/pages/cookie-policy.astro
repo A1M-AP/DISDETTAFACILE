@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import { config } from '../lib/data.ts';
+
+const aggiornamento = '1 ottobre 2026';
+---
+<Base title={`Cookie policy | ${config.nome}`} description={`Cookie policy di ${config.nome}: quali cookie e tecnologie simili usiamo, per quali finalità e come gestire il consenso.`} path="/cookie-policy/" briciole={[{ nome: 'Cookie policy', url: '/cookie-policy/' }]}>
+  <div class="container narrow">
+    <h1>Cookie policy</h1>
+    <p class="hint">Ultimo aggiornamento: {aggiornamento}.</p>
+    <p>Questa pagina descrive i cookie e gli strumenti di archiviazione locale (ad esempio localStorage) usati da {config.nome}, in conformità alle Linee guida del Garante per la protezione dei dati personali sui cookie e altri strumenti di tracciamento.</p>
+
+    <h2>Strumenti tecnici (sempre attivi)</h2>
+    <p>Sono necessari al funzionamento del sito o a fornire un servizio che hai richiesto, e non richiedono il consenso.</p>
+    <div style="overflow-x:auto">
+      <table class="tabella">
+        <thead><tr><th scope="col">Nome</th><th scope="col">Tipo</th><th scope="col">Finalità</th><th scope="col">Durata</th></tr></thead>
+        <tbody>
+          <tr><td><code>df-consenso</code></td><td>localStorage</td><td>Ricorda le tue scelte sui cookie, per non riproporre il banner a ogni visita.</td><td>{config.cookie.durataMesi} mesi, poi la scelta viene richiesta di nuovo</td></tr>
+          <tr><td><code>df-bozza-v1</code></td><td>localStorage</td><td>Bozza della lettera, solo se attivi «Salva una bozza su questo dispositivo». Resta sul tuo dispositivo e non viene inviata al server.</td><td>Fino a quando la elimini</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Cookie di statistica</h2>
+    <p>Attualmente il sito non utilizza strumenti di statistica. Se verranno introdotti, saranno elencati qui e attivati solo con il tuo consenso (o in forma anonimizzata, nei casi previsti dal Garante).</p>
+
+    <h2>Cookie di pubblicità e di terze parti</h2>
+    <p>Il sito prevede spazi pubblicitari. Gli eventuali cookie di pubblicità, anche di terze parti, vengono installati solo se presti il consenso alla finalità «Pubblicità». L'elenco delle terze parti e i link alle loro informative saranno pubblicati in questa pagina all'attivazione del circuito pubblicitario (DA CONFIGURARE).</p>
+    <p>I link di affiliazione portano a siti di terzi: una volta su quei siti si applicano le rispettive cookie policy.</p>
+
+    <h2>Come gestire il consenso</h2>
+    <ul class="check-list">
+      <li>Al primo accesso puoi accettare tutto, rifiutare o scegliere per finalità. Chiudendo il banner con la X continui la navigazione con i soli strumenti tecnici.</li>
+      <li>Puoi modificare o revocare il consenso in qualsiasi momento: <button type="button" class="btn-link" data-cookie-open>apri le preferenze cookie</button>.</li>
+      <li>Puoi anche cancellare cookie e dati dei siti dalle impostazioni del browser.</li>
+    </ul>
+    <p>Per informazioni sul trattamento dei dati personali leggi la <a href="/privacy-policy/">privacy policy</a>.</p>
+  </div>
+</Base>
+
+<style>
+  .tabella {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.93rem;
+  }
+  .tabella th,
+  .tabella td {
+    border: 1px solid var(--c-border);
+    padding: 0.5rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  .tabella th {
+    background: var(--c-bg-alt);
+  }
+</style>

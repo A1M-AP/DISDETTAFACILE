@@ -1,0 +1,89 @@
+---
+// Ricerca con suggerimenti tra categorie, fornitori e guide. Senza JavaScript il pulsante porta all'elenco completo.
+import { categorie, fornitori, getCategoria, urlCategoria, urlFornitore } from '../lib/data.ts';
+import { jsonSicuro } from '../lib/format.ts';
+
+const indice = [
+  ...categorie.map((c) => ({ t: `Disdetta ${c.nome_breve}`, s: c.nome, u: urlCategoria(c.slug) })),
+  ...fornitori.map((f) => ({ t: `Disdetta ${f.nome}`, s: getCategoria(f.categoria).nome, u: urlFornitore(f) })),
+  { t: 'Recesso entro 14 giorni', s: 'Guida', u: '/recesso-14-giorni/' },
+  { t: 'Come inviare una disdetta', s: 'Guida: raccomandata, PEC', u: '/come-inviare-una-disdetta/' },
+];
+---
+<form class="search" action="/disdetta/" method="get" role="search" data-ricerca>
+  <label for="ricerca">Cerca il fornitore o il tipo di contratto</label>
+  <div class="search-row combo">
+    <input
+      id="ricerca"
+      type="search"
+      role="combobox"
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-controls="ricerca-lista"
+      autocomplete="off"
+      placeholder="Es. palestra, assicurazione, nome dell'operatore…"
+    />
+    <button class="btn" type="submit">Cerca</button>
+    <ul id="ricerca-lista" class="combo-list" role="listbox" aria-label="Risultati" hidden></ul>
+  </div>
+  <script type="application/json" id="ricerca-indice" set:html={jsonSicuro(indice)} />
+</form>
+<script>
+  type Voce = { t: string; s: string; u: string };
+  const form = document.querySelector<HTMLFormElement>('[data-ricerca]');
+  if (form) {
+    const input = form.querySelector<HTMLInputElement>('#ricerca')!;
+    const lista = form.querySelector<HTMLUListElement>('#ricerca-lista')!;
+    const indice: Voce[] = JSON.parse(form.querySelector('#ricerca-indice')!.textContent || '[]');
+    const norm = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    let risultati: Voce[] = [];
+    let attiva = -1;
+
+    const aggiorna = () => {
+      const q = norm(input.value.trim());
+      const parole = q.split(/\s+/).filter((p) => p && p !== 'disdetta');
+      risultati = q ? indice.filter((v) => parole.every((p) => norm(`${v.t} ${v.s}`).includes(p))).slice(0, 8) : [];
+      attiva = -1;
+      lista.replaceChildren(
+        ...risultati.map((v, i) => {
+          const li = document.createElement('li');
+          li.id = `ricerca-opz-${i}`;
+          li.setAttribute('role', 'option');
+          li.setAttribute('aria-selected', 'false');
+          const a = document.createElement('a');
+          a.href = v.u;
+          a.tabIndex = -1;
+          a.textContent = v.t;
+          const small = document.createElement('small');
+          small.textContent = v.s;
+          a.append(small);
+          li.append(a);
+          return li;
+        }),
+      );
+      lista.hidden = !risultati.length;
+      input.setAttribute('aria-expanded', String(!lista.hidden));
+      input.removeAttribute('aria-activedescendant');
+    };
+    const evidenzia = (i: number) => {
+      if (!risultati.length) return;
+      attiva = (i + risultati.length) % risultati.length;
+      [...lista.children].forEach((li, j) => li.setAttribute('aria-selected', String(j === attiva)));
+      input.setAttribute('aria-activedescendant', `ricerca-opz-${attiva}`);
+    };
+    input.addEventListener('input', aggiorna);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); evidenzia(attiva + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); evidenzia(attiva - 1); }
+      else if (e.key === 'Escape') { lista.hidden = true; input.setAttribute('aria-expanded', 'false'); }
+    });
+    input.addEventListener('blur', () => setTimeout(() => { lista.hidden = true; input.setAttribute('aria-expanded', 'false'); }, 150));
+    form.addEventListener('submit', (e) => {
+      const scelta = risultati[attiva >= 0 ? attiva : 0];
+      if (scelta) {
+        e.preventDefault();
+        location.href = scelta.u;
+      }
+    });
+  }
+</script>

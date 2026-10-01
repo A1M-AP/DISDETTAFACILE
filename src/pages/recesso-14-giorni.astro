@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import Generator from '../components/Generator.astro';
+import AdSlot from '../components/AdSlot.astro';
+import Faq from '../components/Faq.astro';
+import { config } from '../lib/data.ts';
+
+const title = `Recesso entro 14 giorni: fac simile lettera di ripensamento | ${config.nome}`;
+const description = 'Hai firmato un contratto online, al telefono o fuori dai locali commerciali? Crea gratis la lettera di recesso entro 14 giorni, in PDF o Word, e scopri come inviarla.';
+const faq = [
+  {
+    domanda: 'Da quando decorrono i 14 giorni?',
+    risposta: 'In generale, per i contratti di servizi il termine decorre dalla conclusione del contratto, per i contratti di vendita di beni dalla consegna. Verifica le informazioni ricevute al momento della firma e le condizioni del tuo contratto.',
+  },
+  {
+    domanda: 'Devo spiegare il motivo del recesso?',
+    risposta: 'No: il diritto di recesso nei contratti a distanza e fuori dai locali commerciali si esercita in generale senza dover indicare una motivazione. Nel generatore la motivazione è facoltativa.',
+  },
+  {
+    domanda: 'Il recesso di 14 giorni vale per i contratti firmati in negozio?',
+    risposta: 'Di norma no: riguarda i contratti conclusi a distanza (online, per telefono, per corrispondenza) o fuori dai locali commerciali (ad esempio a domicilio o per strada). Il contratto può comunque prevedere condizioni più favorevoli.',
+  },
+  {
+    domanda: 'Cosa succede se il servizio è già iniziato?',
+    risposta: 'Se hai chiesto espressamente di iniziare il servizio durante il periodo di recesso, potresti dover pagare la parte di servizio già fornita fino al momento del recesso. Controlla le condizioni del contratto.',
+  },
+  {
+    domanda: 'E se il venditore non mi ha informato del diritto di recesso?',
+    risposta: 'Se le informazioni sul diritto di recesso non sono state fornite, il termine per recedere può essere più lungo. In questi casi è utile rivolgersi a un\'associazione dei consumatori o a un professionista.',
+  },
+];
+---
+<Base title={title} description={description} path="/recesso-14-giorni/" briciole={[{ nome: 'Recesso entro 14 giorni', url: '/recesso-14-giorni/' }]}>
+  <div class="container narrow">
+    <h1>Recesso entro 14 giorni: lettera di ripensamento</h1>
+    <p class="lead">Hai concluso un contratto online, per telefono o fuori dai locali commerciali e ci hai ripensato? Crea la comunicazione di recesso in pochi minuti.</p>
+
+    <Generator tipo="recesso_14_giorni" titolo="Crea la lettera di recesso" />
+
+    <section class="section" aria-labelledby="cos-titolo">
+      <h2 id="cos-titolo">Che cos'è il diritto di recesso (o di ripensamento)</h2>
+      <p>Il Codice del Consumo riconosce in generale al consumatore la possibilità di recedere, entro 14 giorni e senza dover fornire una motivazione, dai contratti conclusi <strong>a distanza</strong> (online, per telefono, per corrispondenza) o <strong>fuori dai locali commerciali</strong> (ad esempio a casa, sul posto di lavoro, per strada o durante un'escursione organizzata dal venditore).</p>
+      <p>È pensato per tutelarti quando non hai potuto valutare con calma l'offerta o vedere il prodotto prima dell'acquisto. Per i contratti firmati direttamente in negozio o in sede, invece, di norma non si applica, salvo condizioni più favorevoli previste dal contratto.</p>
+    </section>
+
+    <section class="section" aria-labelledby="quando-titolo">
+      <h2 id="quando-titolo">Quando si applica e quali sono le eccezioni</h2>
+      <ul class="check-list">
+        <li><strong>Servizi</strong> (telefonia, pay TV, energia, abbonamenti, polizze…): il termine decorre in generale dalla conclusione del contratto.</li>
+        <li><strong>Beni</strong>: il termine decorre in generale dalla consegna.</li>
+        <li><strong>Eccezioni</strong>: la legge esclude alcuni casi, ad esempio beni personalizzati o deperibili, beni sigillati aperti dopo la consegna per motivi igienici, giornali e riviste (ma non gli abbonamenti), servizi già completamente eseguiti e contenuti digitali già forniti con il tuo consenso.</li>
+      </ul>
+      <p>Le regole possono avere particolarità per singoli settori: verifica sempre le informazioni sul recesso che hai ricevuto al momento della firma.</p>
+    </section>
+
+    <section class="section" aria-labelledby="passi-titolo">
+      <h2 id="passi-titolo">I passi da seguire</h2>
+      <ol class="steps-list">
+        <li>Recupera la conferma del contratto (email, SMS, modulo firmato) e la data di conclusione o di consegna.</li>
+        <li>Verifica di essere ancora nel termine e controlla se il fornitore indica un indirizzo o un modulo per il recesso.</li>
+        <li>Compila il generatore scegliendo «Recesso entro 14 giorni» e indica la data del contratto.</li>
+        <li>Invia la lettera con raccomandata A/R o PEC: conta la prova di aver comunicato il recesso entro il termine.</li>
+        <li>Se hai ricevuto beni o apparati, restituiscili seguendo le istruzioni del fornitore e conserva la prova della spedizione.</li>
+      </ol>
+    </section>
+
+    <section class="section" aria-labelledby="rimborso-titolo">
+      <h2 id="rimborso-titolo">Rimborso dei pagamenti</h2>
+      <p>Dopo il recesso il fornitore deve rimborsare i pagamenti ricevuti nei tempi previsti dalla legge, di solito con lo stesso mezzo di pagamento usato da te. Nel generatore puoi indicare un IBAN per il rimborso: resta solo nel tuo browser.</p>
+    </section>
+  </div>
+
+  <AdSlot id="recesso-14" />
+
+  <div class="container narrow">
+    <Faq faq={faq} titolo="Domande frequenti sul recesso entro 14 giorni" />
+  </div>
+</Base>

@@ -1,0 +1,25 @@
+---
+import { config } from '../lib/data.ts';
+
+interface Props {
+  tipo?: 'raccomandata' | 'pec';
+}
+const { tipo } = Astro.props;
+const servizi = config.affiliazioni.servizi.filter((s) => s.attivo && (!tipo || s.tipo === tipo));
+---
+{servizi.length > 0 && (
+  <div class="affiliazioni">
+    <ul class="aff-list">
+      {servizi.map((s) => (
+        <li>
+          <strong>{s.nome}</strong>
+          <p>{s.descrizione}</p>
+          <a class="btn btn-secondary" href={s.url} rel="sponsored nofollow noopener" target="_blank" data-aff={s.id}>
+            {s.etichettaPulsante}<span class="visually-hidden"> (link di affiliazione, si apre in una nuova scheda)</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="disclosure"><strong>Link di affiliazione.</strong> {config.affiliazioni.disclosure}</p>
+  </div>
+)}

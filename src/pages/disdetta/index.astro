@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { categorie, config, fornitoriDi, urlCategoria, urlFornitore } from '../../lib/data.ts';
+
+const title = `Disdetta contratti: tutte le categorie e i fornitori | ${config.nome}`;
+const description = 'Elenco completo dei modelli di lettera di disdetta e recesso per categoria e fornitore: telefonia, pay TV, palestre, assicurazioni, luce e gas, abbonamenti.';
+---
+<Base title={title} description={description} path="/disdetta/" briciole={[{ nome: 'Disdette', url: '/disdetta/' }]}>
+  <div class="container">
+    <h1>Tutte le lettere di disdetta</h1>
+    <p class="lead">Scegli la categoria del contratto o il fornitore: in ogni pagina trovi il generatore della lettera e le indicazioni per inviarla.</p>
+    {categorie.map((c) => {
+      const elenco = fornitoriDi(c.slug);
+      return (
+        <section class="section" aria-labelledby={`c-${c.slug}`}>
+          <h2 id={`c-${c.slug}`}><a href={urlCategoria(c.slug)}>{c.nome}</a></h2>
+          <p>{c.intro[0]}</p>
+          {elenco.length > 0 ? (
+            <ul class="grid">
+              {elenco.map((f) => <li><a class="card" href={urlFornitore(f)}><strong>Disdetta {f.nome}</strong><span>Fac simile lettera e canali di invio</span></a></li>)}
+            </ul>
+          ) : (
+            <p><a href={urlCategoria(c.slug)}>Crea la lettera per {c.nome_breve}</a> inserendo a mano i dati del fornitore.</p>
+          )}
+        </section>
+      );
+    })}
+  </div>
+  <AdSlot id="elenco-fondo" />
+</Base>

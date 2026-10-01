@@ -1,0 +1,129 @@
+---
+import '../styles/global.css';
+import Disclaimer from '../components/Disclaimer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { categorie, config, urlCategoria } from '../lib/data.ts';
+import { jsonSicuro } from '../lib/format.ts';
+
+export interface Briciola {
+  nome: string;
+  url: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  /** Percorso canonico della pagina, es. "/disdetta/palestre/". */
+  path: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+  briciole?: Briciola[];
+  ogType?: 'website' | 'article';
+}
+
+const { title, description, path, noindex = false, jsonLd = [], briciole = [], ogType = 'website' } = Astro.props;
+const canonical = new URL(path, config.url).href;
+const ogImage = new URL(config.seo.immagineOg, config.url).href;
+const corrente = Astro.url.pathname;
+
+const nav = [
+  { nome: 'Tutte le disdette', url: '/disdetta/' },
+  { nome: 'Recesso 14 giorni', url: '/recesso-14-giorni/' },
+  { nome: 'Come inviarla', url: '/come-inviare-una-disdetta/' },
+];
+
+const ldSito = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: config.nome,
+  url: config.url + '/',
+  inLanguage: 'it-IT',
+};
+const ld = path === '/' ? [ldSito, ...jsonLd] : jsonLd;
+---
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#0b5f73" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={config.nome} />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {ld.map((item) => <script type="application/ld+json" set:html={jsonSicuro(item)} />)}
+  </head>
+  <body>
+    <a class="skip-link" href="#contenuto">Vai al contenuto</a>
+    <header class="site-header">
+      <div class="container">
+        <a class="logo" href="/" aria-label={`${config.nome} – home`}>
+          <svg aria-hidden="true" width="28" height="28" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0b5f73"/><path d="M18 14h20l10 10v26a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V16a2 2 0 0 1 2-2z" fill="#fff"/><path d="M22 38l7 7 13-15" fill="none" stroke="#0b5f73" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="logo-testo">Disdetta<span>Facile</span>.it</span>
+        </a>
+        <nav class="main-nav" aria-label="Navigazione principale">
+          <ul>
+            {nav.map((v) => (
+              <li><a href={v.url} aria-current={corrente === v.url ? 'page' : undefined}>{v.nome}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    {briciole.length > 0 && (
+      <div class="container"><Breadcrumbs items={briciole} /></div>
+    )}
+    <main id="contenuto" tabindex="-1">
+      <slot />
+    </main>
+    <div class="container"><Disclaimer /></div>
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-cols">
+          <div>
+            <h2>Disdette per categoria</h2>
+            <ul>
+              {categorie.map((c) => <li><a href={urlCategoria(c.slug)}>Disdetta {c.nome_breve}</a></li>)}
+            </ul>
+          </div>
+          <div>
+            <h2>Guide</h2>
+            <ul>
+              <li><a href="/recesso-14-giorni/">Recesso entro 14 giorni</a></li>
+              <li><a href="/come-inviare-una-disdetta/">Come inviare una disdetta</a></li>
+              <li><a href="/disdetta/">Tutti i fornitori</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>{config.nome}</h2>
+            <ul>
+              <li><a href="/chi-siamo/">Chi siamo</a></li>
+              <li><a href="/contatti/">Contatti</a></li>
+              <li><a href="/privacy-policy/">Privacy policy</a></li>
+              <li><a href="/cookie-policy/">Cookie policy</a></li>
+              <li><a href="/note-legali/">Note legali</a></li>
+              <li><button type="button" class="btn-link" data-cookie-open>Preferenze cookie</button></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>{config.affiliazioni.disclosure}</p>
+          <p>© {new Date().getFullYear()} {config.nome} · Servizio gratuito e indipendente, non affiliato ai fornitori citati.</p>
+        </div>
+      </div>
+    </footer>
+    <CookieBanner />
+  </body>
+</html>

@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import { config } from '../lib/data.ts';
+
+const email = config.titolare.email;
+const emailValida = /^[^\s@()]+@[^\s@()]+\.[a-z]{2,}$/i.test(email);
+---
+<Base title={`Contatti | ${config.nome}`} description={`Contatta la redazione di ${config.nome} per segnalare dati errati o non aggiornati, proporre miglioramenti o per richieste sulla privacy.`} path="/contatti/" briciole={[{ nome: 'Contatti', url: '/contatti/' }]}>
+  <div class="container narrow">
+    <h1>Contatti</h1>
+    <p class="lead">Scrivici per segnalare un recapito errato o non aggiornato, suggerire un nuovo fornitore o per richieste relative alla privacy.</p>
+    <dl class="dati box">
+      <dt>Email</dt>
+      <dd>{emailValida ? <a href={`mailto:${email}`}>{email}</a> : email}</dd>
+      <dt>Titolare del sito</dt>
+      <dd>{config.titolare.nome}</dd>
+      <dt>Indirizzo</dt>
+      <dd>{config.titolare.indirizzo}</dd>
+    </dl>
+    <div class="alert alert-warn">
+      <p><strong>Importante:</strong> non siamo i fornitori citati nel sito e non possiamo gestire disdette, reclami o pratiche per tuo conto. Non inviarci copie di documenti, contratti o dati personali non necessari.</p>
+    </div>
+    <h2>Segnalare un dato da correggere</h2>
+    <p>Indica la pagina, il dato da correggere e, se possibile, la fonte ufficiale (ad esempio il link alle condizioni contrattuali del fornitore). Dopo la verifica aggiorneremo la scheda e la data dell'ultimo controllo.</p>
+  </div>
+</Base>

@@ -1,0 +1,345 @@
+{
+  "_istruzioni": "Un oggetto per fornitore. Valori 'DA VERIFICARE' o vuoti sono trattati come mancanti: il generatore non li inserisce nella lettera e chiede all'utente di compilarli. Dopo aver verificato i dati sulla fonte ufficiale (condizioni contrattuali, sito del fornitore) compilare 'ultima_verifica' (AAAA-MM-GG) e 'fonte'. Le pagine dei fornitori non verificati sono generate con noindex ed escluse dalla sitemap (vedi site.config.mjs). Vedi README.md.",
+  "fornitori": [
+    {
+      "slug": "tim",
+      "nome": "TIM",
+      "categoria": "telefonia-internet",
+      "descrizione": "Operatore di telefonia fissa, mobile e internet.",
+      "recapiti": {
+        "destinatario": "DA VERIFICARE",
+        "indirizzo": "DA VERIFICARE",
+        "cap": "",
+        "citta": "",
+        "provincia": "",
+        "pec": "DA VERIFICARE"
+      },
+      "canali_alternativi": [
+        {
+          "tipo": "area_clienti",
+          "etichetta": "Area clienti",
+          "descrizione": "DA VERIFICARE: indicare se e come è possibile richiedere la disdetta dall'area clienti di TIM.",
+          "url": ""
+        },
+        {
+          "tipo": "modulo_online",
+          "etichetta": "Modulo online",
+          "descrizione": "DA VERIFICARE: indicare se TIM mette a disposizione un modulo online per il recesso e dove trovarlo.",
+          "url": ""
+        }
+      ],
+      "note": [
+        "DA VERIFICARE: inserire le indicazioni specifiche di TIM (termini di preavviso, eventuali costi, canali accettati) citando la fonte."
+      ],
+      "faq": [],
+      "ultima_verifica": null,
+      "fonte": "DA VERIFICARE"
+    },
+    {
+      "slug": "vodafone",
+      "nome": "Vodafone",
+      "categoria": "telefonia-internet",
+      "descrizione": "Operatore di telefonia fissa, mobile e internet.",
+      "recapiti": {
+        "destinatario": "DA VERIFICARE",
+        "indirizzo": "DA VERIFICARE",
+        "cap": "",
+        "citta": "",
+        "provincia": "",
+        "pec": "DA VERIFICARE"
+      },
+      "canali_alternativi": [
+        {
+          "tipo": "area_clienti",
+          "etichetta": "Area clienti",
+          "descrizione": "DA VERIFICARE: indicare se e come è possibile richiedere la disdetta dall'area clienti di Vodafone.",
+          "url": ""
+        },
+        {
+          "tipo": "modulo_online",
+          "etichetta": "Modulo online",
+          "descrizione": "DA VERIFICARE: indicare se Vodafone mette a disposizione un modulo online per il recesso e dove trovarlo.",
+          "url": ""
+        }
+      ],
+      "note": [
+        "DA VERIFICARE: inserire le indicazioni specifiche di Vodafone (termini di preavviso, eventuali costi, canali accettati) citando la fonte."
+      ],
+      "faq": [],
+      "ultima_verifica": null,
+      "fonte": "DA VERIFICARE"
+    },
+    {
+      "slug": "windtre",
+      "nome": "WindTre",
+      "categoria": "telefonia-internet",
+      "descrizione": "Operatore di telefonia fissa, mobile e internet.",
+      "recapiti": {
+        "destinatario": "DA VERIFICARE",
+        "indirizzo": "DA VERIFICARE",
+        "cap": "",
+        "citta": "",
+        "provincia": "",
+        "pec": "DA VERIFICARE"
+      },
+      "canali_alternativi": [
+        {
+          "tipo": "area_clienti",
+          "etichetta": "Area clienti",
+          "descrizione": "DA VERIFICARE: indicare se e come è possibile richiedere la disdetta dall'area clienti di WindTre.",
+          "url": ""
+        },
+        {
+          "tipo": "modulo_online",
+          "etichetta": "Modulo online",
+          "descrizione": "DA VERIFICARE: indicare se WindTre mette a disposizione un modulo online per il recesso e dove trovarlo.",
+          "url": ""
+        }
+      ],
+      "note": [
+        "DA VERIFICARE: inserire le indicazioni specifiche di WindTre (termini di preavviso, eventuali costi, canali accettati) citando la fonte."
+      ],
+      "faq": [],
+      "ultima_verifica": null,
+      "fonte": "DA VERIFICARE"
+    },
+    {
+      "slug": "fastweb",
+      "nome": "Fastweb",
+      "categoria": "telefonia-internet",
+      "descrizione": "Operatore di telefonia fissa, mobile e internet.",
+      "recapiti": {
+        "destinatario": "DA VERIFICARE",
+        "indirizzo": "DA VERIFICARE",
+        "cap": "",
+        "citta": "",
+        "provincia": "",
+        "pec": "DA VERIFICARE"
+      },
+      "canali_alternativi": [
+        {
+          "tipo": "area_clienti",
+          "etichetta": "Area clienti",
+          "descrizione": "DA VERIFICARE: indicare se e come è possibile richiedere la disdetta dall'area clienti di Fastweb.",
+          "url": ""
+        },
+        {
+          "tipo": "modulo_online",
+          "etichetta": "Modulo online",
+          "descrizione": "DA VERIFICARE: indicare se Fastweb mette a disposizione un modulo online per il recesso e dove trovarlo.",
+          "url": ""
+        }
+      ],
+      "note": [
+        "DA VERIFICARE: inserire le indicazioni specifiche di Fastweb (termini di preavviso, eventuali costi, canali accettati) citando la fonte."
+      ],
+      "faq": [],
+      "ultima_verifica": null,
+      "fonte": "DA VERIFICARE"
+    },
+    {
+      "slug": "sky",
+      "nome": "Sky",
+      "categoria": "pay-tv-streaming",
+      "descrizione": "Servizi di pay TV e streaming.",
+      "recapiti": {
+        "destinatario": "DA VERIFICARE",
+        "indirizzo": "DA VERIFICARE",
+        "cap": "",
+        "citta": "",
+        "provincia": "",
+        "pec": "DA VERIFICARE"
+      },
+      "canali_alternativi": [
+        {
+          "tipo": "area_clienti",
+          "etichetta": "Area clienti",
+          "descrizione": "DA VERIFICARE: indicare se e come è possibile richiedere la disdetta dall'area clienti di Sky.",
+          "url": ""
+        },
+        {
+          "tipo": "modulo_online",
+          "etichetta": "Modulo online",
+          "descrizione": "DA VERIFICARE: indicare se Sky mette a disposizione un modulo online per il recesso e dove trovarlo.",
+          "url": ""
+        }
+      ],
+      "note": [
+        "DA VERIFICARE: inserire le indicazioni specifiche di Sky (termini di preavviso, eventuali costi, canali accettati) citando la fonte."
+      ],
+      "faq": [],
+      "ultima_verifica": null,
+      "fonte": "DA VERIFICARE"
+    },
+    {
+      "slug": "dazn",
+      "nome": "DAZN",
+      "categoria": "pay-tv-streaming",
+      "descrizione": "Servizio di streaming di eventi sportivi.",
+      "recapiti": {
+        "destinatario": "DA VERIFICARE",
+        "indirizzo": "DA VERIFICARE",
+        "cap": "",
+        "citta": "",
+        "provincia": "",
+        "pec": "DA VERIFICARE"
+      },
+      "canali_alternativi": [
+        {
+          "tipo": "area_clienti",
+          "etichetta": "Area clienti",
+          "descrizione": "DA VERIFICARE: indicare se e come è possibile richiedere la disdetta dall'area clienti di DAZN.",
+          "url": ""
+        },
+        {
+          "tipo": "modulo_online",
+          "etichetta": "Modulo online",
+          "descrizione": "DA VERIFICARE: indicare se DAZN mette a disposizione un modulo online per il recesso e dove trovarlo.",
+          "url": ""
+        }
+      ],
+      "note": [
+        "DA VERIFICARE: inserire le indicazioni specifiche di DAZN (termini di preavviso, eventuali costi, canali accettati) citando la fonte."
+      ],
+      "faq": [],
+      "ultima_verifica": null,
+      "fonte": "DA VERIFICARE"
+    },
+    {
+      "slug": "virgin-active",
+      "nome": "Virgin Active",
+      "categoria": "palestre",
+      "descrizione": "Catena di palestre e centri fitness.",
+      "recapiti": {
+        "destinatario": "DA VERIFICARE",
+        "indirizzo": "DA VERIFICARE",
+        "cap": "",
+        "citta": "",
+        "provincia": "",
+        "pec": "DA VERIFICARE"
+      },
+      "canali_alternativi": [
+        {
+          "tipo": "area_clienti",
+          "etichetta": "Area clienti",
+          "descrizione": "DA VERIFICARE: indicare se e come è possibile richiedere la disdetta dall'area clienti di Virgin Active.",
+          "url": ""
+        },
+        {
+          "tipo": "modulo_online",
+          "etichetta": "Modulo online",
+          "descrizione": "DA VERIFICARE: indicare se Virgin Active mette a disposizione un modulo online per il recesso e dove trovarlo.",
+          "url": ""
+        }
+      ],
+      "note": [
+        "DA VERIFICARE: inserire le indicazioni specifiche di Virgin Active (termini di preavviso, eventuali costi, canali accettati) citando la fonte."
+      ],
+      "faq": [],
+      "ultima_verifica": null,
+      "fonte": "DA VERIFICARE"
+    },
+    {
+      "slug": "generali",
+      "nome": "Generali",
+      "categoria": "assicurazioni",
+      "descrizione": "Compagnia di assicurazioni.",
+      "recapiti": {
+        "destinatario": "DA VERIFICARE",
+        "indirizzo": "DA VERIFICARE",
+        "cap": "",
+        "citta": "",
+        "provincia": "",
+        "pec": "DA VERIFICARE"
+      },
+      "canali_alternativi": [
+        {
+          "tipo": "area_clienti",
+          "etichetta": "Area clienti",
+          "descrizione": "DA VERIFICARE: indicare se e come è possibile richiedere la disdetta dall'area clienti di Generali.",
+          "url": ""
+        },
+        {
+          "tipo": "modulo_online",
+          "etichetta": "Modulo online",
+          "descrizione": "DA VERIFICARE: indicare se Generali mette a disposizione un modulo online per il recesso e dove trovarlo.",
+          "url": ""
+        }
+      ],
+      "note": [
+        "DA VERIFICARE: inserire le indicazioni specifiche di Generali (termini di preavviso, eventuali costi, canali accettati) citando la fonte."
+      ],
+      "faq": [],
+      "ultima_verifica": null,
+      "fonte": "DA VERIFICARE"
+    },
+    {
+      "slug": "enel-energia",
+      "nome": "Enel Energia",
+      "categoria": "luce-gas",
+      "descrizione": "Venditore di energia elettrica e gas.",
+      "recapiti": {
+        "destinatario": "DA VERIFICARE",
+        "indirizzo": "DA VERIFICARE",
+        "cap": "",
+        "citta": "",
+        "provincia": "",
+        "pec": "DA VERIFICARE"
+      },
+      "canali_alternativi": [
+        {
+          "tipo": "area_clienti",
+          "etichetta": "Area clienti",
+          "descrizione": "DA VERIFICARE: indicare se e come è possibile richiedere la disdetta dall'area clienti di Enel Energia.",
+          "url": ""
+        },
+        {
+          "tipo": "modulo_online",
+          "etichetta": "Modulo online",
+          "descrizione": "DA VERIFICARE: indicare se Enel Energia mette a disposizione un modulo online per il recesso e dove trovarlo.",
+          "url": ""
+        }
+      ],
+      "note": [
+        "DA VERIFICARE: inserire le indicazioni specifiche di Enel Energia (termini di preavviso, eventuali costi, canali accettati) citando la fonte."
+      ],
+      "faq": [],
+      "ultima_verifica": null,
+      "fonte": "DA VERIFICARE"
+    },
+    {
+      "slug": "plenitude",
+      "nome": "Plenitude",
+      "categoria": "luce-gas",
+      "descrizione": "Venditore di energia elettrica e gas.",
+      "recapiti": {
+        "destinatario": "DA VERIFICARE",
+        "indirizzo": "DA VERIFICARE",
+        "cap": "",
+        "citta": "",
+        "provincia": "",
+        "pec": "DA VERIFICARE"
+      },
+      "canali_alternativi": [
+        {
+          "tipo": "area_clienti",
+          "etichetta": "Area clienti",
+          "descrizione": "DA VERIFICARE: indicare se e come è possibile richiedere la disdetta dall'area clienti di Plenitude.",
+          "url": ""
+        },
+        {
+          "tipo": "modulo_online",
+          "etichetta": "Modulo online",
+          "descrizione": "DA VERIFICARE: indicare se Plenitude mette a disposizione un modulo online per il recesso e dove trovarlo.",
+          "url": ""
+        }
+      ],
+      "note": [
+        "DA VERIFICARE: inserire le indicazioni specifiche di Plenitude (termini di preavviso, eventuali costi, canali accettati) citando la fonte."
+      ],
+      "faq": [],
+      "ultima_verifica": null,
+      "fonte": "DA VERIFICARE"
+    }
+  ]
+}

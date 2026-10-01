@@ -1,0 +1,33 @@
+{
+  "name": "disdettafacile",
+  "version": "1.0.0",
+  "description": "Generatore gratuito di lettere di disdetta e recesso (disdettafacile.it)",
+  "scripts": {
+    "test": "node --test tests/*.test.ts",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:data": "node scripts/check-data.ts",
+    "check:data:strict": "node scripts/check-data.ts --strict",
+    "check": "astro check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/A1M-AP/DISDETTAFACILE.git"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "astro": "^7.3.5",
+    "docx": "^9.8.1",
+    "jspdf": "^4.2.1"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
+  },
+  "private": "true"
+}

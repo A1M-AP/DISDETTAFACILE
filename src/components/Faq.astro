@@ -1,0 +1,32 @@
+---
+import { jsonSicuro } from '../lib/format.ts';
+import type { Faq } from '../lib/types.ts';
+
+interface Props {
+  faq: Faq[];
+  titolo?: string;
+  id?: string;
+}
+const { faq, titolo = 'Domande frequenti', id = 'faq' } = Astro.props;
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.domanda,
+    acceptedAnswer: { '@type': 'Answer', text: f.risposta },
+  })),
+};
+---
+{faq.length > 0 && (
+  <section class="section faq" aria-labelledby={`${id}-titolo`}>
+    <h2 id={`${id}-titolo`}>{titolo}</h2>
+    {faq.map((f) => (
+      <details>
+        <summary>{f.domanda}</summary>
+        <div><p>{f.risposta}</p></div>
+      </details>
+    ))}
+    <script type="application/ld+json" set:html={jsonSicuro(ld)} />
+  </section>
+)}

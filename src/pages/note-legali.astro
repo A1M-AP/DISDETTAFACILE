@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import { config } from '../lib/data.ts';
+
+const t = config.titolare;
+---
+<Base title={`Note legali | ${config.nome}`} description={`Note legali di ${config.nome}: natura informativa dei modelli, assenza di consulenza legale, marchi dei fornitori, link di affiliazione e responsabilità.`} path="/note-legali/" briciole={[{ nome: 'Note legali', url: '/note-legali/' }]}>
+  <div class="container narrow">
+    <h1>Note legali</h1>
+    <h2>Titolare del sito</h2>
+    <p>{t.nome} – {t.indirizzo} – P. IVA {t.partitaIva} – {t.email}</p>
+
+    <h2>Natura dei contenuti</h2>
+    <p>I modelli di lettera, il generatore e le informazioni pubblicate hanno carattere esclusivamente informativo e generale. Non costituiscono consulenza legale né sostituiscono il parere di un professionista. Prima di inviare una lettera verifica sempre le condizioni del tuo contratto, che prevalgono su qualsiasi modello generico.</p>
+
+    <h2>Dati dei fornitori</h2>
+    <p>I recapiti e le informazioni sui fornitori sono raccolti da fonti pubbliche e riportano la data dell'ultima verifica. Possono cambiare nel tempo senza preavviso: il titolare non garantisce che siano completi o aggiornati e invita a verificarli sulle fonti ufficiali. I dati non ancora verificati sono indicati come «DA VERIFICARE».</p>
+
+    <h2>Marchi e assenza di affiliazione</h2>
+    <p>{config.nome} non è affiliato, sponsorizzato né collegato in alcun modo ai fornitori citati. I nomi dei fornitori sono usati al solo scopo di identificare i servizi a cui si riferiscono le lettere; marchi e denominazioni appartengono ai rispettivi titolari. Il sito non riproduce loghi dei fornitori.</p>
+
+    <h2>Pubblicità e link di affiliazione</h2>
+    <p>{config.affiliazioni.disclosure} I link di affiliazione sono contrassegnati come tali. Il titolare non è responsabile dei servizi offerti da terzi.</p>
+
+    <h2>Limitazione di responsabilità</h2>
+    <p>Nei limiti consentiti dalla legge, il titolare non risponde di eventuali danni derivanti dall'uso dei modelli, dall'invio di comunicazioni fuori termine o a recapiti non corretti, né da interruzioni o malfunzionamenti del sito. L'utente resta responsabile del contenuto delle lettere che invia.</p>
+
+    <h2>Proprietà intellettuale</h2>
+    <p>Testi, struttura e codice del sito sono di proprietà del titolare. I modelli di lettera possono essere liberamente usati per uso personale.</p>
+
+    <h2>Legge applicabile</h2>
+    <p>Le presenti note sono regolate dalla legge italiana. Restano salvi i diritti riconosciuti ai consumatori dalla normativa vigente.</p>
+  </div>
+</Base>

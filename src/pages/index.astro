@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import Ricerca from '../components/Ricerca.astro';
+import AdSlot from '../components/AdSlot.astro';
+import Faq from '../components/Faq.astro';
+import { categorie, config, fornitori, urlCategoria, urlFornitore } from '../lib/data.ts';
+
+const title = `Disdetta contratti: fac simile lettere gratis | ${config.nome}`;
+const description = config.descrizione;
+const faq = [
+  {
+    domanda: 'Il servizio è gratuito?',
+    risposta: `Sì. ${config.nome} è gratuito: il sito si sostiene con pubblicità e con link di affiliazione a servizi di invio di raccomandate online e PEC, sempre segnalati.`,
+  },
+  {
+    domanda: 'I miei dati vengono salvati?',
+    risposta: 'No. La lettera viene creata direttamente nel tuo browser: i dati che inserisci nel modulo non vengono inviati né salvati sui nostri server. Se lo scegli tu, puoi salvare una bozza solo sul tuo dispositivo.',
+  },
+  {
+    domanda: 'La lettera ha valore legale?',
+    risposta: 'La lettera è un modello da verificare con le condizioni del tuo contratto. Il valore della comunicazione dipende soprattutto dal contenuto e dal canale di invio: raccomandata A/R e PEC forniscono una prova di invio e consegna.',
+  },
+  {
+    domanda: 'Che differenza c\'è tra disdetta e recesso?',
+    risposta: 'In generale con la disdetta comunichi che non vuoi il rinnovo del contratto alla scadenza; con il recesso chiedi di sciogliere il contratto prima della scadenza o, nei contratti a distanza, entro il periodo di ripensamento.',
+  },
+];
+---
+<Base title={title} description={description} path="/">
+  <section class="hero">
+    <div class="container">
+      <h1>Disdici un contratto in pochi minuti, gratis</h1>
+      <p class="lead">Crea la lettera di disdetta o di recesso per telefono e internet, pay TV, palestra, assicurazione, luce e gas o abbonamenti. Scarichi PDF o Word e la invii con raccomandata o PEC.</p>
+      <Ricerca />
+      <p class="hint" style="margin-top:.8rem">🔒 I dati che inserisci restano nel tuo browser.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="section" aria-labelledby="cat-titolo">
+      <h2 id="cat-titolo">Scegli il tipo di contratto</h2>
+      <ul class="grid">
+        {categorie.map((c) => (
+          <li>
+            <a class="card" href={urlCategoria(c.slug)}>
+              <strong>{c.nome}</strong>
+              <span>Lettera di disdetta e recesso per {c.nome_breve}</span>
+            </a>
+          </li>
+        ))}
+        <li>
+          <a class="card" href="/recesso-14-giorni/">
+            <strong>Recesso entro 14 giorni</strong>
+            <span>Hai firmato online o fuori dai negozi? Ripensaci con una lettera.</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="come-titolo">
+      <h2 id="come-titolo">Come funziona</h2>
+      <ol class="steps-list">
+        <li><strong>Compila il modulo guidato</strong>: tipo di richiesta, fornitore, i tuoi dati e le opzioni.</li>
+        <li><strong>Controlla l'anteprima</strong>: puoi modificare liberamente il testo.</li>
+        <li><strong>Scarica in PDF o Word</strong> oppure copia il testo, firma e invia con raccomandata A/R o PEC.</li>
+      </ol>
+      <div class="alert alert-ok">
+        <p><strong>Privacy prima di tutto.</strong> La lettera viene generata interamente sul tuo dispositivo: nessun dato personale inserito nel modulo viene inviato o archiviato sui nostri server.</p>
+      </div>
+    </section>
+  </div>
+
+  <AdSlot id="home-centrale" />
+
+  <div class="container">
+    {fornitori.length > 0 && (
+      <section class="section" aria-labelledby="forn-titolo">
+        <h2 id="forn-titolo">Fornitori in archivio</h2>
+        <ul class="grid">
+          {fornitori.map((f) => (
+            <li><a class="card" href={urlFornitore(f)}><strong>Disdetta {f.nome}</strong><span>{categorie.find((c) => c.slug === f.categoria)?.nome}</span></a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="section" aria-labelledby="guide-titolo">
+      <h2 id="guide-titolo">Guide utili</h2>
+      <ul class="grid">
+        <li><a class="card" href="/come-inviare-una-disdetta/"><strong>Come inviare una disdetta</strong><span>Raccomandata A/R, PEC, area clienti e moduli online.</span></a></li>
+        <li><a class="card" href="/recesso-14-giorni/"><strong>Recesso entro 14 giorni</strong><span>Contratti a distanza e fuori dai locali commerciali.</span></a></li>
+      </ul>
+    </section>
+
+    <Faq faq={faq} />
+  </div>
+</Base>

@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import Ricerca from '../components/Ricerca.astro';
+import { config } from '../lib/data.ts';
+---
+<Base title={`Pagina non trovata | ${config.nome}`} description="La pagina richiesta non esiste o è stata spostata." path="/404/" noindex>
+  <div class="container narrow">
+    <h1>Pagina non trovata</h1>
+    <p class="lead">La pagina che cerchi non esiste o è stata spostata. Prova a cercare il fornitore o il tipo di contratto:</p>
+    <Ricerca />
+    <p style="margin-top:1.5rem"><a href="/">Torna alla home</a> · <a href="/disdetta/">Tutte le disdette</a></p>
+  </div>
+</Base>

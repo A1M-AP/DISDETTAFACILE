@@ -1,0 +1,164 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Generator from '../../../components/Generator.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import Faq from '../../../components/Faq.astro';
+import {
+  config,
+  fornitori,
+  fornitoreIndicizzabile,
+  fornitoreVerificato,
+  fornitoriDi,
+  getCategoria,
+  recapitiUtilizzabili,
+  urlCategoria,
+  urlFornitore,
+} from '../../../lib/data.ts';
+import type { Faq as FaqT, Fornitore } from '../../../lib/types.ts';
+import { dataBreve, daVerificare } from '../../../lib/format.ts';
+
+export function getStaticPaths() {
+  return fornitori.map((fornitore) => ({
+    params: { categoria: fornitore.categoria, fornitore: fornitore.slug },
+    props: { fornitore },
+  }));
+}
+
+interface Props {
+  fornitore: Fornitore;
+}
+const { fornitore: f } = Astro.props;
+const c = getCategoria(f.categoria);
+const r = recapitiUtilizzabili(f);
+const verificato = fornitoreVerificato(f);
+const verificaTesto = verificato ? `dati verificati il ${dataBreve(f.ultima_verifica!)}` : '';
+const indirizzoCompleto = [r.indirizzo, [r.cap, r.citta, r.provincia ? `(${r.provincia})` : ''].filter(Boolean).join(' ')]
+  .filter(Boolean)
+  .join(', ');
+const canali = f.canali_alternativi.filter((x) => !daVerificare(x.descrizione));
+const canaliDaVerificare = f.canali_alternativi.filter((x) => daVerificare(x.descrizione));
+const note = f.note.filter((n) => !daVerificare(n));
+const altri = fornitoriDi(c.slug).filter((x) => x.slug !== f.slug);
+
+const title = `Disdetta ${f.nome}: fac simile lettera e come inviarla | ${config.nome}`;
+const description = verificato
+  ? `Fac simile gratuito della lettera di disdetta ${f.nome}: compila il modulo, scarica PDF o Word e invia a indirizzo e PEC verificati il ${dataBreve(f.ultima_verifica!)}.`
+  : `Fac simile gratuito della lettera di disdetta ${f.nome} (${c.nome_breve}): compila il modulo, scarica PDF o Word e scopri come inviarla.`;
+
+const faq: FaqT[] = [
+  {
+    domanda: `A quale indirizzo inviare la disdetta ${f.nome}?`,
+    risposta:
+      verificato && indirizzoCompleto
+        ? `Secondo i dati verificati il ${dataBreve(f.ultima_verifica!)} (fonte: ${f.fonte}), l'indirizzo per le disdette è: ${r.destinatario}, ${indirizzoCompleto}. Controlla sempre che corrisponda a quello indicato nel tuo contratto.`
+        : `L'indirizzo per le disdette di ${f.nome} non è ancora stato verificato dalla nostra redazione. Lo trovi nelle condizioni generali del tuo contratto, nelle fatture o sul sito ufficiale di ${f.nome}: inseriscilo nel generatore al passo 2.`,
+  },
+  {
+    domanda: `Posso inviare la disdetta ${f.nome} tramite PEC?`,
+    risposta:
+      verificato && r.pec
+        ? `Sì: l'indirizzo PEC risultante dalla nostra ultima verifica (${dataBreve(f.ultima_verifica!)}) è ${r.pec}. Ricorda che la PEC ha valore di raccomandata solo se inviata da una casella PEC.`
+        : `Se ${f.nome} indica una PEC per le comunicazioni dei clienti puoi usarla, inviando la lettera da una tua casella PEC. L'indirizzo PEC non è ancora stato verificato dalla nostra redazione: controllalo nel contratto o sul sito ufficiale.`,
+  },
+  {
+    domanda: `Ci sono altri modi per disdire ${f.nome}?`,
+    risposta: canali.length
+      ? `Oltre a raccomandata e PEC risultano questi canali: ${canali.map((x) => `${x.etichetta} – ${x.descrizione}`).join('; ')}.`
+      : `Alcuni fornitori consentono la disdetta anche dall'area clienti, da un modulo online o nei punti vendita. Per ${f.nome} questi canali non sono ancora stati verificati: controlla le condizioni del tuo contratto.`,
+  },
+  {
+    domanda: `Cosa allegare alla disdetta ${f.nome}?`,
+    risposta: `Di solito una copia del documento d'identità dell'intestatario${c.allegati_suggeriti.length ? ` e, se utile, ${c.allegati_suggeriti.map((a) => a.charAt(0).toLowerCase() + a.slice(1)).join(', ')}` : ''}. Verifica nel contratto se sono richiesti documenti specifici.`,
+  },
+  ...f.faq,
+];
+---
+<Base
+  title={title}
+  description={description}
+  path={urlFornitore(f)}
+  noindex={!fornitoreIndicizzabile(f)}
+  briciole={[
+    { nome: 'Disdette', url: '/disdetta/' },
+    { nome: c.nome, url: urlCategoria(c.slug) },
+    { nome: f.nome, url: urlFornitore(f) },
+  ]}
+>
+  <div class="container narrow">
+    <h1>Disdetta {f.nome}: fac simile lettera</h1>
+    <p class="lead">{f.descrizione} Crea la lettera di disdetta o di recesso dal contratto {f.nome} e scaricala in PDF o Word.</p>
+    <p>
+      {verificato ? (
+        <span class="badge badge-ok">Recapiti verificati il {dataBreve(f.ultima_verifica!)}</span>
+      ) : (
+        <span class="badge badge-warn">Recapiti DA VERIFICARE</span>
+      )}
+    </p>
+
+    <Generator categoria={c.slug} fornitore={f.slug} titolo={`Crea la lettera per ${f.nome}`} />
+
+    <section class="section" aria-labelledby="dove-titolo">
+      <h2 id="dove-titolo">Dove inviare la disdetta {f.nome}</h2>
+      {!verificato && (
+        <div class="alert alert-warn">
+          <p><strong>Dati DA VERIFICARE.</strong> I recapiti di {f.nome} per le disdette non sono ancora stati verificati dalla redazione. Prima di inviare la lettera controlla indirizzo e PEC nelle condizioni del tuo contratto, nelle fatture o sul sito ufficiale del fornitore.</p>
+        </div>
+      )}
+      <dl class="dati box">
+        <dt>Destinatario</dt>
+        <dd>{r.destinatario}</dd>
+        <dt>Indirizzo postale</dt>
+        <dd>{indirizzoCompleto || 'DA VERIFICARE – controlla il contratto o il sito ufficiale'}</dd>
+        <dt>PEC</dt>
+        <dd>{r.pec || 'DA VERIFICARE – controlla il contratto o il sito ufficiale'}</dd>
+        <dt>Altri canali</dt>
+        <dd>
+          {canali.length > 0 ? (
+            <ul>
+              {canali.map((x) => (
+                <li>
+                  <strong>{x.etichetta}:</strong> {x.descrizione}
+                  {x.url && <> (<a href={x.url} rel="nofollow noopener" target="_blank">sito del fornitore<span class="visually-hidden">, si apre in una nuova scheda</span></a>)</>}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <>DA VERIFICARE{canaliDaVerificare.length > 0 && ` (${canaliDaVerificare.map((x) => x.etichetta.toLowerCase()).join(', ')})`}</>
+          )}
+        </dd>
+        <dt>Ultima verifica dei dati</dt>
+        <dd>{verificato ? dataBreve(f.ultima_verifica!) : 'Non ancora verificati'}</dd>
+        <dt>Fonte</dt>
+        <dd>{daVerificare(f.fonte) ? 'DA VERIFICARE' : f.fonte}</dd>
+      </dl>
+      <p class="hint">Le informazioni possono cambiare nel tempo: in caso di differenze prevalgono le condizioni del tuo contratto e le indicazioni ufficiali di {f.nome}.{verificaTesto && ` Ultimo controllo: ${verificaTesto}.`}</p>
+    </section>
+
+    <section class="section" aria-labelledby="note-titolo">
+      <h2 id="note-titolo">Da sapere prima di disdire {f.nome}</h2>
+      <ul class="check-list">
+        {note.map((n) => <li>{n}</li>)}
+        {c.note.map((n) => <li>{n}</li>)}
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="passi-titolo">
+      <h2 id="passi-titolo">Come disdire {f.nome}: i passi</h2>
+      <ol class="steps-list">{c.passi.map((p) => <li>{p}</li>)}</ol>
+      <p>Per i dettagli su raccomandata, PEC e altri canali leggi la guida <a href="/come-inviare-una-disdetta/">come inviare una disdetta</a>.</p>
+    </section>
+  </div>
+
+  <AdSlot id={`fornitore-${f.slug}`} />
+
+  <div class="container narrow">
+    <Faq faq={faq} titolo={`Domande frequenti sulla disdetta ${f.nome}`} />
+    <section class="section" aria-labelledby="altri-titolo">
+      <h2 id="altri-titolo">Altri fornitori di {c.nome_breve}</h2>
+      <ul class="grid">
+        {altri.map((x) => <li><a class="card" href={urlFornitore(x)}><strong>Disdetta {x.nome}</strong><span>Fac simile lettera</span></a></li>)}
+        <li><a class="card" href={urlCategoria(c.slug)}><strong>Tutte le disdette {c.nome_breve}</strong><span>Guida e generatore</span></a></li>
+      </ul>
+    </section>
+  </div>
+</Base>

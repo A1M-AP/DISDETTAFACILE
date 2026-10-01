@@ -1,0 +1,79 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Generator from '../../../components/Generator.astro';
+import AdSlot from '../../../components/AdSlot.astro';
+import Faq from '../../../components/Faq.astro';
+import { categorie, config, fornitoriDi, urlCategoria, urlFornitore } from '../../../lib/data.ts';
+import type { Categoria } from '../../../lib/types.ts';
+import { maiuscola } from '../../../lib/format.ts';
+
+export function getStaticPaths() {
+  return categorie.map((categoria) => ({ params: { categoria: categoria.slug }, props: { categoria } }));
+}
+
+interface Props {
+  categoria: Categoria;
+}
+const { categoria: c } = Astro.props;
+const elenco = fornitoriDi(c.slug);
+const title = `Disdetta ${c.nome_breve}: fac simile lettera gratis in PDF e Word | ${config.nome}`;
+const altre = categorie.filter((x) => x.slug !== c.slug);
+---
+<Base
+  title={title}
+  description={c.descrizione_meta}
+  path={urlCategoria(c.slug)}
+  briciole={[{ nome: 'Disdette', url: '/disdetta/' }, { nome: c.nome, url: urlCategoria(c.slug) }]}
+>
+  <div class="container narrow">
+    <h1>Disdetta {c.nome_breve}: fac simile lettera</h1>
+    <p class="lead">Compila il modulo e scarica gratis la lettera di disdetta o recesso per il tuo contratto di {c.nome_breve}.</p>
+
+    <Generator categoria={c.slug} />
+
+    <section class="section" aria-labelledby="info-titolo">
+      <h2 id="info-titolo">Come funziona la disdetta per {c.nome_breve}</h2>
+      {c.intro.map((p) => <p>{p}</p>)}
+    </section>
+
+    <section class="section" aria-labelledby="passi-titolo">
+      <h2 id="passi-titolo">I passi da seguire</h2>
+      <ol class="steps-list">{c.passi.map((p) => <li>{p}</li>)}</ol>
+    </section>
+
+    {c.note.length > 0 && (
+      <section class="section" aria-labelledby="note-titolo">
+        <h2 id="note-titolo">Da sapere prima di inviare la lettera</h2>
+        <ul class="check-list">{c.note.map((n) => <li>{n}</li>)}</ul>
+      </section>
+    )}
+
+    <section class="section" aria-labelledby="forn-titolo">
+      <h2 id="forn-titolo">Fornitori di {c.nome_breve}</h2>
+      {elenco.length > 0 ? (
+        <>
+          <p>Per questi fornitori trovi una pagina dedicata con il generatore già impostato e i canali di invio:</p>
+          <ul class="grid">
+            {elenco.map((f) => <li><a class="card" href={urlFornitore(f)}><strong>Disdetta {f.nome}</strong><span>Fac simile e come inviarla</span></a></li>)}
+          </ul>
+        </>
+      ) : (
+        <p>Non ci sono ancora schede dedicate per questa categoria: nel generatore puoi inserire a mano i dati del destinatario.</p>
+      )}
+      <p>Non trovi il tuo fornitore? Usa il generatore qui sopra e inserisci i dati del destinatario a mano.</p>
+    </section>
+  </div>
+
+  <AdSlot id={`categoria-${c.slug}`} />
+
+  <div class="container narrow">
+    <p class="box box-alt">Per scegliere tra raccomandata A/R, PEC e altri canali leggi la guida <a href="/come-inviare-una-disdetta/">come inviare una disdetta</a>.</p>
+    <Faq faq={c.faq} titolo={`Domande frequenti sulla disdetta ${c.nome_breve}`} />
+    <section class="section" aria-labelledby="altre-titolo">
+      <h2 id="altre-titolo">Altre categorie</h2>
+      <ul class="grid">
+        {altre.map((x) => <li><a class="card" href={urlCategoria(x.slug)}><strong>{maiuscola(x.nome_breve)}</strong><span>Lettera di disdetta</span></a></li>)}
+      </ul>
+    </section>
+  </div>
+</Base>

@@ -1,0 +1,429 @@
+---
+// Generatore guidato della lettera (5 passaggi). Tutta l'elaborazione avviene nel browser:
+// nessun dato personale viene inviato o salvato su server.
+import Campo from './Campo.astro';
+import ComeInviarla from './ComeInviarla.astro';
+import { categorie, datiCategorie, datiPerGeneratore, getCategoria } from '../lib/data.ts';
+import type { TipoRichiestaId } from '../lib/types.ts';
+import { jsonSicuro } from '../lib/format.ts';
+
+interface Props {
+  /** Slug della categoria: se indicato la categoria è fissa. */
+  categoria?: string;
+  /** Slug del fornitore preselezionato. */
+  fornitore?: string;
+  /** Tipo di richiesta preselezionato. */
+  tipo?: TipoRichiestaId;
+  titolo?: string;
+}
+
+const { categoria, fornitore, tipo = 'disdetta_scadenza', titolo = 'Crea la tua lettera in 5 passaggi' } = Astro.props;
+const catFissa = categoria ? getCategoria(categoria) : null;
+const slugCategorie = catFissa ? [catFissa.slug] : categorie.map((c) => c.slug);
+const dati = datiPerGeneratore(slugCategorie);
+const cats = categorie.filter((c) => slugCategorie.includes(c.slug));
+const fornitoreSel = fornitore ? dati.fornitori.find((f) => f.slug === fornitore) : undefined;
+const modalita = datiCategorie.blocchi_comuni.modalita_restituzione;
+const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima'];
+---
+<section class="gen" id="generatore" aria-labelledby="gen-titolo" data-generatore data-fornitore={fornitoreSel?.slug}>
+  <div class="gen-head">
+    <h2 id="gen-titolo">{titolo}</h2>
+    <p class="gen-privacy">
+      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3H9z"/></svg>
+      I dati che inserisci restano nel tuo browser: non vengono inviati né salvati sui nostri server.
+    </p>
+  </div>
+
+  <ol class="gen-progress" aria-label="Avanzamento">
+    {passi.map((p, i) => (
+      <li data-progress={i + 1} aria-current={i === 0 ? 'step' : undefined}>
+        <span class="gen-progress-num">{i + 1}</span>
+        <span class="gen-progress-label">{p}</span>
+      </li>
+    ))}
+  </ol>
+
+  <noscript>
+    <p class="alert alert-warn">Per usare il generatore è necessario attivare JavaScript. Nessun dato viene comunque inviato ai nostri server.</p>
+  </noscript>
+
+  <div class="alert alert-info" id="g-bozza" hidden>
+    <p>Su questo dispositivo è salvata una bozza della tua lettera.</p>
+    <p>
+      <button type="button" class="btn btn-secondary" data-azione="ripristina-bozza">Riprendi la bozza</button>
+      <button type="button" class="btn-link" data-azione="elimina-bozza">Elimina la bozza</button>
+    </p>
+  </div>
+
+  <script type="application/json" id="g-dati" set:html={jsonSicuro(dati)} />
+  <form id="g-form" class="gen-form" novalidate autocomplete="on">
+
+    <!-- PASSO 1 -->
+    <fieldset class="step" data-step="1" aria-labelledby="g-step1-titolo">
+      <h3 id="g-step1-titolo" class="step-title" tabindex="-1"><span>Passo 1 di 5</span> Che cosa vuoi fare?</h3>
+
+      {catFissa ? (
+        <input type="hidden" name="categoria" value={catFissa.slug} />
+      ) : (
+        <div class="field">
+          <label for="g-categoria">Tipo di contratto<span class="req" aria-hidden="true"> *</span></label>
+          <select id="g-categoria" name="categoria" aria-describedby="g-categoria-err" aria-required="true" data-required>
+            <option value="">Seleziona…</option>
+            {cats.map((c) => <option value={c.slug}>{c.nome}</option>)}
+          </select>
+          <span class="error" id="g-categoria-err"></span>
+        </div>
+      )}
+
+      <fieldset class="subfieldset" aria-describedby="g-tipo-err">
+        <legend>Tipo di richiesta<span class="req" aria-hidden="true"> *</span></legend>
+        {datiCategorie.tipi_richiesta.map((t) => (
+          <label class="choice">
+            <input type="radio" name="tipo" value={t.id} checked={t.id === tipo} />
+            <span><strong>{t.etichetta}</strong><small>{t.descrizione}</small></span>
+          </label>
+        ))}
+        <span class="error" id="g-tipo-err"></span>
+      </fieldset>
+
+      <div class="field">
+        <label for="g-motivazione" id="g-motivazione-label">Motivazione <span class="hint-inline">(facoltativa)</span></label>
+        <select id="g-motivazione" name="motivazione_scelta" aria-describedby="g-motivazione-err">
+          <option value="">Nessuna motivazione</option>
+          {catFissa?.motivazioni.map((m) => <option value={m}>{m}</option>)}
+          <option value="__altro">Altro (la scrivo io)</option>
+        </select>
+        <span class="error" id="g-motivazione-err"></span>
+      </div>
+      <div data-mostra-se="motivazione-libera" hidden>
+        <Campo id="g-motivazione-testo" name="motivazione_testo" label="Scrivi la motivazione" multiline maxlength={400} />
+      </div>
+      <p class="alert alert-info" data-mostra-se="recesso-14" hidden>
+        Il recesso entro 14 giorni riguarda in generale i contratti conclusi a distanza (online, per telefono) o fuori dai locali commerciali. <a href="/recesso-14-giorni/">Scopri quando si applica</a>.
+      </p>
+
+      <div class="gen-nav">
+        <button type="submit" class="btn">Avanti</button>
+      </div>
+    </fieldset>
+
+    <!-- PASSO 2 -->
+    <fieldset class="step" data-step="2" aria-labelledby="g-step2-titolo" hidden>
+      <h3 id="g-step2-titolo" class="step-title" tabindex="-1"><span>Passo 2 di 5</span> A chi la invii?</h3>
+
+      <div class="field combo">
+        <label for="g-cerca-fornitore">Cerca il fornitore</label>
+        <input
+          id="g-cerca-fornitore"
+          type="text"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-controls="g-lista-fornitori"
+          aria-describedby="g-cerca-fornitore-hint"
+          autocomplete="off"
+          placeholder="Scrivi il nome, es. operatore o compagnia"
+          value={fornitoreSel?.nome}
+        />
+        <ul id="g-lista-fornitori" class="combo-list" role="listbox" aria-label="Fornitori" hidden></ul>
+        <span class="hint" id="g-cerca-fornitore-hint">Se il fornitore non è in elenco, compila i dati qui sotto a mano.</span>
+      </div>
+      <div id="g-fornitore-info" aria-live="polite"></div>
+
+      <fieldset class="subfieldset">
+        <legend>Dati del destinatario</legend>
+        <Campo id="g-dest-nome" name="dest_nome" label="Nome o ragione sociale del destinatario" required autocomplete="off" value={fornitoreSel?.recapiti.destinatario} />
+        <Campo id="g-dest-indirizzo" name="dest_indirizzo" label="Indirizzo per le disdette" hint="Via e numero civico o casella postale. Indica almeno l'indirizzo o la PEC." value={fornitoreSel?.recapiti.indirizzo} />
+        <div class="row row-cap">
+          <Campo id="g-dest-cap" name="dest_cap" label="CAP" inputmode="numeric" maxlength={5} value={fornitoreSel?.recapiti.cap} />
+          <Campo id="g-dest-citta" name="dest_citta" label="Città" value={fornitoreSel?.recapiti.citta} />
+          <Campo id="g-dest-provincia" name="dest_provincia" label="Prov." maxlength={2} value={fornitoreSel?.recapiti.provincia} />
+        </div>
+        <Campo id="g-dest-pec" name="dest_pec" label="PEC del destinatario" type="email" inputmode="email" placeholder="nome@pec.esempio.it" value={fornitoreSel?.recapiti.pec} />
+      </fieldset>
+
+      <div class="gen-nav">
+        <button type="button" class="btn btn-secondary" data-azione="indietro">Indietro</button>
+        <button type="submit" class="btn">Avanti</button>
+      </div>
+    </fieldset>
+
+    <!-- PASSO 3 -->
+    <fieldset class="step" data-step="3" aria-labelledby="g-step3-titolo" hidden>
+      <h3 id="g-step3-titolo" class="step-title" tabindex="-1"><span>Passo 3 di 5</span> I dati dell'intestatario</h3>
+      <div class="row row-2">
+        <Campo id="g-nome" name="nome" label="Nome" required autocomplete="given-name" />
+        <Campo id="g-cognome" name="cognome" label="Cognome" required autocomplete="family-name" />
+      </div>
+      <Campo id="g-cf" name="codice_fiscale" label="Codice fiscale" required maxlength={20} hint="16 caratteri, es. RSSMRA80A01H501U." autocapitalize="characters" />
+      <Campo id="g-indirizzo" name="indirizzo" label="Indirizzo di residenza" required autocomplete="street-address" />
+      <div class="row row-cap">
+        <Campo id="g-cap" name="cap" label="CAP" required inputmode="numeric" maxlength={5} autocomplete="postal-code" />
+        <Campo id="g-citta" name="citta" label="Città" required autocomplete="address-level2" />
+        <Campo id="g-provincia" name="provincia" label="Prov." required maxlength={2} autocomplete="address-level1" />
+      </div>
+      <div class="row row-2">
+        <Campo id="g-email" name="email" label="Email (facoltativa)" type="email" inputmode="email" autocomplete="email" />
+        <Campo id="g-telefono" name="telefono" label="Telefono (facoltativo)" type="tel" inputmode="tel" autocomplete="tel" maxlength={30} />
+      </div>
+
+      <fieldset class="subfieldset">
+        <legend>Dati del contratto</legend>
+        <Campo id="g-codice-cliente" name="codice_cliente" label="Codice cliente o numero di contratto" hint="Lo trovi in fattura, nel contratto o nell'area clienti. Indica almeno un dato che identifichi il contratto." />
+        {cats.map((c) => (
+          <fieldset data-campi-cat={c.slug} hidden={catFissa ? false : true} disabled={catFissa ? false : true}>
+            <legend class="visually-hidden">Dati specifici: {c.nome}</legend>
+            {c.campi.map((campo) => (
+              <Campo
+                id={`g-c-${c.slug}-${campo.id}`}
+                name={`campo_${campo.id}`}
+                label={campo.etichetta + (campo.obbligatorio ? '' : ' (facoltativo)')}
+                required={!!campo.obbligatorio}
+                type={campo.tipo ?? 'text'}
+                placeholder={campo.placeholder}
+                hint={campo.aiuto}
+                data-pattern={campo.pattern}
+                data-pattern-msg={campo.messaggio_errore}
+              />
+            ))}
+          </fieldset>
+        ))}
+        <Campo id="g-data-contratto" name="data_contratto" type="date" label="Data di conclusione del contratto" hint="Obbligatoria per il recesso entro 14 giorni, facoltativa negli altri casi." />
+        <p class="alert alert-warn" id="g-avviso-14" hidden></p>
+      </fieldset>
+
+      <div class="gen-nav">
+        <button type="button" class="btn btn-secondary" data-azione="indietro">Indietro</button>
+        <button type="submit" class="btn">Avanti</button>
+      </div>
+    </fieldset>
+
+    <!-- PASSO 4 -->
+    <fieldset class="step" data-step="4" aria-labelledby="g-step4-titolo" hidden>
+      <h3 id="g-step4-titolo" class="step-title" tabindex="-1"><span>Passo 4 di 5</span> Opzioni della lettera</h3>
+
+      <fieldset class="subfieldset" aria-describedby="g-invio-err">
+        <legend>Come la invierai?</legend>
+        <label class="choice"><input type="radio" name="invio" value="raccomandata" checked /><span><strong>Raccomandata A/R</strong></span></label>
+        <label class="choice"><input type="radio" name="invio" value="pec" /><span><strong>PEC</strong></span></label>
+        <label class="choice"><input type="radio" name="invio" value="altro" /><span><strong>Altro canale</strong> <small>(consegna a mano, modulo online…)</small></span></label>
+        <span class="error" id="g-invio-err"></span>
+      </fieldset>
+
+      <div class="row row-2">
+        <Campo id="g-luogo" name="luogo" label="Luogo" required hint="Di solito la tua città." />
+        <Campo id="g-data-lettera" name="data_lettera" type="date" label="Data della lettera" required />
+      </div>
+      <Campo id="g-decorrenza" name="data_decorrenza" type="date" label="Data di decorrenza (facoltativa)" hint="Se la lasci vuota, la lettera indica la prima data utile secondo il tipo di richiesta." />
+
+      <fieldset class="subfieldset" data-solo-apparati hidden={catFissa ? !catFissa.apparati : true} disabled={catFissa ? !catFissa.apparati : true}>
+        <legend>Apparati (modem, decoder…)</legend>
+        <label class="check"><input type="checkbox" name="apparati" id="g-apparati" /><span>Chiedi le istruzioni per restituire gli apparati in comodato o noleggio</span></label>
+        <div class="field" data-mostra-se="apparati" hidden>
+          <label for="g-modalita">Modalità di restituzione preferita</label>
+          <select id="g-modalita" name="modalita_restituzione">
+            {modalita.map((m) => <option value={m}>{m.charAt(0).toUpperCase() + m.slice(1)}</option>)}
+          </select>
+        </div>
+      </fieldset>
+
+      <fieldset class="subfieldset">
+        <legend>Rimborso</legend>
+        <label class="check"><input type="checkbox" name="rimborso" id="g-rimborso" /><span>Chiedi il rimborso del credito residuo e degli importi non dovuti</span></label>
+        <div data-mostra-se="rimborso" hidden>
+          <Campo id="g-iban" name="iban" label="IBAN per il rimborso (facoltativo)" maxlength={42} autocapitalize="characters" hint="Non viene mai salvato, nemmeno nella bozza locale." />
+          <Campo id="g-intestatario-iban" name="intestatario_iban" label="Intestatario del conto (se diverso da te)" />
+        </div>
+      </fieldset>
+
+      <fieldset class="subfieldset">
+        <legend>Allegati</legend>
+        <label class="check"><input type="checkbox" name="allega_documento" id="g-allega-documento" checked /><span>Copia del documento d'identità (promemoria nell'elenco allegati)</span></label>
+        {cats.map((c) => (
+          <fieldset data-campi-cat={c.slug} hidden={catFissa ? false : true} disabled={catFissa ? false : true}>
+            <legend class="visually-hidden">Allegati suggeriti: {c.nome}</legend>
+            {c.allegati_suggeriti.map((a) => (
+              <label class="check"><input type="checkbox" name="allegato_suggerito" value={a} /><span>{a}</span></label>
+            ))}
+          </fieldset>
+        ))}
+        <Campo id="g-altri-allegati" name="altri_allegati" label="Altri allegati (uno per riga, facoltativo)" multiline maxlength={600} />
+      </fieldset>
+
+      <div class="box box-alt">
+        <label class="check"><input type="checkbox" name="salva_bozza" id="g-salva-bozza" /><span><strong>Salva una bozza su questo dispositivo</strong><br /><small>La bozza resta solo nel tuo browser (archiviazione locale) e puoi eliminarla quando vuoi. L'IBAN non viene salvato.</small></span></label>
+      </div>
+
+      <div class="gen-nav">
+        <button type="button" class="btn btn-secondary" data-azione="indietro">Indietro</button>
+        <button type="submit" class="btn">Vedi l'anteprima</button>
+      </div>
+    </fieldset>
+
+    <!-- PASSO 5 -->
+    <fieldset class="step" data-step="5" aria-labelledby="g-step5-titolo" hidden>
+      <h3 id="g-step5-titolo" class="step-title" tabindex="-1"><span>Passo 5 di 5</span> Controlla e scarica</h3>
+      <p id="g-aggiornata" class="alert alert-info" hidden></p>
+      <div class="field">
+        <label for="g-lettera">Anteprima della lettera (puoi modificarla)</label>
+        <textarea id="g-lettera" class="gen-lettera" rows="22" spellcheck="true" aria-describedby="g-lettera-hint"></textarea>
+        <span class="hint" id="g-lettera-hint">Rileggi con attenzione e correggi se necessario: il testo che scarichi è quello mostrato qui.</span>
+      </div>
+      <div class="gen-azioni">
+        <button type="button" class="btn" data-azione="pdf">Scarica PDF</button>
+        <button type="button" class="btn" data-azione="docx">Scarica Word (DOCX)</button>
+        <button type="button" class="btn btn-secondary" data-azione="copia">Copia il testo</button>
+      </div>
+      <p class="gen-stato" id="g-stato" role="status" aria-live="polite"></p>
+      <div class="gen-nav">
+        <button type="button" class="btn btn-secondary" data-azione="indietro">Indietro</button>
+        <button type="button" class="btn-link" data-azione="rigenera">Annulla le modifiche al testo</button>
+        <button type="button" class="btn-link" data-azione="ricomincia">Ricomincia da capo</button>
+      </div>
+    </fieldset>
+  </form>
+  <p class="gen-errori visually-hidden" id="g-annuncio" role="alert"></p>
+</section>
+
+<ComeInviarla id="come-inviarla" nascosto titolo="Lettera pronta: ecco come inviarla" />
+
+<script>
+  import { avviaGeneratore } from '../scripts/generator.ts';
+  document.querySelectorAll<HTMLElement>('[data-generatore]').forEach((el) => avviaGeneratore(el));
+</script>
+
+<style>
+  .gen {
+    border: 2px solid var(--c-primary);
+    border-radius: 14px;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: var(--shadow);
+    margin: 1rem 0 1.5rem;
+  }
+
+  @media (min-width: 40rem) {
+    .gen {
+      padding: 1.4rem 1.6rem;
+    }
+  }
+
+  .gen-head h2 {
+    margin: 0 0 0.3rem;
+  }
+
+  .gen-privacy {
+    display: flex;
+    gap: 0.4rem;
+    align-items: flex-start;
+    font-size: 0.92rem;
+    color: var(--c-ok);
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+  }
+
+  .gen-privacy svg {
+    flex: none;
+    margin-top: 0.2rem;
+  }
+
+  .gen-progress {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.3rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    font-size: 0.8rem;
+  }
+
+  .gen-progress li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    color: var(--c-muted);
+    text-align: center;
+    border-top: 4px solid var(--c-border);
+    padding-top: 0.3rem;
+  }
+
+  .gen-progress li[data-fatto] {
+    border-color: var(--c-primary);
+  }
+
+  .gen-progress li[aria-current='step'] {
+    border-color: var(--c-accent);
+    color: var(--c-text);
+    font-weight: 700;
+  }
+
+  .gen-progress-num {
+    font-weight: 700;
+  }
+
+  .gen-progress-label {
+    display: none;
+  }
+
+  @media (min-width: 34rem) {
+    .gen-progress-label {
+      display: block;
+    }
+  }
+
+  .step-title {
+    margin: 0.2rem 0 1rem;
+    font-size: 1.2rem;
+  }
+
+  .step-title span {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--c-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .step-title:focus {
+    outline: none;
+  }
+
+  .gen-nav,
+  .gen-azioni {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+    margin-top: 1.2rem;
+  }
+
+  .gen-nav .btn[type='submit'] {
+    margin-left: auto;
+  }
+
+  .gen-azioni .btn {
+    flex: 1 1 12rem;
+  }
+
+  .gen-lettera {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.9rem;
+    min-height: 26rem;
+    white-space: pre-wrap;
+  }
+
+  .gen-stato {
+    min-height: 1.6em;
+    margin: 0.6rem 0 0;
+    font-weight: 600;
+    color: var(--c-ok);
+  }
+
+  .hint-inline {
+    font-weight: 400;
+    color: var(--c-muted);
+  }
+</style>

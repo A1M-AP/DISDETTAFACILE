@@ -1,0 +1,46 @@
+---
+// Campo di testo accessibile: etichetta, suggerimento e messaggio d'errore collegati via aria-describedby.
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  type?: astroHTML.JSX.HTMLInputTypeAttribute;
+  required?: boolean;
+  hint?: string;
+  placeholder?: string;
+  autocomplete?: string;
+  inputmode?: 'text' | 'numeric' | 'email' | 'tel';
+  value?: string;
+  maxlength?: number;
+  multiline?: boolean;
+  class?: string;
+  autocapitalize?: string;
+  'data-pattern'?: string;
+  'data-pattern-msg'?: string;
+}
+const { id, name, label, type = 'text', required = false, hint, placeholder, autocomplete, inputmode, value, maxlength = 200, multiline = false, class: cls, ...resto } = Astro.props;
+const descritto = [hint ? `${id}-hint` : '', `${id}-err`].filter(Boolean).join(' ');
+---
+<div class:list={['field', cls]}>
+  <label for={id}>{label}{required && <span class="req" aria-hidden="true"> *</span>}</label>
+  {multiline ? (
+    <textarea id={id} name={name} rows="3" maxlength={maxlength} placeholder={placeholder} aria-describedby={descritto} aria-required={required ? 'true' : undefined} data-required={required ? '' : undefined} {...resto}>{value}</textarea>
+  ) : (
+    <input
+      id={id}
+      name={name}
+      type={type}
+      value={value}
+      placeholder={placeholder}
+      autocomplete={autocomplete ?? 'off'}
+      inputmode={inputmode}
+      maxlength={type === 'date' ? undefined : maxlength}
+      aria-describedby={descritto}
+      aria-required={required ? 'true' : undefined}
+      data-required={required ? '' : undefined}
+      {...resto}
+    />
+  )}
+  {hint && <span class="hint" id={`${id}-hint`}>{hint}</span>}
+  <span class="error" id={`${id}-err`}></span>
+</div>

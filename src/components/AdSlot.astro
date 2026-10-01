@@ -1,0 +1,18 @@
+---
+// Spazio pubblicitario segnaposto con altezza riservata, per evitare spostamenti del layout (CLS).
+// Non va mai inserito all'interno del modulo del generatore.
+import { config } from '../lib/data.ts';
+
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+const p = config.pubblicita;
+const stile = `--ad-h-mobile:${p.altezzaMobile}px;--ad-h-desktop:${p.altezzaDesktop}px`;
+---
+{p.attiva && (
+  <aside class="ad-slot container" data-ad-slot={id} aria-label="Pubblicità" style={stile}>
+    <span class="ad-label">Pubblicità</span>
+    {p.mostraSegnaposto && <div class="ad-placeholder" aria-hidden="true">Spazio pubblicitario</div>}
+  </aside>
+)}

@@ -1,0 +1,29 @@
+---
+import Affiliazioni from './Affiliazioni.astro';
+
+interface Props {
+  id?: string;
+  nascosto?: boolean;
+  titolo?: string;
+}
+const { id, nascosto = false, titolo = 'Come inviarla' } = Astro.props;
+---
+<section id={id} class="section box box-alt" aria-labelledby={id ? `${id}-titolo` : undefined} hidden={nascosto}>
+  <h2 id={id ? `${id}-titolo` : undefined} style="margin-top:0">{titolo}</h2>
+  <p>Firma la lettera e conserva sempre una copia e la prova di invio. Scegli uno dei canali accettati dal fornitore:</p>
+  <h3>Raccomandata con avviso di ricevimento (A/R)</h3>
+  <ol>
+    <li>Stampa la lettera, firmala a mano e allega una copia del documento d'identità.</li>
+    <li>Spediscila all'indirizzo indicato dal fornitore per le disdette con raccomandata A/R, dall'ufficio postale oppure con un servizio online.</li>
+    <li>Conserva la ricevuta di spedizione e la cartolina di ritorno: provano invio e data di consegna.</li>
+  </ol>
+  <h3>Posta Elettronica Certificata (PEC)</h3>
+  <ol>
+    <li>Scarica la lettera in PDF, firmala (a mano e poi scansionata, oppure con firma digitale) e allega il documento d'identità.</li>
+    <li>Inviala dalla tua casella PEC all'indirizzo PEC del fornitore: la PEC ha valore solo se inviata da una casella PEC.</li>
+    <li>Conserva le ricevute di accettazione e di avvenuta consegna.</li>
+  </ol>
+  <p><a href="/come-inviare-una-disdetta/">Leggi la guida completa sui metodi di invio</a>.</p>
+  <h3>Invia online senza uscire di casa</h3>
+  <Affiliazioni />
+</section>

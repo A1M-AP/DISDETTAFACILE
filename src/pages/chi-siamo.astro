@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { config } from '../lib/data.ts';
+---
+<Base title={`Chi siamo | ${config.nome}`} description={`Chi siamo e come lavoriamo: ${config.nome} è un servizio gratuito e indipendente per creare lettere di disdetta e recesso.`} path="/chi-siamo/" briciole={[{ nome: 'Chi siamo', url: '/chi-siamo/' }]}>
+  <div class="container narrow">
+    <h1>Chi siamo</h1>
+    <p class="lead">{config.nome} nasce per rendere più semplice una cosa che spesso è complicata: chiudere un contratto.</p>
+    <h2>Cosa facciamo</h2>
+    <p>Mettiamo a disposizione gratuitamente modelli di lettere di disdetta e recesso per i contratti più comuni (telefonia e internet, pay TV e streaming, palestre, assicurazioni, luce e gas, riviste e altri abbonamenti) e un generatore che li compila con i tuoi dati.</p>
+    <h2>La tua privacy</h2>
+    <p>Il generatore funziona interamente nel tuo browser: i dati che inserisci non vengono inviati né salvati sui nostri server. Puoi scegliere di salvare una bozza solo sul tuo dispositivo e cancellarla quando vuoi. Dettagli nella <a href="/privacy-policy/">privacy policy</a>.</p>
+    <h2>Come curiamo i contenuti</h2>
+    <ul class="check-list">
+      <li>I recapiti dei fornitori vengono inseriti solo dopo un controllo sulle fonti ufficiali; ogni scheda mostra la <strong>data dell'ultima verifica</strong> e la fonte.</li>
+      <li>I dati non ancora controllati sono segnalati come «DA VERIFICARE» e non vengono inseriti automaticamente nella lettera.</li>
+      <li>I riferimenti normativi presenti nei modelli sono gestiti separatamente per poter essere revisionati da professionisti.</li>
+    </ul>
+    <h2>Indipendenza e finanziamento</h2>
+    <p>Non siamo affiliati né collegati ai fornitori citati. Il sito si sostiene con spazi pubblicitari e con link di affiliazione a servizi di invio di raccomandate online e PEC, sempre segnalati come tali. Pubblicità e affiliazioni non influiscono sui contenuti dei modelli.</p>
+    <h2>Cosa non facciamo</h2>
+    <p>Non forniamo consulenza legale e non inviamo le lettere per tuo conto. Per situazioni particolari ti consigliamo di rivolgerti a un'associazione dei consumatori o a un professionista.</p>
+    <p>Hai trovato un dato errato o non aggiornato? <a href="/contatti/">Scrivici</a>.</p>
+  </div>
+</Base>

@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import AdSlot from '../components/AdSlot.astro';
+import Affiliazioni from '../components/Affiliazioni.astro';
+import Faq from '../components/Faq.astro';
+import { categorie, config, urlCategoria } from '../lib/data.ts';
+
+const title = `Come inviare una disdetta: raccomandata A/R, PEC e online | ${config.nome}`;
+const description = 'Guida pratica per inviare la lettera di disdetta o recesso: raccomandata con ricevuta di ritorno, PEC, area clienti, moduli online e consegna a mano. Cosa conservare come prova.';
+const faq = [
+  {
+    domanda: 'Meglio raccomandata A/R o PEC?',
+    risposta: 'Entrambe forniscono una prova di invio e di consegna. La PEC è più rapida ed economica se hai già una casella PEC; la raccomandata A/R non richiede strumenti particolari. Usa il canale indicato nel tuo contratto.',
+  },
+  {
+    domanda: 'Posso mandare la PEC da una email normale?',
+    risposta: 'No: per avere valore legale il messaggio deve partire da una casella PEC ed essere inviato a un indirizzo PEC. Un messaggio da un\'email ordinaria non produce le ricevute di accettazione e consegna.',
+  },
+  {
+    domanda: 'Quale data conta per il preavviso?',
+    risposta: 'Di norma conta la data in cui la comunicazione arriva al destinatario, non quella di spedizione. Invia quindi la lettera con un margine di qualche giorno rispetto al termine previsto dal contratto.',
+  },
+  {
+    domanda: 'Come firmo la lettera da inviare via PEC?',
+    risposta: 'Puoi stampare la lettera, firmarla a mano e allegarne la scansione in PDF, oppure firmare il PDF con una firma digitale se ne disponi. Allega anche la copia del documento d\'identità.',
+  },
+];
+---
+<Base title={title} description={description} path="/come-inviare-una-disdetta/" briciole={[{ nome: 'Come inviare una disdetta', url: '/come-inviare-una-disdetta/' }]} ogType="article">
+  <div class="container narrow">
+    <h1>Come inviare una disdetta</h1>
+    <p class="lead">Hai preparato la lettera? Ecco i canali più usati per inviarla e cosa conservare per dimostrare di averlo fatto nei tempi giusti.</p>
+
+    <div class="box box-alt">
+      <p><strong>Non hai ancora la lettera?</strong> Scegli la categoria e creala gratis:</p>
+      <ul>
+        {categorie.map((c) => <li><a href={urlCategoria(c.slug)}>Disdetta {c.nome_breve}</a></li>)}
+        <li><a href="/recesso-14-giorni/">Recesso entro 14 giorni</a></li>
+      </ul>
+    </div>
+
+    <section class="section" aria-labelledby="prima-titolo">
+      <h2 id="prima-titolo">Prima di inviare: controlla il contratto</h2>
+      <p>Le condizioni generali del contratto indicano di solito <strong>come</strong> va inviata la disdetta (indirizzo, PEC, moduli), <strong>entro quando</strong> (termine di preavviso) e se servono <strong>allegati</strong>. Prevalgono sempre su qualsiasi modello generico, compreso il nostro.</p>
+    </section>
+
+    <section class="section" aria-labelledby="racc-titolo">
+      <h2 id="racc-titolo">Raccomandata con ricevuta di ritorno (A/R)</h2>
+      <ol class="steps-list">
+        <li>Stampa la lettera, firmala a mano e allega la copia del documento d'identità.</li>
+        <li>Spediscila con raccomandata A/R dall'ufficio postale o con un servizio di raccomandata online.</li>
+        <li>Conserva la ricevuta di spedizione e l'avviso di ricevimento (la «cartolina di ritorno»).</li>
+      </ol>
+      <p>È il canale più tradizionale e diffuso: non richiede strumenti particolari ed è accettato praticamente da tutti i fornitori.</p>
+    </section>
+
+    <section class="section" aria-labelledby="pec-titolo">
+      <h2 id="pec-titolo">PEC – Posta Elettronica Certificata</h2>
+      <ol class="steps-list">
+        <li>Scarica la lettera in PDF e firmala (scansione della firma autografa o firma digitale).</li>
+        <li>Inviala dalla tua casella PEC all'indirizzo PEC del fornitore, allegando il documento d'identità.</li>
+        <li>Conserva le ricevute di accettazione e di avvenuta consegna che ricevi automaticamente.</li>
+      </ol>
+      <p>La PEC ha valore legale paragonabile a quello di una raccomandata con ricevuta di ritorno, ma <strong>solo se inviata da una casella PEC a un'altra casella PEC</strong>.</p>
+    </section>
+
+    <section class="section" aria-labelledby="online-titolo">
+      <h2 id="online-titolo">Area clienti, app e moduli online</h2>
+      <p>Molti fornitori permettono di chiedere la disdetta dall'area clienti, dall'app o tramite un modulo sul sito. È spesso il metodo più rapido: salva sempre la conferma (email, numero di pratica o schermata) con data e ora.</p>
+    </section>
+
+    <section class="section" aria-labelledby="mano-titolo">
+      <h2 id="mano-titolo">Consegna a mano</h2>
+      <p>Se il contratto lo consente (ad esempio in palestra o in un punto vendita), puoi consegnare la lettera di persona. Portane due copie e fatti firmare e datare quella che conservi, come ricevuta.</p>
+    </section>
+
+    <section class="section" aria-labelledby="email-titolo">
+      <h2 id="email-titolo">Email ordinaria e telefono</h2>
+      <p>Un'email ordinaria o una telefonata non danno una prova certa di invio e ricezione. Se il fornitore li accetta, chiedi e conserva una conferma scritta.</p>
+    </section>
+
+    <section class="section" aria-labelledby="dopo-titolo">
+      <h2 id="dopo-titolo">Dopo l'invio</h2>
+      <ul class="check-list">
+        <li>Conserva copia della lettera, ricevute di invio e consegna, eventuali conferme del fornitore.</li>
+        <li>Restituisci gli apparati in comodato seguendo le istruzioni ricevute e conserva la prova della restituzione.</li>
+        <li>Controlla le fatture o gli estratti conto successivi: se ricevi addebiti non dovuti, contestali per iscritto.</li>
+      </ul>
+    </section>
+  </div>
+
+  <AdSlot id="guida-invio" />
+
+  <div class="container narrow">
+    <section class="section" aria-labelledby="servizi-titolo">
+      <h2 id="servizi-titolo">Servizi per inviare online</h2>
+      <Affiliazioni />
+    </section>
+    <Faq faq={faq} titolo="Domande frequenti sull'invio della disdetta" />
+  </div>
+</Base>

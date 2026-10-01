@@ -1,0 +1,45 @@
+---
+// Banner cookie conforme alle Linee guida del Garante privacy (10 giugno 2021):
+// chiusura con la X = solo cookie tecnici; pulsanti "Rifiuta" e "Accetta" di pari evidenza;
+// scelta granulare per finalità; nessun cookie non tecnico prima del consenso;
+// la scelta viene ricordata e il banner non viene riproposto prima del periodo configurato.
+import { config } from '../lib/data.ts';
+---
+<div
+  id="cookie-banner"
+  class="cookie-banner"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="cookie-titolo"
+  aria-describedby="cookie-testo"
+  data-versione={config.cookie.versione}
+  data-mesi={config.cookie.durataMesi}
+  hidden
+>
+  <div class="container">
+    <h2 id="cookie-titolo">Questo sito usa i cookie</h2>
+    <button type="button" class="cookie-close" data-cookie="chiudi" aria-label="Chiudi e continua senza accettare">×</button>
+    <p id="cookie-testo">
+      Usiamo cookie tecnici necessari al funzionamento del sito. Con il tuo consenso potremmo usare anche cookie
+      di statistica e di pubblicità (anche di terze parti) per misurare le visite e mostrare annunci. Chiudendo il
+      banner con la X mantieni solo i cookie tecnici. Puoi cambiare idea in qualsiasi momento da “Preferenze cookie”
+      in fondo alla pagina. <a href="/cookie-policy/">Leggi la cookie policy</a>.
+    </p>
+    <fieldset class="cookie-prefs" id="cookie-prefs" hidden>
+      <legend class="visually-hidden">Scegli le finalità</legend>
+      <label class="check"><input type="checkbox" checked disabled /> <span><strong>Tecnici</strong> – necessari, sempre attivi.</span></label>
+      <label class="check"><input type="checkbox" name="statistiche" /> <span><strong>Statistiche</strong> – misurazione anonima o aggregata delle visite.</span></label>
+      <label class="check"><input type="checkbox" name="marketing" /> <span><strong>Pubblicità</strong> – annunci, anche personalizzati, di terze parti.</span></label>
+    </fieldset>
+    <div class="cookie-actions">
+      <button type="button" class="btn btn-secondary" data-cookie="rifiuta">Rifiuta</button>
+      <button type="button" class="btn btn-secondary" data-cookie="personalizza" aria-expanded="false" aria-controls="cookie-prefs">Personalizza</button>
+      <button type="button" class="btn btn-secondary" data-cookie="salva" hidden>Salva le scelte</button>
+      <button type="button" class="btn" data-cookie="accetta">Accetta tutti</button>
+    </div>
+  </div>
+</div>
+<script>
+  import { avviaConsenso } from '../scripts/consenso.ts';
+  avviaConsenso();
+</script>

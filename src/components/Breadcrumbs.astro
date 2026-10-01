@@ -1,0 +1,30 @@
+---
+import { jsonSicuro } from '../lib/format.ts';
+import { config } from '../lib/data.ts';
+
+interface Props {
+  items: { nome: string; url: string }[];
+}
+const { items } = Astro.props;
+const tutte = [{ nome: 'Home', url: '/' }, ...items];
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: tutte.map((b, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: b.nome,
+    item: new URL(b.url, config.url).href,
+  })),
+};
+---
+<nav class="breadcrumb" aria-label="Percorso">
+  <ol>
+    {tutte.map((b, i) => (
+      <li>
+        {i === tutte.length - 1 ? <span aria-current="page">{b.nome}</span> : <a href={b.url}>{b.nome}</a>}
+      </li>
+    ))}
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={jsonSicuro(ld)} />
