@@ -1,6 +1,6 @@
 # DisdettaFacile.it
 
-Sito statico, veloce e mobile-first, in italiano, che genera lettere di **disdetta e recesso** personalizzate per contratti di consumo (telefonia e internet, pay TV e streaming, palestre, assicurazioni, luce e gas, riviste e altri abbonamenti).
+Titolare: **MAP TECHNOLOGIES**. Sito statico, veloce e mobile-first, in italiano, che genera lettere di **disdetta e recesso** personalizzate per contratti di consumo (telefonia e internet, pay TV e streaming, palestre, assicurazioni, luce e gas, riviste e altri abbonamenti).
 
 - La lettera viene generata **interamente nel browser**: i dati inseriti nel modulo non vengono mai inviati né salvati su un server.
 - Esportazione in **PDF** (jsPDF), **Word/DOCX** (docx) e copia del testo. Le librerie vengono caricate solo quando l'utente clicca su "Scarica".
@@ -58,7 +58,8 @@ src/
   lib/validators.ts           ← codice fiscale, IBAN, CAP, email…
   lib/data-validate.ts        ← controlli di coerenza dei file dati
 tests/                        ← test con node:test
-public/_headers               ← intestazioni HTTP (Netlify e Cloudflare Pages)
+public/_headers               ← intestazioni HTTP (sicurezza e cache) per Cloudflare Pages
+wrangler.toml                 ← configurazione Cloudflare Pages
 ```
 
 ---
@@ -172,8 +173,8 @@ I fornitori inclusi ora sono **esempi segnaposto** con tutti i recapiti `DA VERI
 
 Tutto si configura in `site.config.mjs`:
 
-- `affiliazioni.servizi`: nome, descrizione, `url` di affiliazione, testo del pulsante, `attivo`. I link hanno sempre `rel="sponsored nofollow noopener"` e sono accompagnati dalla `disclosure` (mostrata anche nel footer di ogni pagina).
-- `pubblicita`: spazi segnaposto con altezza minima riservata (nessuno spostamento del layout), mai all'interno del modulo. Per collegare un circuito pubblicitario segui le istruzioni in `src/scripts/ads.ts`: gli script di terze parti vanno caricati **solo dopo il consenso** "marketing" (evento `df:consenso`). Aggiorna poi la cookie policy e incrementa `cookie.versione` per riproporre il banner.
+- `affiliazioni.servizi`: nome, descrizione, `url` di affiliazione, testo del pulsante, `attivo`. Un servizio compare sul sito solo quando `url` è un link reale (`https://…`): oggi gli `url` sono vuoti, quindi box e sezioni di affiliazione restano nascosti finché non inserisci i link. I link hanno sempre `rel="sponsored nofollow noopener"` e sono accompagnati dalla `disclosure` (mostrata anche nel footer di ogni pagina).
+- `pubblicita`: oggi `attiva: false` (nessuno spazio visibile finché non scegli un circuito). Con `attiva: true` compaiono gli spazi segnaposto con altezza minima riservata (nessuno spostamento del layout), mai all'interno del modulo. Per collegare un circuito pubblicitario segui le istruzioni in `src/scripts/ads.ts`: gli script di terze parti vanno caricati **solo dopo il consenso** "marketing" (evento `df:consenso`). Aggiorna poi la cookie policy e incrementa `cookie.versione` per riproporre il banner.
 
 ## Privacy e cookie
 
@@ -183,23 +184,37 @@ Tutto si configura in `site.config.mjs`:
 
 ---
 
-## Pubblicazione
+## Pubblicazione su Cloudflare Pages
 
-### Netlify
-Collega il repository: `netlify.toml` imposta già comando (`npm run build`), cartella (`dist`) e versione di Node.
+Il progetto è pronto per Cloudflare Pages: sito statico in `dist/`, intestazioni in `public/_headers`, pagina `404.html`, versione di Node in `.nvmrc`.
 
-### Cloudflare Pages
-Crea un progetto collegato al repository con:
-- Build command: `npm run build`
-- Build output directory: `dist`
-- Variabile d'ambiente `NODE_VERSION` = `22`
+### Collegamento al repository (consigliato)
 
-Le intestazioni HTTP in `public/_headers` funzionano su entrambe le piattaforme.
+1. Dashboard Cloudflare → **Workers & Pages** → **Create** → **Pages** → **Connect to Git** e scegli questo repository, branch di produzione `main`.
+2. Impostazioni di build:
+   - Framework preset: **Astro**
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+   - Variabile d'ambiente (facoltativa, `.nvmrc` è già letto): `NODE_VERSION` = `22`
+3. **Custom domains** → aggiungi `disdettafacile.it` (e `www.disdettafacile.it`). Se il dominio è già su Cloudflare i record DNS vengono creati in automatico.
+4. Reindirizza `www` al dominio principale con una regola **Redirect Rules** / **Bulk Redirects** (`https://www.disdettafacile.it/*` → `https://disdettafacile.it/${1}`, 301): l'URL canonico usato da sitemap e meta tag è `https://disdettafacile.it`.
+5. Crea la casella `info@disdettafacile.it` (ad esempio con **Email Routing** di Cloudflare, che inoltra gratis a un tuo indirizzo).
 
-### Checklist prima della pubblicazione
+Ogni push su `main` pubblica il sito; gli altri branch generano anteprime.
 
-1. In `site.config.mjs`: `url` di produzione, dati del `titolare` (oggi "DA CONFIGURARE"), link di affiliazione reali.
-2. Far revisionare a un professionista i testi delle lettere e i `riferimenti_normativi`, poi impostarli `verificato: true`.
-3. Verificare i recapiti dei fornitori sulle fonti ufficiali, compilare `ultima_verifica` e `fonte` (o rimuovere i fornitori non verificati).
-4. Completare privacy e cookie policy: fornitore di hosting, eventuali trasferimenti extra UE, terze parti pubblicitarie e statistiche.
-5. `npm run check:data:strict && npm test && npm run build`.
+Impostazioni Cloudflare consigliate: lascia **disattivati** Rocket Loader e Web Analytics automatico (inietterebbero script; se vuoi le statistiche aggiornale prima nella cookie policy). Se attivi la protezione dai bot, Cloudflare può impostare cookie tecnici già indicati nella cookie policy.
+
+### Deploy da terminale (alternativa)
+
+```bash
+npx wrangler login
+npm run deploy      # build + wrangler pages deploy dist
+```
+
+### Cose da completare
+
+1. **Sede legale e partita IVA** di MAP TECHNOLOGIES in `site.config.mjs` (`titolare.indirizzo`, `titolare.partitaIva`): per un'attività con partita IVA vanno indicate sul sito. Finché sono vuote non vengono mostrate.
+2. Link di affiliazione reali in `affiliazioni.servizi[].url`; circuito pubblicitario quando disponibile (`pubblicita.attiva`, `src/scripts/ads.ts`, cookie policy, `cookie.versione`).
+3. Far revisionare a un professionista i testi delle lettere e i `riferimenti_normativi`, poi impostarli `verificato: true` (oppure `lettera.includiRiferimentiNonVerificati: false`).
+4. Verificare i recapiti dei fornitori sulle fonti ufficiali e compilare `ultima_verifica` e `fonte`: solo allora le loro pagine entrano in sitemap e vengono indicizzate.
+5. Prima di ogni rilascio importante: `npm run check:data:strict && npm test && npm run build`.

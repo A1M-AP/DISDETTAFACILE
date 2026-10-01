@@ -17,6 +17,7 @@ const aggiornamento = '1 ottobre 2026';
         <thead><tr><th scope="col">Nome</th><th scope="col">Tipo</th><th scope="col">Finalità</th><th scope="col">Durata</th></tr></thead>
         <tbody>
           <tr><td><code>df-consenso</code></td><td>localStorage</td><td>Ricorda le tue scelte sui cookie, per non riproporre il banner a ogni visita.</td><td>{config.cookie.durataMesi} mesi, poi la scelta viene richiesta di nuovo</td></tr>
+          <tr><td><code>__cf_bm</code>, <code>cf_clearance</code></td><td>Cookie di Cloudflare (hosting)</td><td>Eventuali cookie tecnici di sicurezza impostati da Cloudflare per proteggere il sito da traffico automatizzato e attacchi. Non sono usati per profilazione.</td><td>Da 30 minuti a pochi giorni, secondo le impostazioni di Cloudflare</td></tr>
           <tr><td><code>df-bozza-v1</code></td><td>localStorage</td><td>Bozza della lettera, solo se attivi «Salva una bozza su questo dispositivo». Resta sul tuo dispositivo e non viene inviata al server.</td><td>Fino a quando la elimini</td></tr>
         </tbody>
       </table>
@@ -26,7 +27,11 @@ const aggiornamento = '1 ottobre 2026';
     <p>Attualmente il sito non utilizza strumenti di statistica. Se verranno introdotti, saranno elencati qui e attivati solo con il tuo consenso (o in forma anonimizzata, nei casi previsti dal Garante).</p>
 
     <h2>Cookie di pubblicità e di terze parti</h2>
-    <p>Il sito prevede spazi pubblicitari. Gli eventuali cookie di pubblicità, anche di terze parti, vengono installati solo se presti il consenso alla finalità «Pubblicità». L'elenco delle terze parti e i link alle loro informative saranno pubblicati in questa pagina all'attivazione del circuito pubblicitario (DA CONFIGURARE).</p>
+    {config.pubblicita.attiva ? (
+      <p>Il sito contiene spazi pubblicitari. I cookie di pubblicità, anche di terze parti, vengono installati solo se presti il consenso alla finalità «Pubblicità». Di seguito l'elenco delle terze parti coinvolte e delle relative informative.</p>
+    ) : (
+      <p>Al momento il sito non utilizza circuiti pubblicitari né cookie di pubblicità o di profilazione. Se verranno introdotti, saranno elencati in questa pagina con le relative terze parti e installati solo con il tuo consenso alla finalità «Pubblicità».</p>
+    )}
     <p>I link di affiliazione portano a siti di terzi: una volta su quei siti si applicano le rispettive cookie policy.</p>
 
     <h2>Come gestire il consenso</h2>

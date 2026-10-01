@@ -14,8 +14,18 @@ const emailValida = /^[^\s@()]+@[^\s@()]+\.[a-z]{2,}$/i.test(email);
       <dd>{emailValida ? <a href={`mailto:${email}`}>{email}</a> : email}</dd>
       <dt>Titolare del sito</dt>
       <dd>{config.titolare.nome}</dd>
-      <dt>Indirizzo</dt>
-      <dd>{config.titolare.indirizzo}</dd>
+      {config.titolare.indirizzo && (
+        <>
+          <dt>Sede</dt>
+          <dd>{config.titolare.indirizzo}</dd>
+        </>
+      )}
+      {config.titolare.partitaIva && (
+        <>
+          <dt>Partita IVA</dt>
+          <dd>{config.titolare.partitaIva}</dd>
+        </>
+      )}
     </dl>
     <div class="alert alert-warn">
       <p><strong>Importante:</strong> non siamo i fornitori citati nel sito e non possiamo gestire disdette, reclami o pratiche per tuo conto. Non inviarci copie di documenti, contratti o dati personali non necessari.</p>

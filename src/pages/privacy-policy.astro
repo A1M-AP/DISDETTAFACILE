@@ -15,14 +15,15 @@ const t = config.titolare;
     </div>
 
     <h2>1. Titolare del trattamento</h2>
-    <p>{t.nome}, {t.indirizzo}. Email: {t.email}.</p>
+    <p>{[t.nome, t.indirizzo, t.partitaIva && `P. IVA ${t.partitaIva}`].filter(Boolean).join(', ')}. Email di contatto: <a href={`mailto:${t.email}`}>{t.email}</a>.</p>
 
     <h2>2. Dati inseriti nel generatore di lettere</h2>
     <p>La lettera viene composta da codice eseguito sul tuo dispositivo. I dati inseriti nel modulo non vengono trasmessi al titolare né a terzi e il titolare non può conoscerli. Anche la creazione dei file PDF e Word e la copia del testo avvengono localmente.</p>
     <p><strong>Bozza locale (facoltativa).</strong> Solo se attivi l'opzione «Salva una bozza su questo dispositivo», i dati del modulo vengono memorizzati nell'archiviazione locale del tuo browser (localStorage), sempre senza invio al server. L'IBAN non viene mai salvato. Puoi eliminare la bozza in qualsiasi momento con il pulsante «Elimina la bozza», disattivando l'opzione o cancellando i dati del sito dal browser. Su dispositivi condivisi ti consigliamo di non attivare il salvataggio.</p>
 
     <h2>3. Dati di navigazione</h2>
-    <p>Il sito è ospitato da un fornitore di servizi di hosting che, come avviene per qualsiasi sito web, può registrare dati tecnici delle richieste (ad esempio indirizzo IP, data e ora, pagina richiesta, browser) per finalità di sicurezza e corretto funzionamento del servizio. Questi dati non contengono le informazioni inserite nel generatore. Base giuridica: legittimo interesse del titolare alla sicurezza del sito (art. 6, par. 1, lett. f GDPR). Fornitore di hosting e relative garanzie per eventuali trasferimenti fuori dall'UE: DA CONFIGURARE prima della pubblicazione.</p>
+    <p>Il sito è ospitato su Cloudflare Pages, servizio di Cloudflare, Inc. (Stati Uniti), che distribuisce le pagine tramite la propria rete e, come avviene per qualsiasi sito web, può trattare dati tecnici delle richieste (ad esempio indirizzo IP, data e ora, pagina richiesta, browser) per finalità di sicurezza, prevenzione degli abusi e corretto funzionamento del servizio. Questi dati non contengono le informazioni inserite nel generatore. Base giuridica: legittimo interesse del titolare alla sicurezza e alla disponibilità del sito (art. 6, par. 1, lett. f GDPR).</p>
+    <p>Cloudflare agisce come responsabile del trattamento. Eventuali trasferimenti di dati verso gli Stati Uniti avvengono sulla base delle garanzie previste dal GDPR, come il quadro UE-USA per la protezione dei dati (EU-US Data Privacy Framework) e le clausole contrattuali standard approvate dalla Commissione europea. Informativa di Cloudflare: <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener" target="_blank">cloudflare.com/privacypolicy</a>.</p>
 
     <h2>4. Comunicazioni via email</h2>
     <p>Se ci scrivi, tratteremo il tuo indirizzo email e il contenuto del messaggio solo per rispondere alla richiesta (base giuridica: misure su richiesta dell'interessato e legittimo interesse), conservandoli per il tempo necessario a gestirla.</p>
@@ -31,10 +32,10 @@ const t = config.titolare;
     <p>Le informazioni sui cookie e sulle tecnologie simili sono nella <a href="/cookie-policy/">cookie policy</a>. Eventuali cookie di statistica o pubblicità vengono usati solo con il tuo consenso. Quando clicchi un link di affiliazione vieni indirizzato al sito di un terzo, che tratta i dati secondo la propria informativa.</p>
 
     <h2>6. Destinatari e trasferimenti</h2>
-    <p>I dati di navigazione possono essere trattati dal fornitore di hosting in qualità di responsabile del trattamento. I dati inseriti nel generatore non sono comunicati a nessuno, perché non lasciano il tuo dispositivo.</p>
+    <p>I dati di navigazione possono essere trattati dal fornitore di hosting (Cloudflare) in qualità di responsabile del trattamento. I dati inseriti nel generatore non sono comunicati a nessuno, perché non lasciano il tuo dispositivo.</p>
 
     <h2>7. I tuoi diritti</h2>
-    <p>Puoi esercitare i diritti previsti dagli artt. 15-22 GDPR (accesso, rettifica, cancellazione, limitazione, opposizione, portabilità) scrivendo a {t.email}. Hai inoltre diritto di proporre reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).</p>
+    <p>Puoi esercitare i diritti previsti dagli artt. 15-22 GDPR (accesso, rettifica, cancellazione, limitazione, opposizione, portabilità) scrivendo a <a href={`mailto:${t.email}`}>{t.email}</a>. Hai inoltre diritto di proporre reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).</p>
 
     <h2>8. Modifiche</h2>
     <p>Eventuali modifiche a questa informativa saranno pubblicate in questa pagina con la data di aggiornamento.</p>

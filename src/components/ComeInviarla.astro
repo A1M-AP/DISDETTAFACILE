@@ -1,5 +1,8 @@
 ---
 import Affiliazioni from './Affiliazioni.astro';
+import { config } from '../lib/data.ts';
+
+const haAffiliazioni = config.affiliazioni.servizi.some((s) => s.attivo && /^https?:\/\//.test(s.url));
 
 interface Props {
   id?: string;
@@ -24,6 +27,10 @@ const { id, nascosto = false, titolo = 'Come inviarla' } = Astro.props;
     <li>Conserva le ricevute di accettazione e di avvenuta consegna.</li>
   </ol>
   <p><a href="/come-inviare-una-disdetta/">Leggi la guida completa sui metodi di invio</a>.</p>
-  <h3>Invia online senza uscire di casa</h3>
-  <Affiliazioni />
+  {haAffiliazioni && (
+    <>
+      <h3>Invia online senza uscire di casa</h3>
+      <Affiliazioni />
+    </>
+  )}
 </section>

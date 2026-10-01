@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------------------
 // Qui si modificano: dati del sito e del titolare, link di affiliazione,
 // spazi pubblicitari, opzioni SEO e cookie. Non serve toccare il codice.
-// I valori marcati "DA CONFIGURARE" vanno completati prima della pubblicazione.
+// I campi lasciati vuoti ('') non vengono mostrati nelle pagine.
 // =============================================================================
 
 /** @type {import('./src/lib/types').ConfigSito} */
@@ -14,12 +14,15 @@ const config = {
   descrizione:
     'Crea gratis la lettera di disdetta o recesso per telefonia, pay TV, palestre, assicurazioni, luce e gas e abbonamenti. I dati restano nel tuo browser.',
 
-  // Dati del titolare del sito (mostrati in privacy policy, note legali e contatti).
+  // Dati del titolare del sito (mostrati in privacy policy, note legali, contatti e footer).
+  // Sede legale e partita IVA vanno aggiunte appena disponibili: per un'attività con
+  // partita IVA l'indicazione sul sito è obbligatoria. Finché sono vuote non vengono mostrate.
   titolare: {
-    nome: 'DA CONFIGURARE (nome e cognome o ragione sociale)',
-    indirizzo: 'DA CONFIGURARE (indirizzo completo)',
-    partitaIva: 'DA CONFIGURARE',
-    email: 'DA CONFIGURARE (es. info@disdettafacile.it)',
+    nome: 'MAP TECHNOLOGIES',
+    indirizzo: '',
+    partitaIva: '',
+    // Casella da creare sul dominio (es. con Cloudflare Email Routing, gratuito).
+    email: 'info@disdettafacile.it',
   },
 
   seo: {
@@ -51,7 +54,8 @@ const config = {
         tipo: 'raccomandata',
         nome: 'Servizio di raccomandata online (segnaposto)',
         descrizione: 'Invia la raccomandata A/R dal computer o dallo smartphone, senza andare all’ufficio postale.',
-        url: '#DA-CONFIGURARE-link-affiliazione-raccomandata',
+        // Inserire il link di affiliazione (https://...). Finché non è un URL valido il servizio non viene mostrato.
+        url: '',
         etichettaPulsante: 'Invia la raccomandata online',
         attivo: true,
       },
@@ -60,7 +64,7 @@ const config = {
         tipo: 'pec',
         nome: 'Fornitore di casella PEC (segnaposto)',
         descrizione: 'Attiva una casella di Posta Elettronica Certificata per inviare la disdetta con valore legale.',
-        url: '#DA-CONFIGURARE-link-affiliazione-pec',
+        url: '',
         etichettaPulsante: 'Attiva una PEC',
         attivo: true,
       },
@@ -73,9 +77,11 @@ const config = {
   // Per attivare un circuito pubblicitario vedere src/scripts/ads.ts.
   // ---------------------------------------------------------------------------
   pubblicita: {
-    attiva: true,
+    // Disattivata finché non è configurato un circuito pubblicitario: con true compaiono
+    // gli spazi riservati nelle pagine (vedi src/scripts/ads.ts).
+    attiva: false,
     // Mostra un riquadro tratteggiato "Spazio pubblicitario" (utile in sviluppo).
-    mostraSegnaposto: true,
+    mostraSegnaposto: false,
     // Altezza minima riservata per ogni spazio, in pixel (mobile / desktop).
     altezzaMobile: 280,
     altezzaDesktop: 250,

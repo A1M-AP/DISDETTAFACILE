@@ -1,0 +1,4 @@
+# Configurazione Cloudflare Pages (usata anche da `npm run deploy` con Wrangler).
+name = "disdettafacile"
+pages_build_output_dir = "./dist"
+compatibility_date = "2025-01-01"

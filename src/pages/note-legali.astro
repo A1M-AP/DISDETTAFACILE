@@ -8,7 +8,7 @@ const t = config.titolare;
   <div class="container narrow">
     <h1>Note legali</h1>
     <h2>Titolare del sito</h2>
-    <p>{t.nome} – {t.indirizzo} – P. IVA {t.partitaIva} – {t.email}</p>
+    <p>{[t.nome, t.indirizzo, t.partitaIva && `P. IVA ${t.partitaIva}`, t.email].filter(Boolean).join(' – ')}</p>
 
     <h2>Natura dei contenuti</h2>
     <p>I modelli di lettera, il generatore e le informazioni pubblicate hanno carattere esclusivamente informativo e generale. Non costituiscono consulenza legale né sostituiscono il parere di un professionista. Prima di inviare una lettera verifica sempre le condizioni del tuo contratto, che prevalgono su qualsiasi modello generico.</p>

@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "check:data": "node scripts/check-data.ts",
     "check:data:strict": "node scripts/check-data.ts --strict",
-    "check": "astro check"
+    "check": "astro check",
+    "deploy": "npm run build && npx wrangler pages deploy dist --project-name disdettafacile"
   },
   "repository": {
     "type": "git",

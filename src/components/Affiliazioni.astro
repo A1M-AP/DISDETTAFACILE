@@ -5,7 +5,8 @@ interface Props {
   tipo?: 'raccomandata' | 'pec';
 }
 const { tipo } = Astro.props;
-const servizi = config.affiliazioni.servizi.filter((s) => s.attivo && (!tipo || s.tipo === tipo));
+// Sono mostrati solo i servizi attivi con un link reale (https://...).
+const servizi = config.affiliazioni.servizi.filter((s) => s.attivo && /^https?:\/\//.test(s.url) && (!tipo || s.tipo === tipo));
 ---
 {servizi.length > 0 && (
   <div class="affiliazioni">

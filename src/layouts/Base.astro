@@ -120,7 +120,10 @@ const ld = path === '/' ? [ldSito, ...jsonLd] : jsonLd;
         </div>
         <div class="footer-bottom">
           <p>{config.affiliazioni.disclosure}</p>
-          <p>© {new Date().getFullYear()} {config.nome} · Servizio gratuito e indipendente, non affiliato ai fornitori citati.</p>
+          <p>
+            © {new Date().getFullYear()} {config.titolare.nome}{config.titolare.partitaIva && ` · P. IVA ${config.titolare.partitaIva}`} ·
+            {config.nome} è un servizio gratuito e indipendente, non affiliato ai fornitori citati.
+          </p>
         </div>
       </div>
     </footer>

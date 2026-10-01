@@ -1,4 +1,4 @@
-# Intestazioni HTTP (supportate sia da Netlify sia da Cloudflare Pages)
+# Intestazioni HTTP applicate da Cloudflare Pages
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

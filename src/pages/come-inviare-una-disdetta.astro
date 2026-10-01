@@ -5,6 +5,7 @@ import Affiliazioni from '../components/Affiliazioni.astro';
 import Faq from '../components/Faq.astro';
 import { categorie, config, urlCategoria } from '../lib/data.ts';
 
+const haAffiliazioni = config.affiliazioni.servizi.some((s) => s.attivo && /^https?:\/\//.test(s.url));
 const title = `Come inviare una disdetta: raccomandata A/R, PEC e online | ${config.nome}`;
 const description = 'Guida pratica per inviare la lettera di disdetta o recesso: raccomandata con ricevuta di ritorno, PEC, area clienti, moduli online e consegna a mano. Cosa conservare come prova.';
 const faq = [
@@ -92,10 +93,12 @@ const faq = [
   <AdSlot id="guida-invio" />
 
   <div class="container narrow">
-    <section class="section" aria-labelledby="servizi-titolo">
-      <h2 id="servizi-titolo">Servizi per inviare online</h2>
-      <Affiliazioni />
-    </section>
+    {haAffiliazioni && (
+      <section class="section" aria-labelledby="servizi-titolo">
+        <h2 id="servizi-titolo">Servizi per inviare online</h2>
+        <Affiliazioni />
+      </section>
+    )}
     <Faq faq={faq} titolo="Domande frequenti sull'invio della disdetta" />
   </div>
 </Base>
