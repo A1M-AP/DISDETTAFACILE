@@ -14,6 +14,7 @@ import {
   provinciaValida,
 } from '../lib/validators.ts';
 import { oggiIso } from '../lib/format.ts';
+import { iniziali, tinta } from '../lib/monogramma.ts';
 
 type Campo = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 type FornitoreGen = DatiGeneratore['fornitori'][number];
@@ -163,7 +164,15 @@ export function avviaGeneratore(root: HTMLElement) {
         li.setAttribute('role', 'option');
         li.setAttribute('aria-selected', 'false');
         if (f) {
-          li.textContent = f.nome;
+          const mono = document.createElement('span');
+          mono.className = 'mono mono-s';
+          mono.setAttribute('aria-hidden', 'true');
+          mono.style.setProperty('--tinta', tinta(f.slug));
+          mono.textContent = iniziali(f.nome);
+          const nome = document.createElement('span');
+          nome.className = 'combo-nome';
+          nome.textContent = f.nome;
+          li.append(mono, nome);
           if (!cat) {
             const small = document.createElement('small');
             small.textContent = dati.categorie.find((c) => c.slug === f.categoria)?.nome ?? '';

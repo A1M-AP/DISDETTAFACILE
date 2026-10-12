@@ -1,4 +1,5 @@
 ---
+import Monogramma from '../../../components/Monogramma.astro';
 import Icona from '../../../components/Icona.astro';
 import Base from '../../../layouts/Base.astro';
 import Generator from '../../../components/Generator.astro';
@@ -86,8 +87,13 @@ const faq: FaqT[] = [
   ]}
 >
   <div class="container narrow">
-    <p class="eyebrow">{c.nome}</p>
-    <h1>Disdetta {f.nome}: fac simile lettera</h1>
+    <div class="testa-forn">
+      <Monogramma nome={f.nome} slug={f.slug} size="l" />
+      <div>
+        <p class="eyebrow">{c.nome}</p>
+        <h1>Disdetta {f.nome}: fac simile lettera</h1>
+      </div>
+    </div>
     <p class="lead">{f.descrizione} Crea la lettera di disdetta o di recesso dal contratto {f.nome} e scaricala in PDF o Word.</p>
     <p>
       {verificato ? (
@@ -158,7 +164,7 @@ const faq: FaqT[] = [
     <section class="section" aria-labelledby="altri-titolo">
       <h2 class="titolo-ico" id="altri-titolo"><Icona nome="building" />Altri fornitori di {c.nome_breve}</h2>
       <ul class="chips">
-        {altri.map((x) => <li><a href={urlFornitore(x)}>Disdetta {x.nome}</a></li>)}
+        {altri.map((x) => <li><a href={urlFornitore(x)}><Monogramma nome={x.nome} slug={x.slug} size="s" />Disdetta {x.nome}</a></li>)}
         <li><a href={urlCategoria(c.slug)}>Tutte le disdette {c.nome_breve}</a></li>
       </ul>
     </section>

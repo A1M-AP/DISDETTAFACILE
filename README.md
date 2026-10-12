@@ -161,6 +161,8 @@ Regole importanti:
 
 I fornitori inclusi ora sono **esempi segnaposto** con tutti i recapiti `DA VERIFICARE`.
 
+Ogni fornitore ha un **monogramma** generato automaticamente (iniziali del nome su un badge nei colori del sito, `src/lib/monogramma.ts`). Non è un logo: per scelta il sito non riproduce loghi o colori dei marchi dei fornitori.
+
 ---
 
 ## Aggiornare i testi del sito

@@ -1,0 +1,12 @@
+---
+// Badge decorativo del fornitore (iniziali su "biglietto" con bordo perforato). Non è un logo.
+import { iniziali, tinta } from '../lib/monogramma.ts';
+
+interface Props {
+  nome: string;
+  slug: string;
+  size?: 's' | 'm' | 'l';
+}
+const { nome, slug, size = 'm' } = Astro.props;
+---
+<span class={`mono mono-${size}`} style={`--tinta:${tinta(slug)}`} aria-hidden="true">{iniziali(nome)}</span>

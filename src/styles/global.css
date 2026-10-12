@@ -720,6 +720,149 @@ main::before {
   transform: translateY(-2px);
 }
 
+/* ---------- Monogrammi dei fornitori (badge originali, non loghi) ---------- */
+.mono {
+  --tinta: var(--accent);
+  position: relative;
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 14px;
+  border: 1.5px dashed color-mix(in srgb, var(--tinta) 70%, transparent);
+  background:
+    radial-gradient(circle at 100% 0, color-mix(in srgb, var(--tinta) 30%, transparent) 0 28%, transparent 29%),
+    color-mix(in srgb, var(--tinta) 13%, var(--surface));
+  color: color-mix(in srgb, var(--tinta) 45%, var(--ink));
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  transition: transform 0.45s var(--ease), border-style 0.2s;
+}
+
+/* "Foro" del biglietto */
+.mono::after {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1.5px dashed color-mix(in srgb, var(--tinta) 70%, transparent);
+  clip-path: inset(0 0 0 50%);
+}
+
+.mono-s {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 9px;
+  font-size: 0.78rem;
+}
+
+.mono-s::after {
+  display: none;
+}
+
+.mono-l {
+  width: clamp(3.8rem, 3rem + 3vw, 5.2rem);
+  height: clamp(3.8rem, 3rem + 3vw, 5.2rem);
+  border-radius: 20px;
+  border-width: 2px;
+  font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+}
+
+.card-forn {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.9rem;
+  align-content: center;
+  padding-right: 2.6rem;
+}
+
+.card-forn .mono {
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+
+.card-forn::after {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.card-forn:hover::after {
+  transform: translate(4px, -50%);
+}
+
+.card-forn:hover .mono {
+  transform: rotate(-8deg) scale(1.06);
+  border-style: solid;
+}
+
+.chips a .mono {
+  margin-left: -0.55rem;
+}
+
+.combo-list li:has(.mono) {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.65rem;
+  align-items: center;
+}
+
+.combo-list li:has(.mono) small {
+  grid-column: 2;
+}
+
+.combo-nome {
+  font-weight: 650;
+}
+
+.testa-forn {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2.5vw, 1.4rem);
+  margin-top: 0.4rem;
+}
+
+.testa-forn h1 {
+  margin: 0.1rem 0 0;
+}
+
+@media (max-width: 40rem) {
+  .testa-forn {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+}
+
+/* Card con monogramma: colonne un po' più larghe, così il nome resta su una riga */
+.grid:has(> li > .card-forn) {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+}
+
+.testa-forn + .lead {
+  margin-top: 1.1rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .testa-forn .mono {
+    animation: timbra-mono 0.6s 0.15s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+  }
+}
+
+@keyframes timbra-mono {
+  from {
+    transform: rotate(-14deg) scale(0.6);
+  }
+}
+
 /* ---------- Passi numerati ---------- */
 .steps-list {
   counter-reset: passo;

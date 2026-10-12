@@ -39,3 +39,13 @@ test('altri campi', () => {
   assert.equal(dataIsoValida('2026-02-29'), false);
   assert.equal(dataIsoValida('2028-02-29'), true);
 });
+
+test('monogrammi dei fornitori', async () => {
+  const { iniziali, tinta } = await import('../src/lib/monogramma.ts');
+  assert.equal(iniziali('Virgin Active'), 'VA');
+  assert.equal(iniziali('WindTre'), 'WT');
+  assert.equal(iniziali('Sky'), 'S');
+  assert.equal(iniziali('DAZN'), 'D');
+  assert.equal(iniziali('Enel Energia'), 'EE');
+  assert.equal(tinta('tim'), tinta('tim'));
+});

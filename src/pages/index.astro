@@ -1,4 +1,5 @@
 ---
+import Monogramma from '../components/Monogramma.astro';
 import Base from '../layouts/Base.astro';
 import Ricerca from '../components/Ricerca.astro';
 import AdSlot from '../components/AdSlot.astro';
@@ -139,7 +140,7 @@ const passi = [
         <h2 id="forn-titolo" style="margin-top:0">Fornitori in archivio</h2>
         <ul class="grid">
           {fornitori.map((f) => (
-            <li><a class="card" href={urlFornitore(f)}><strong>Disdetta {f.nome}</strong><span>{categorie.find((c) => c.slug === f.categoria)?.nome}</span></a></li>
+            <li><a class="card card-forn" href={urlFornitore(f)}><Monogramma nome={f.nome} slug={f.slug} /><strong>Disdetta {f.nome}</strong><span>{categorie.find((c) => c.slug === f.categoria)?.nome}</span></a></li>
           ))}
         </ul>
       </section>

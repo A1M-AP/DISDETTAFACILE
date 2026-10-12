@@ -1,4 +1,5 @@
 ---
+import Monogramma from '../../../components/Monogramma.astro';
 import Icona from '../../../components/Icona.astro';
 import Base from '../../../layouts/Base.astro';
 import Generator from '../../../components/Generator.astro';
@@ -55,7 +56,7 @@ const altre = categorie.filter((x) => x.slug !== c.slug);
         <>
           <p>Per questi fornitori trovi una pagina dedicata con il generatore già impostato e i canali di invio:</p>
           <ul class="grid">
-            {elenco.map((f) => <li><a class="card" href={urlFornitore(f)}><strong>Disdetta {f.nome}</strong><span>Fac simile e come inviarla</span></a></li>)}
+            {elenco.map((f) => <li><a class="card card-forn" href={urlFornitore(f)}><Monogramma nome={f.nome} slug={f.slug} /><strong>Disdetta {f.nome}</strong><span>Fac simile e come inviarla</span></a></li>)}
           </ul>
         </>
       ) : (

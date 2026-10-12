@@ -1,4 +1,5 @@
 ---
+import Monogramma from '../../components/Monogramma.astro';
 import Base from '../../layouts/Base.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import { categorie, config, fornitoriDi, urlCategoria, urlFornitore } from '../../lib/data.ts';
@@ -19,7 +20,7 @@ const description = 'Elenco completo dei modelli di lettera di disdetta e recess
           <p>{c.intro[0]}</p>
           {elenco.length > 0 ? (
             <ul class="grid">
-              {elenco.map((f) => <li><a class="card" href={urlFornitore(f)}><strong>Disdetta {f.nome}</strong><span>Fac simile lettera e canali di invio</span></a></li>)}
+              {elenco.map((f) => <li><a class="card card-forn" href={urlFornitore(f)}><Monogramma nome={f.nome} slug={f.slug} /><strong>Disdetta {f.nome}</strong><span>Fac simile lettera e canali di invio</span></a></li>)}
             </ul>
           ) : (
             <p><a href={urlCategoria(c.slug)}>Crea la lettera per {c.nome_breve}</a> inserendo a mano i dati del fornitore.</p>
