@@ -270,10 +270,22 @@ code {
 
 /* Evidenziatore a pennarello */
 .evidenzia {
-  background: linear-gradient(transparent 58%, color-mix(in srgb, var(--accent) 45%, transparent) 58% 92%, transparent 92%);
+  background: linear-gradient(color-mix(in srgb, var(--accent) 45%, transparent), color-mix(in srgb, var(--accent) 45%, transparent)) no-repeat 0 88% / 100% 0.36em;
   padding: 0 0.08em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .evidenzia {
+    animation: disegna 0.9s 0.55s var(--ease) both;
+  }
+}
+
+@keyframes disegna {
+  from {
+    background-size: 0% 0.36em;
+  }
 }
 
 .eyebrow {
@@ -407,6 +419,8 @@ code {
 /* ---------- Sfondo decorativo delle pagine interne ---------- */
 main {
   position: relative;
+  /* Le forme decorative non devono mai far scorrere la pagina di lato */
+  overflow-x: clip;
   padding-bottom: calc(var(--space) * 0.4);
   isolation: isolate;
 }
@@ -844,6 +858,33 @@ dl.dati dd ul {
   transform: translateY(0);
 }
 
+.btn .ico {
+  flex: none;
+  transition: transform 0.35s var(--ease);
+}
+
+.btn:hover .ico-avanti {
+  transform: translateX(4px);
+}
+
+.btn:hover .ico-indietro {
+  transform: translateX(-4px);
+}
+
+.btn-link-ico {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-link-ico .ico {
+  transition: transform 0.5s var(--ease);
+}
+
+.btn-link-ico:hover .ico {
+  transform: rotate(-200deg);
+}
+
 .btn-secondary {
   background: transparent;
   color: var(--ink);
@@ -1023,7 +1064,7 @@ dl.dati dd ul {
 
 @media (prefers-reduced-motion: no-preference) {
   .foglio-basso {
-    animation: stacca 1.2s 0.4s var(--ease) both;
+    animation: stacca 0.9s 1.5s var(--ease) both;
   }
 }
 
@@ -1094,6 +1135,393 @@ dl.dati dd ul {
   }
 }
 
+/* ---------- Illustrazione animata: righe scritte, forbici, timbro ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .foglio-alto .riga,
+  .foglio-alto .oggetto {
+    transform-origin: left;
+    animation: scrivi 0.6s var(--ease) both;
+  }
+
+  .foglio-alto > :nth-child(1) { animation-delay: 0.2s; }
+  .foglio-alto > :nth-child(2) { animation-delay: 0.27s; }
+  .foglio-alto > :nth-child(3) { animation-delay: 0.36s; }
+  .foglio-alto > :nth-child(4) { animation-delay: 0.45s; }
+  .foglio-alto > :nth-child(5) { animation-delay: 0.52s; }
+  .foglio-alto > :nth-child(6) { animation-delay: 0.59s; }
+  .foglio-alto > :nth-child(7) { animation-delay: 0.66s; }
+  .foglio-alto > :nth-child(8) { animation-delay: 0.73s; }
+
+  .taglio-illustrazione::before {
+    animation: taglia 0.9s 0.75s cubic-bezier(0.6, 0, 0.3, 1) both;
+  }
+
+  .timbro {
+    animation: timbra 0.45s 2s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  }
+
+  .illustrazione {
+    animation: galleggia 7s 2.6s ease-in-out infinite;
+  }
+}
+
+@keyframes scrivi {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+/* Le forbici percorrono la linea di taglio (larghezza nota: 23rem + 2rem di sporgenza) */
+@keyframes taglia {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(25rem - 28px));
+  }
+}
+
+@keyframes timbra {
+  from {
+    transform: rotate(-8deg) scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes galleggia {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ---------- Ingresso dell'hero ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-testo > * {
+    animation: sali 0.8s var(--ease) both;
+  }
+
+  /* Titolo e testo principale: solo movimento, sempre visibili (non ritardano il caricamento percepito) */
+  .hero-testo > h1,
+  .hero-testo > .lead {
+    animation-name: sali-solo;
+  }
+
+  .hero-testo > :nth-child(2) { animation-delay: 0.05s; }
+  .hero-testo > :nth-child(3) { animation-delay: 0.12s; }
+  .hero-testo > :nth-child(4) { animation-delay: 0.2s; }
+  .hero-testo > :nth-child(5) { animation-delay: 0.28s; }
+}
+
+@keyframes sali {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@keyframes sali-solo {
+  from {
+    transform: translateY(18px);
+  }
+}
+
+/* ---------- Forme astratte ---------- */
+.forme {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.forma {
+  position: absolute;
+  display: block;
+}
+
+.f-anello {
+  width: clamp(5rem, 12vw, 9rem);
+  top: 0.5rem;
+  right: 4%;
+  color: var(--accent);
+  opacity: 0.55;
+}
+
+.f-mezzo {
+  width: clamp(3.5rem, 7vw, 6rem);
+  bottom: 12%;
+  right: 38%;
+  color: var(--amber);
+  opacity: 0.7;
+}
+
+.f-onda {
+  width: clamp(5rem, 9vw, 8rem);
+  top: 14%;
+  left: 46%;
+  color: var(--violet);
+  opacity: 0.55;
+}
+
+.f-punti {
+  width: 7rem;
+  height: 7rem;
+  left: -1.5rem;
+  bottom: 8%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--ink) 30%, transparent) 1.6px, transparent 2px) 0 0 / 14px 14px;
+  -webkit-mask: radial-gradient(circle, #000 40%, transparent 72%);
+  mask: radial-gradient(circle, #000 40%, transparent 72%);
+}
+
+.f-croce {
+  width: 1.6rem;
+  top: 58%;
+  right: 2.5%;
+  color: var(--mint);
+}
+
+.f-pillola {
+  width: 4.5rem;
+  height: 1.7rem;
+  top: 6%;
+  left: 30%;
+  border: 2px solid var(--sky);
+  border-radius: 999px;
+  opacity: 0.6;
+}
+
+/* Su schermi piccoli restano solo le forme ai bordi, lontane dal testo */
+@media (max-width: 60rem) {
+  .f-mezzo,
+  .f-onda,
+  .f-pillola {
+    display: none;
+  }
+
+  .f-anello {
+    top: -1.5rem;
+    right: -1.5rem;
+    opacity: 0.35;
+  }
+
+  .f-croce {
+    top: auto;
+    bottom: 4%;
+    right: 6%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .f-anello {
+    animation: gira 30s linear infinite;
+  }
+
+  .f-mezzo {
+    animation: fluttua 9s ease-in-out infinite alternate;
+  }
+
+  .f-onda {
+    animation: fluttua 7s 1s ease-in-out infinite alternate-reverse;
+  }
+
+  .f-croce {
+    animation: gira 14s linear infinite reverse;
+  }
+
+  .f-pillola {
+    animation: fluttua 11s ease-in-out infinite alternate;
+  }
+
+  .f-punti {
+    animation: fluttua 13s ease-in-out infinite alternate-reverse;
+  }
+}
+
+@keyframes gira {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fluttua {
+  from {
+    transform: translate(0, 0) rotate(0);
+  }
+
+  to {
+    transform: translate(10px, -14px) rotate(10deg);
+  }
+}
+
+/* ---------- Nastri scorrevoli ---------- */
+.nastri {
+  position: relative;
+  overflow-x: clip;
+  view-timeline-name: --nastri;
+  padding: 1.6rem 0 1.2rem;
+  margin-top: -1rem;
+}
+
+.nastro {
+  width: 106%;
+  margin-left: -3%;
+  overflow: clip;
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.nastro-fronte {
+  position: relative;
+  transform: rotate(-2deg);
+  background: var(--accent);
+  color: #17171f;
+  font-size: clamp(1.05rem, 0.9rem + 0.8vw, 1.5rem);
+  padding: 0.7rem 0;
+  box-shadow: var(--shadow);
+}
+
+.nastro-retro {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%) rotate(2.5deg);
+  background: var(--ink);
+  color: var(--on-ink);
+  font-size: 0.9rem;
+  padding: 0.45rem 0;
+  opacity: 0.92;
+}
+
+.nastro-traccia {
+  display: flex;
+  width: max-content;
+}
+
+.nastro-traccia > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding-right: 1.1rem;
+  white-space: nowrap;
+}
+
+.nastro-traccia i {
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* I nastri scorrono mentre scorri la pagina: nessun costo quando la pagina è ferma */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .nastro-traccia {
+      animation: scorri-sx linear both;
+    }
+
+    /* Regola separata: il minificatore non deve fondere la timeline nella scorciatoia "animation" */
+    .nastri .nastro-traccia {
+      animation-timeline: --nastri;
+      animation-range: cover 0% cover 100%;
+    }
+
+    .nastro-fronte .nastro-traccia {
+      animation-name: scorri-sx;
+    }
+
+    .nastro-retro .nastro-traccia {
+      animation-name: scorri-dx;
+    }
+  }
+}
+
+@keyframes scorri-sx {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-35%);
+  }
+}
+
+@keyframes scorri-dx {
+  from {
+    transform: translateX(-35%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ---------- Titoli di sezione con icona ---------- */
+.titolo-ico {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.titolo-ico > .ico {
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.55rem;
+  border-radius: 13px;
+  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 13%, var(--surface));
+  transition: transform 0.5s var(--ease);
+}
+
+h3.titolo-ico > .ico {
+  width: 2rem;
+  height: 2rem;
+  padding: 0.4rem;
+  border-radius: 10px;
+}
+
+.titolo-ico:hover > .ico {
+  transform: rotate(-10deg) scale(1.06);
+}
+
+/* Forme astratte in alto nelle pagine interne */
+main::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0.5rem;
+  right: max(1rem, calc((100vw - var(--maxw)) / 2));
+  width: clamp(6rem, 14vw, 11rem);
+  aspect-ratio: 1;
+  pointer-events: none;
+  opacity: 0.6;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none'%3E%3Ccircle cx='70' cy='50' r='40' stroke='%23ff5a36' stroke-width='3' stroke-dasharray='5 7' stroke-linecap='round'/%3E%3Cpath d='M20 110a24 24 0 0 1 48 0z' fill='%23f5a524' opacity='.7'/%3E%3Cpath d='M78 96q8-8 16 0t16 0' stroke='%236c5ce7' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M18 26v14M11 33h14' stroke='%2312b886' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.home main::after {
+  display: none;
+}
+
+@media (max-width: 40rem) {
+  main::after {
+    top: -0.5rem;
+    right: -1.5rem;
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  main::after {
+    animation: fluttua 10s ease-in-out infinite alternate;
+  }
+}
+
 /* ---------- Ricerca ---------- */
 .search {
   position: relative;
@@ -1123,11 +1551,27 @@ dl.dati dd ul {
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent), var(--shadow);
 }
 
+.search-row {
+  align-items: center;
+}
+
+.search-ico {
+  flex: none;
+  margin-left: 0.8rem;
+  color: var(--muted);
+  transition: color 0.2s, transform 0.4s var(--ease);
+}
+
+.search-row:focus-within .search-ico {
+  color: var(--accent-ink);
+  transform: scale(1.1) rotate(-8deg);
+}
+
 .search input {
   flex: 1;
   border: 0;
   background: transparent;
-  padding-left: 1rem;
+  padding-left: 0.4rem;
   border-radius: 999px;
   min-width: 0;
 }
@@ -1366,6 +1810,37 @@ input[type='radio']:focus-visible {
   font-weight: 700;
 }
 
+.choice > span:not(.choice-ico) {
+  flex: 1;
+}
+
+.choice-ico {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 12px;
+  color: var(--muted);
+  background: var(--surface-2);
+  transition: color 0.25s, background-color 0.25s, transform 0.4s var(--ease);
+}
+
+.choice:hover .choice-ico {
+  transform: rotate(-6deg);
+}
+
+.choice:has(input:checked) .choice-ico {
+  color: #17171f;
+  background: var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .choice:has(input:checked) .choice-ico {
+    animation: pop 0.45s var(--ease);
+  }
+}
+
 .choice small {
   display: block;
   color: var(--muted);
@@ -1406,6 +1881,20 @@ legend {
   text-transform: uppercase;
   color: var(--muted);
   margin-bottom: 0.8rem;
+}
+
+.ico {
+  flex: none;
+}
+
+.subfieldset > legend .req {
+  margin-left: 0.25rem;
+}
+
+.subfieldset > legend .ico {
+  flex: none;
+  margin-right: 0.45rem;
+  color: var(--accent-ink);
 }
 
 .subfieldset > legend::after {
@@ -1783,6 +2272,16 @@ legend {
 }
 
 /* ---------- Animazioni ---------- */
+@keyframes pop {
+  0% {
+    transform: scale(0.6);
+  }
+
+  60% {
+    transform: scale(1.12);
+  }
+}
+
 @keyframes entra {
   from {
     opacity: 0;
@@ -1795,6 +2294,9 @@ legend {
     .grid > li,
     .steps-list li {
       animation: affiora linear both;
+    }
+
+    :is(.grid, .steps-list) > li {
       animation-timeline: view();
       animation-range: entry 0% entry 60%;
     }

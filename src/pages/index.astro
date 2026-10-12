@@ -4,6 +4,7 @@ import Ricerca from '../components/Ricerca.astro';
 import AdSlot from '../components/AdSlot.astro';
 import Faq from '../components/Faq.astro';
 import IconaCategoria from '../components/IconaCategoria.astro';
+import Icona from '../components/Icona.astro';
 import { categorie, config, fornitori, urlCategoria, urlFornitore } from '../lib/data.ts';
 
 const title = `Disdetta contratti: fac simile lettere gratis | ${config.nome}`;
@@ -26,16 +27,26 @@ const faq = [
     risposta: 'In generale con la disdetta comunichi che non vuoi il rinnovo del contratto alla scadenza; con il recesso chiedi di sciogliere il contratto prima della scadenza o, nei contratti a distanza, entro il periodo di ripensamento.',
   },
 ];
+const nastro = ['Telefonia', 'Internet', 'Pay TV', 'Streaming', 'Palestre', 'Assicurazioni', 'Luce e gas', 'Riviste', 'Recesso 14 giorni'];
+const nastro2 = ['Gratis', 'Senza registrazione', 'PDF e Word', 'Dati solo nel browser', 'Raccomandata A/R', 'PEC'];
 const passi = [
-  { titolo: 'Compila', testo: 'Scegli il tipo di richiesta e il fornitore, poi inserisci i tuoi dati in un modulo guidato.' },
-  { titolo: 'Rileggi', testo: 'Controlla l\'anteprima della lettera e modificala liberamente, parola per parola.' },
-  { titolo: 'Stacca', testo: 'Scarica PDF o Word, firma e invia con raccomandata A/R o PEC. Fatto.' },
+  { icona: 'pencil', titolo: 'Compila', testo: 'Scegli il tipo di richiesta e il fornitore, poi inserisci i tuoi dati in un modulo guidato.' },
+  { icona: 'eye', titolo: 'Rileggi', testo: 'Controlla l\'anteprima della lettera e modificala liberamente, parola per parola.' },
+  { icona: 'scissors', titolo: 'Stacca', testo: 'Scarica PDF o Word, firma e invia con raccomandata A/R o PEC. Fatto.' },
 ];
 ---
 <Base title={title} description={description} path="/">
   <section class="hero">
+    <div class="forme" aria-hidden="true">
+      <svg class="forma f-anello" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="7 9" stroke-linecap="round" /></svg>
+      <svg class="forma f-mezzo" viewBox="0 0 100 50"><path d="M0 50a50 50 0 0 1 100 0z" fill="currentColor" /></svg>
+      <svg class="forma f-onda" viewBox="0 0 124 30"><path d="M3 15q12-12 24 0t24 0 24 0 24 0 24 0" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" /></svg>
+      <span class="forma f-punti"></span>
+      <svg class="forma f-croce" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg>
+      <span class="forma f-pillola"></span>
+    </div>
     <div class="container hero-grid">
-      <div>
+      <div class="hero-testo">
         <p class="eyebrow">Gratis · senza registrazione</p>
         <h1>Chiudi i contratti con un <span class="evidenzia">taglio netto</span>.</h1>
         <p class="lead">Telefono e internet, pay TV, palestra, assicurazione, luce e gas: crea la lettera di disdetta o di recesso in pochi minuti e scaricala in PDF o Word.</p>
@@ -62,6 +73,11 @@ const passi = [
       </div>
     </div>
   </section>
+
+  <div class="nastri" aria-hidden="true">
+    <div class="nastro nastro-retro"><div class="nastro-traccia">{[...nastro2, ...nastro2, ...nastro2, ...nastro2].map((t) => <span>{t}<i>✦</i></span>)}</div></div>
+    <div class="nastro nastro-fronte"><div class="nastro-traccia">{[...nastro, ...nastro].map((t) => <span>{t}<Icona nome="scissors" size={18} /></span>)}</div></div>
+  </div>
 
   <div class="container">
     <section class="section" aria-labelledby="cat-titolo">
@@ -95,6 +111,7 @@ const passi = [
       <ol class="tre-passi">
         {passi.map((p, i) => (
           <li>
+            <span class="tre-ico"><Icona nome={p.icona as 'pencil'} size={22} /></span>
             <span class="tre-num" aria-hidden="true">0{i + 1}</span>
             <h3>{p.titolo}</h3>
             <p>{p.testo}</p>
@@ -104,6 +121,7 @@ const passi = [
     </section>
 
     <section class="banda" aria-labelledby="privacy-titolo">
+      <svg class="banda-anelli" aria-hidden="true" viewBox="0 0 200 200"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="100" cy="100" r="96" stroke-dasharray="4 6" /><circle cx="100" cy="100" r="72" /><circle cx="100" cy="100" r="48" stroke-dasharray="2 5" /><circle cx="100" cy="100" r="24" /></g></svg>
       <svg aria-hidden="true" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2"/></svg>
       <div>
         <h2 id="privacy-titolo">I tuoi dati non lasciano il dispositivo</h2>
@@ -131,8 +149,8 @@ const passi = [
       <p class="eyebrow">Guide</p>
       <h2 id="guide-titolo" style="margin-top:0">Prima di inviare</h2>
       <ul class="grid">
-        <li><a class="card" href="/come-inviare-una-disdetta/"><strong>Come inviare una disdetta</strong><span>Raccomandata A/R, PEC, area clienti e moduli online.</span></a></li>
-        <li><a class="card" href="/recesso-14-giorni/"><strong>Recesso entro 14 giorni</strong><span>Contratti a distanza e fuori dai locali commerciali.</span></a></li>
+        <li><a class="card" href="/come-inviare-una-disdetta/"><IconaCategoria slug="come-inviare" /><strong>Come inviare una disdetta</strong><span>Raccomandata A/R, PEC, area clienti e moduli online.</span></a></li>
+        <li><a class="card" href="/recesso-14-giorni/"><IconaCategoria slug="recesso-14-giorni" /><strong>Recesso entro 14 giorni</strong><span>Contratti a distanza e fuori dai locali commerciali.</span></a></li>
       </ul>
     </section>
 
@@ -181,6 +199,27 @@ const passi = [
     }
   }
 
+  .tre-ico {
+    position: absolute;
+    right: 1.2rem;
+    top: 1.3rem;
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    color: var(--ink);
+    border: 1.5px dashed var(--line-strong);
+    transition: transform 0.5s var(--ease), background-color 0.3s, border-color 0.3s;
+  }
+
+  .tre-passi li:hover .tre-ico {
+    transform: rotate(-12deg) scale(1.08);
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #17171f;
+  }
+
   .tre-num {
     font-family: var(--font-display);
     font-weight: 800;
@@ -221,6 +260,43 @@ const passi = [
     height: 16rem;
     border-radius: 50%;
     background: radial-gradient(circle, color-mix(in srgb, var(--mint) 45%, transparent), transparent 70%);
+  }
+
+  .banda-anelli {
+    position: absolute;
+    right: -3rem;
+    bottom: -5rem;
+    width: 15rem;
+    height: 15rem;
+    color: color-mix(in srgb, var(--mint) 55%, transparent);
+    pointer-events: none;
+  }
+
+  .banda > div {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .banda-anelli {
+      animation: gira 40s linear infinite;
+    }
+
+    .banda svg:not(.banda-anelli) {
+      animation: dondola 3.5s ease-in-out infinite;
+      transform-origin: 50% 20%;
+    }
+  }
+
+  @keyframes dondola {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+
+    50% {
+      transform: rotate(-8deg);
+    }
   }
 
   .banda svg {

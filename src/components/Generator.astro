@@ -2,6 +2,7 @@
 // Generatore guidato della lettera (5 passaggi). Tutta l'elaborazione avviene nel browser:
 // nessun dato personale viene inviato o salvato su server.
 import Campo from './Campo.astro';
+import Icona from './Icona.astro';
 import ComeInviarla from './ComeInviarla.astro';
 import { categorie, datiCategorie, datiPerGeneratore, getCategoria } from '../lib/data.ts';
 import type { TipoRichiestaId } from '../lib/types.ts';
@@ -25,12 +26,19 @@ const cats = categorie.filter((c) => slugCategorie.includes(c.slug));
 const fornitoreSel = fornitore ? dati.fornitori.find((f) => f.slug === fornitore) : undefined;
 const modalita = datiCategorie.blocchi_comuni.modalita_restituzione;
 const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima'];
+const iconeTipo = {
+  disdetta_scadenza: 'calendar-x',
+  recesso_anticipato: 'exit',
+  recesso_14_giorni: 'rewind',
+  trasloco: 'truck',
+  altro: 'pencil',
+} as const;
 ---
 <section class="gen" id="generatore" aria-labelledby="gen-titolo" data-generatore data-fornitore={fornitoreSel?.slug}>
   <div class="gen-head">
     <h2 id="gen-titolo">{titolo}</h2>
     <p class="gen-privacy">
-      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5zm-3 8V7a3 3 0 0 1 6 0v3H9z"/></svg>
+      <Icona nome="lock" size={18} />
       I dati che inserisci restano nel tuo browser: non vengono inviati né salvati sui nostri server.
     </p>
   </div>
@@ -39,7 +47,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
   <ol class="gen-progress" aria-label="Avanzamento">
     {passi.map((p, i) => (
       <li data-progress={i + 1} aria-current={i === 0 ? 'step' : undefined}>
-        <span class="gen-progress-num">{i + 1}</span>
+        <span class="gen-progress-num"><span class="num-testo">{i + 1}</span><Icona nome="check" size={14} class="num-check" /></span>
         <span class="gen-progress-label">{p}</span>
       </li>
     ))}
@@ -52,7 +60,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
   <div class="alert alert-info" id="g-bozza" hidden>
     <p>Su questo dispositivo è salvata una bozza della tua lettera.</p>
     <p>
-      <button type="button" class="btn btn-secondary" data-azione="ripristina-bozza">Riprendi la bozza</button>
+      <button type="button" class="btn btn-secondary" data-azione="ripristina-bozza"><Icona nome="save" size={18} /> Riprendi la bozza</button>
       <button type="button" class="btn-link" data-azione="elimina-bozza">Elimina la bozza</button>
     </p>
   </div>
@@ -62,7 +70,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
 
     <!-- PASSO 1 -->
     <fieldset class="step" data-step="1" aria-labelledby="g-step1-titolo">
-      <h3 id="g-step1-titolo" class="step-title" tabindex="-1"><span>Passo 1 di 5</span> Che cosa vuoi fare?</h3>
+      <h3 id="g-step1-titolo" class="step-title" tabindex="-1"><span>Passo 1 di 5</span> <i class="step-ico"><Icona nome="clipboard" size={20} /></i>Che cosa vuoi fare?</h3>
 
       {catFissa ? (
         <input type="hidden" name="categoria" value={catFissa.slug} />
@@ -78,11 +86,12 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       )}
 
       <fieldset class="subfieldset" aria-describedby="g-tipo-err">
-        <legend>Tipo di richiesta<span class="req" aria-hidden="true"> *</span></legend>
+        <legend><Icona nome="clipboard" size={16} />Tipo di richiesta<span class="req" aria-hidden="true"> *</span></legend>
         {datiCategorie.tipi_richiesta.map((t) => (
           <label class="choice">
             <input type="radio" name="tipo" value={t.id} checked={t.id === tipo} />
             <span><strong>{t.etichetta}</strong><small>{t.descrizione}</small></span>
+            <span class="choice-ico"><Icona nome={iconeTipo[t.id]} size={20} /></span>
           </label>
         ))}
         <span class="error" id="g-tipo-err"></span>
@@ -105,13 +114,13 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       </p>
 
       <div class="gen-nav">
-        <button type="submit" class="btn">Avanti</button>
+        <button type="submit" class="btn">Avanti <Icona nome="arrow-right" size={18} class="ico-avanti" /></button>
       </div>
     </fieldset>
 
     <!-- PASSO 2 -->
     <fieldset class="step" data-step="2" aria-labelledby="g-step2-titolo" hidden>
-      <h3 id="g-step2-titolo" class="step-title" tabindex="-1"><span>Passo 2 di 5</span> A chi la invii?</h3>
+      <h3 id="g-step2-titolo" class="step-title" tabindex="-1"><span>Passo 2 di 5</span> <i class="step-ico"><Icona nome="building" size={20} /></i>A chi la invii?</h3>
 
       <div class="field combo">
         <label for="g-cerca-fornitore">Cerca il fornitore</label>
@@ -133,7 +142,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       <div id="g-fornitore-info" aria-live="polite"></div>
 
       <fieldset class="subfieldset">
-        <legend>Dati del destinatario</legend>
+        <legend><Icona nome="building" size={16} />Dati del destinatario</legend>
         <Campo id="g-dest-nome" name="dest_nome" label="Nome o ragione sociale del destinatario" required autocomplete="off" value={fornitoreSel?.recapiti.destinatario} />
         <Campo id="g-dest-indirizzo" name="dest_indirizzo" label="Indirizzo per le disdette" hint="Via e numero civico o casella postale. Indica almeno l'indirizzo o la PEC." value={fornitoreSel?.recapiti.indirizzo} />
         <div class="row row-cap">
@@ -145,14 +154,14 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       </fieldset>
 
       <div class="gen-nav">
-        <button type="button" class="btn btn-secondary" data-azione="indietro">Indietro</button>
-        <button type="submit" class="btn">Avanti</button>
+        <button type="button" class="btn btn-secondary" data-azione="indietro"><Icona nome="arrow-left" size={18} class="ico-indietro" /> Indietro</button>
+        <button type="submit" class="btn">Avanti <Icona nome="arrow-right" size={18} class="ico-avanti" /></button>
       </div>
     </fieldset>
 
     <!-- PASSO 3 -->
     <fieldset class="step" data-step="3" aria-labelledby="g-step3-titolo" hidden>
-      <h3 id="g-step3-titolo" class="step-title" tabindex="-1"><span>Passo 3 di 5</span> I dati dell'intestatario</h3>
+      <h3 id="g-step3-titolo" class="step-title" tabindex="-1"><span>Passo 3 di 5</span> <i class="step-ico"><Icona nome="user" size={20} /></i>I dati dell'intestatario</h3>
       <div class="row row-2">
         <Campo id="g-nome" name="nome" label="Nome" required autocomplete="given-name" />
         <Campo id="g-cognome" name="cognome" label="Cognome" required autocomplete="family-name" />
@@ -170,7 +179,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       </div>
 
       <fieldset class="subfieldset">
-        <legend>Dati del contratto</legend>
+        <legend><Icona nome="file" size={16} />Dati del contratto</legend>
         <Campo id="g-codice-cliente" name="codice_cliente" label="Codice cliente o numero di contratto" hint="Lo trovi in fattura, nel contratto o nell'area clienti. Indica almeno un dato che identifichi il contratto." />
         {cats.map((c) => (
           <fieldset data-campi-cat={c.slug} hidden={catFissa ? false : true} disabled={catFissa ? false : true}>
@@ -195,20 +204,20 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       </fieldset>
 
       <div class="gen-nav">
-        <button type="button" class="btn btn-secondary" data-azione="indietro">Indietro</button>
-        <button type="submit" class="btn">Avanti</button>
+        <button type="button" class="btn btn-secondary" data-azione="indietro"><Icona nome="arrow-left" size={18} class="ico-indietro" /> Indietro</button>
+        <button type="submit" class="btn">Avanti <Icona nome="arrow-right" size={18} class="ico-avanti" /></button>
       </div>
     </fieldset>
 
     <!-- PASSO 4 -->
     <fieldset class="step" data-step="4" aria-labelledby="g-step4-titolo" hidden>
-      <h3 id="g-step4-titolo" class="step-title" tabindex="-1"><span>Passo 4 di 5</span> Opzioni della lettera</h3>
+      <h3 id="g-step4-titolo" class="step-title" tabindex="-1"><span>Passo 4 di 5</span> <i class="step-ico"><Icona nome="sliders" size={20} /></i>Opzioni della lettera</h3>
 
       <fieldset class="subfieldset" aria-describedby="g-invio-err">
-        <legend>Come la invierai?</legend>
-        <label class="choice"><input type="radio" name="invio" value="raccomandata" checked /><span><strong>Raccomandata A/R</strong></span></label>
-        <label class="choice"><input type="radio" name="invio" value="pec" /><span><strong>PEC</strong></span></label>
-        <label class="choice"><input type="radio" name="invio" value="altro" /><span><strong>Altro canale</strong> <small>(consegna a mano, modulo online…)</small></span></label>
+        <legend><Icona nome="send" size={16} />Come la invierai?</legend>
+        <label class="choice"><input type="radio" name="invio" value="raccomandata" checked /><span><strong>Raccomandata A/R</strong><small>Con ricevuta di ritorno</small></span><span class="choice-ico"><Icona nome="mail" size={20} /></span></label>
+        <label class="choice"><input type="radio" name="invio" value="pec" /><span><strong>PEC</strong><small>Posta elettronica certificata</small></span><span class="choice-ico"><Icona nome="at" size={20} /></span></label>
+        <label class="choice"><input type="radio" name="invio" value="altro" /><span><strong>Altro canale</strong><small>Consegna a mano, modulo online…</small></span><span class="choice-ico"><Icona nome="send" size={20} /></span></label>
         <span class="error" id="g-invio-err"></span>
       </fieldset>
 
@@ -219,7 +228,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       <Campo id="g-decorrenza" name="data_decorrenza" type="date" label="Data di decorrenza (facoltativa)" hint="Se la lasci vuota, la lettera indica la prima data utile secondo il tipo di richiesta." />
 
       <fieldset class="subfieldset" data-solo-apparati hidden={catFissa ? !catFissa.apparati : true} disabled={catFissa ? !catFissa.apparati : true}>
-        <legend>Apparati (modem, decoder…)</legend>
+        <legend><Icona nome="box" size={16} />Apparati (modem, decoder…)</legend>
         <label class="check"><input type="checkbox" name="apparati" id="g-apparati" /><span>Chiedi le istruzioni per restituire gli apparati in comodato o noleggio</span></label>
         <div class="field" data-mostra-se="apparati" hidden>
           <label for="g-modalita">Modalità di restituzione preferita</label>
@@ -230,7 +239,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       </fieldset>
 
       <fieldset class="subfieldset">
-        <legend>Rimborso</legend>
+        <legend><Icona nome="euro" size={16} />Rimborso</legend>
         <label class="check"><input type="checkbox" name="rimborso" id="g-rimborso" /><span>Chiedi il rimborso del credito residuo e degli importi non dovuti</span></label>
         <div data-mostra-se="rimborso" hidden>
           <Campo id="g-iban" name="iban" label="IBAN per il rimborso (facoltativo)" maxlength={42} autocapitalize="characters" hint="Non viene mai salvato, nemmeno nella bozza locale." />
@@ -239,7 +248,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       </fieldset>
 
       <fieldset class="subfieldset">
-        <legend>Allegati</legend>
+        <legend><Icona nome="clip" size={16} />Allegati</legend>
         <label class="check"><input type="checkbox" name="allega_documento" id="g-allega-documento" checked /><span>Copia del documento d'identità (promemoria nell'elenco allegati)</span></label>
         {cats.map((c) => (
           <fieldset data-campi-cat={c.slug} hidden={catFissa ? false : true} disabled={catFissa ? false : true}>
@@ -257,14 +266,14 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
       </div>
 
       <div class="gen-nav">
-        <button type="button" class="btn btn-secondary" data-azione="indietro">Indietro</button>
-        <button type="submit" class="btn">Anteprima</button>
+        <button type="button" class="btn btn-secondary" data-azione="indietro"><Icona nome="arrow-left" size={18} class="ico-indietro" /> Indietro</button>
+        <button type="submit" class="btn"><Icona nome="eye" size={18} /> Anteprima</button>
       </div>
     </fieldset>
 
     <!-- PASSO 5 -->
     <fieldset class="step" data-step="5" aria-labelledby="g-step5-titolo" hidden>
-      <h3 id="g-step5-titolo" class="step-title" tabindex="-1"><span>Passo 5 di 5</span> Controlla e scarica</h3>
+      <h3 id="g-step5-titolo" class="step-title" tabindex="-1"><span>Passo 5 di 5</span> <i class="step-ico"><Icona nome="file-check" size={20} /></i>Controlla e scarica</h3>
       <p id="g-aggiornata" class="alert alert-info" hidden></p>
       <div class="field">
         <label for="g-lettera">Anteprima della lettera (puoi modificarla)</label>
@@ -273,18 +282,18 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
         </div>
         <div class="gen-sotto-carta">
           <span class="hint" id="g-lettera-hint">Rileggi e correggi se serve: scarichi esattamente il testo mostrato qui.</span>
-          <button type="button" class="btn-link" data-azione="rigenera">Annulla le modifiche</button>
+          <button type="button" class="btn-link btn-link-ico" data-azione="rigenera"><Icona nome="undo" size={16} /> Annulla le modifiche</button>
         </div>
       </div>
       <div class="gen-azioni">
-        <button type="button" class="btn" data-azione="pdf">Scarica PDF</button>
-        <button type="button" class="btn" data-azione="docx">Scarica Word</button>
-        <button type="button" class="btn btn-secondary" data-azione="copia">Copia il testo</button>
+        <button type="button" class="btn btn-azione" data-azione="pdf"><span class="ico-scambio"><Icona nome="download" size={18} /><Icona nome="check" size={18} class="ico-ok" /></span> Scarica PDF</button>
+        <button type="button" class="btn btn-azione" data-azione="docx"><span class="ico-scambio"><Icona nome="download" size={18} /><Icona nome="check" size={18} class="ico-ok" /></span> Scarica Word</button>
+        <button type="button" class="btn btn-secondary btn-azione" data-azione="copia"><span class="ico-scambio"><Icona nome="copy" size={18} /><Icona nome="check" size={18} class="ico-ok" /></span> Copia il testo</button>
       </div>
       <p class="gen-stato" id="g-stato" role="status" aria-live="polite"></p>
       <div class="gen-nav">
-        <button type="button" class="btn btn-secondary" data-azione="indietro">Indietro</button>
-        <button type="button" class="btn-link gen-ricomincia" data-azione="ricomincia">Ricomincia</button>
+        <button type="button" class="btn btn-secondary" data-azione="indietro"><Icona nome="arrow-left" size={18} class="ico-indietro" /> Indietro</button>
+        <button type="button" class="btn-link btn-link-ico gen-ricomincia" data-azione="ricomincia"><Icona nome="refresh" size={16} /> Ricomincia</button>
       </div>
     </fieldset>
   </form>
@@ -381,6 +390,7 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
   }
 
   .gen-progress-num {
+    position: relative;
     display: grid;
     place-items: center;
     width: 1.6rem;
@@ -500,13 +510,106 @@ const passi = ['Richiesta', 'Destinatario', 'I tuoi dati', 'Opzioni', 'Anteprima
     font-size: 0.9rem;
   }
 
-  .gen-nav .btn[type='submit']::after {
-    content: '→' / '';
-    transition: transform 0.3s var(--ease);
+  .gen-progress-num :global(.num-check) {
+    display: none;
   }
 
-  .gen-nav .btn[type='submit']:hover::after {
-    transform: translateX(3px);
+  .gen-progress li[data-fatto] .num-testo {
+    display: none;
+  }
+
+  .gen-progress li[data-fatto] .gen-progress-num :global(.num-check) {
+    display: block;
+    stroke-width: 3;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .gen-progress li[data-fatto] .gen-progress-num {
+      animation: pop 0.45s var(--ease);
+    }
+
+    /* Alone pulsante sul passo corrente: solo transform/opacity (gestiti dalla GPU) */
+    .gen-progress li[aria-current='step'] .gen-progress-num::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      animation: pulsa 2.4s ease-out infinite;
+    }
+  }
+
+  @keyframes pulsa {
+    from {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+
+    to {
+      transform: scale(1.7);
+      opacity: 0;
+    }
+  }
+
+  /* Icona del passo accanto al titolo */
+  .step-ico {
+    display: inline-grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    margin-right: 0.5rem;
+    vertical-align: -0.45rem;
+    border-radius: 10px;
+    color: var(--accent-ink);
+    background: color-mix(in srgb, var(--accent) 13%, var(--surface));
+    font-style: normal;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .step.step-in .step-ico {
+      animation: ruota-in 0.6s var(--ease);
+    }
+  }
+
+  @keyframes ruota-in {
+    from {
+      transform: rotate(-25deg) scale(0.6);
+    }
+  }
+
+  /* Pulsanti di download / copia: l'icona diventa una spunta a operazione riuscita */
+  .ico-scambio {
+    display: inline-grid;
+  }
+
+  .ico-scambio > :global(*) {
+    grid-area: 1 / 1;
+    transition: transform 0.35s var(--ease), opacity 0.25s;
+  }
+
+  .ico-scambio > :global(.ico-ok) {
+    opacity: 0;
+    transform: scale(0.4) rotate(-30deg);
+  }
+
+  .btn-azione.ok .ico-scambio > :global(:not(.ico-ok)) {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+
+  .btn-azione.ok .ico-scambio > :global(.ico-ok) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .btn-azione:hover .ico-scambio > :global(:not(.ico-ok)) {
+    animation: rimbalza 0.6s var(--ease);
+  }
+
+  @keyframes rimbalza {
+    40% {
+      transform: translateY(3px);
+    }
   }
 
   .gen-azioni .btn {

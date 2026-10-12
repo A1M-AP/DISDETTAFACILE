@@ -1,4 +1,5 @@
 ---
+import Icona from '../../../components/Icona.astro';
 import Base from '../../../layouts/Base.astro';
 import Generator from '../../../components/Generator.astro';
 import AdSlot from '../../../components/AdSlot.astro';
@@ -32,24 +33,24 @@ const altre = categorie.filter((x) => x.slug !== c.slug);
     <Generator categoria={c.slug} />
 
     <section class="section" aria-labelledby="info-titolo">
-      <h2 id="info-titolo">Come funziona la disdetta per {c.nome_breve}</h2>
+      <h2 class="titolo-ico" id="info-titolo"><Icona nome="info" />Come funziona la disdetta per {c.nome_breve}</h2>
       {c.intro.map((p) => <p>{p}</p>)}
     </section>
 
     <section class="section" aria-labelledby="passi-titolo">
-      <h2 id="passi-titolo">I passi da seguire</h2>
+      <h2 class="titolo-ico" id="passi-titolo"><Icona nome="steps" />I passi da seguire</h2>
       <ol class="steps-list">{c.passi.map((p) => <li>{p}</li>)}</ol>
     </section>
 
     {c.note.length > 0 && (
       <section class="section" aria-labelledby="note-titolo">
-        <h2 id="note-titolo">Da sapere prima di inviare la lettera</h2>
+        <h2 class="titolo-ico" id="note-titolo"><Icona nome="alert" />Da sapere prima di inviare la lettera</h2>
         <ul class="check-list">{c.note.map((n) => <li>{n}</li>)}</ul>
       </section>
     )}
 
     <section class="section" aria-labelledby="forn-titolo">
-      <h2 id="forn-titolo">Fornitori di {c.nome_breve}</h2>
+      <h2 class="titolo-ico" id="forn-titolo"><Icona nome="building" />Fornitori di {c.nome_breve}</h2>
       {elenco.length > 0 ? (
         <>
           <p>Per questi fornitori trovi una pagina dedicata con il generatore già impostato e i canali di invio:</p>
@@ -70,7 +71,7 @@ const altre = categorie.filter((x) => x.slug !== c.slug);
     <p class="box box-alt">Per scegliere tra raccomandata A/R, PEC e altri canali leggi la guida <a href="/come-inviare-una-disdetta/">come inviare una disdetta</a>.</p>
     <Faq faq={c.faq} titolo={`Domande frequenti sulla disdetta ${c.nome_breve}`} />
     <section class="section" aria-labelledby="altre-titolo">
-      <h2 id="altre-titolo">Altre categorie</h2>
+      <h2 class="titolo-ico" id="altre-titolo"><Icona nome="sparkle" />Altre categorie</h2>
       <ul class="chips">
         {altre.map((x) => <li><a href={urlCategoria(x.slug)}>Disdetta {x.nome_breve}</a></li>)}
       </ul>

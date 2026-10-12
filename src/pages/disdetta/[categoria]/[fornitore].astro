@@ -1,4 +1,5 @@
 ---
+import Icona from '../../../components/Icona.astro';
 import Base from '../../../layouts/Base.astro';
 import Generator from '../../../components/Generator.astro';
 import AdSlot from '../../../components/AdSlot.astro';
@@ -99,7 +100,7 @@ const faq: FaqT[] = [
     <Generator categoria={c.slug} fornitore={f.slug} titolo={`Crea la lettera per ${f.nome}`} />
 
     <section class="section" aria-labelledby="dove-titolo">
-      <h2 id="dove-titolo">Dove inviare la disdetta {f.nome}</h2>
+      <h2 class="titolo-ico" id="dove-titolo"><Icona nome="pin" />Dove inviare la disdetta {f.nome}</h2>
       {!verificato && (
         <div class="alert alert-warn">
           <p><strong>Dati DA VERIFICARE.</strong> I recapiti di {f.nome} per le disdette non sono ancora stati verificati dalla redazione. Prima di inviare la lettera controlla indirizzo e PEC nelle condizioni del tuo contratto, nelle fatture o sul sito ufficiale del fornitore.</p>
@@ -136,7 +137,7 @@ const faq: FaqT[] = [
     </section>
 
     <section class="section" aria-labelledby="note-titolo">
-      <h2 id="note-titolo">Da sapere prima di disdire {f.nome}</h2>
+      <h2 class="titolo-ico" id="note-titolo"><Icona nome="alert" />Da sapere prima di disdire {f.nome}</h2>
       <ul class="check-list">
         {note.map((n) => <li>{n}</li>)}
         {c.note.map((n) => <li>{n}</li>)}
@@ -144,7 +145,7 @@ const faq: FaqT[] = [
     </section>
 
     <section class="section" aria-labelledby="passi-titolo">
-      <h2 id="passi-titolo">Come disdire {f.nome}: i passi</h2>
+      <h2 class="titolo-ico" id="passi-titolo"><Icona nome="steps" />Come disdire {f.nome}: i passi</h2>
       <ol class="steps-list">{c.passi.map((p) => <li>{p}</li>)}</ol>
       <p>Per i dettagli su raccomandata, PEC e altri canali leggi la guida <a href="/come-inviare-una-disdetta/">come inviare una disdetta</a>.</p>
     </section>
@@ -155,7 +156,7 @@ const faq: FaqT[] = [
   <div class="container narrow">
     <Faq faq={faq} titolo={`Domande frequenti sulla disdetta ${f.nome}`} />
     <section class="section" aria-labelledby="altri-titolo">
-      <h2 id="altri-titolo">Altri fornitori di {c.nome_breve}</h2>
+      <h2 class="titolo-ico" id="altri-titolo"><Icona nome="building" />Altri fornitori di {c.nome_breve}</h2>
       <ul class="chips">
         {altri.map((x) => <li><a href={urlFornitore(x)}>Disdetta {x.nome}</a></li>)}
         <li><a href={urlCategoria(c.slug)}>Tutte le disdette {c.nome_breve}</a></li>

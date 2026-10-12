@@ -2,6 +2,7 @@
 // Ricerca con suggerimenti tra categorie, fornitori e guide. Senza JavaScript il pulsante porta all'elenco completo.
 import { categorie, fornitori, getCategoria, urlCategoria, urlFornitore } from '../lib/data.ts';
 import { jsonSicuro } from '../lib/format.ts';
+import Icona from './Icona.astro';
 
 const indice = [
   ...categorie.map((c) => ({ t: `Disdetta ${c.nome_breve}`, s: c.nome, u: urlCategoria(c.slug) })),
@@ -13,6 +14,7 @@ const indice = [
 <form class="search" action="/disdetta/" method="get" role="search" data-ricerca>
   <label for="ricerca">Cerca il fornitore o il tipo di contratto</label>
   <div class="search-row combo">
+    <Icona nome="search" size={20} class="search-ico" />
     <input
       id="ricerca"
       type="search"

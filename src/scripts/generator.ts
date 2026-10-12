@@ -527,6 +527,13 @@ export function avviaGeneratore(root: HTMLElement) {
     salvaBozzaRitardata();
   });
 
+  /** Mostra per un istante la spunta sul pulsante dell'azione riuscita. */
+  function segnaOk(btn: HTMLElement | null) {
+    if (!btn) return;
+    btn.classList.add('ok');
+    setTimeout(() => btn.classList.remove('ok'), 2200);
+  }
+
   async function esporta(formato: 'pdf' | 'docx', btn: HTMLButtonElement) {
     const testo = textarea.value.trim();
     if (!testo) return;
@@ -541,6 +548,7 @@ export function avviaGeneratore(root: HTMLElement) {
         await scaricaDocx(testo, nomeFile);
       }
       stato.textContent = `File ${formato.toUpperCase()} scaricato. Ricordati di firmarlo prima dell'invio.`;
+      segnaOk(btn);
     } catch (err) {
       console.error(err);
       stato.textContent = 'Non è stato possibile creare il file. Riprova oppure copia il testo.';
@@ -558,6 +566,7 @@ export function avviaGeneratore(root: HTMLElement) {
       document.execCommand('copy');
     }
     stato.textContent = 'Testo copiato negli appunti.';
+    segnaOk($('[data-azione="copia"]'));
   }
 
   function ricomincia() {

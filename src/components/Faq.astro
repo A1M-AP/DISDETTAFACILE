@@ -1,6 +1,7 @@
 ---
 import { jsonSicuro } from '../lib/format.ts';
 import type { Faq } from '../lib/types.ts';
+import Icona from './Icona.astro';
 
 interface Props {
   faq: Faq[];
@@ -20,7 +21,7 @@ const ld = {
 ---
 {faq.length > 0 && (
   <section class="section faq" aria-labelledby={`${id}-titolo`}>
-    <h2 id={`${id}-titolo`}>{titolo}</h2>
+    <h2 class="titolo-ico" id={`${id}-titolo`}><Icona nome="help" />{titolo}</h2>
     {faq.map((f) => (
       <details>
         <summary>{f.domanda}</summary>

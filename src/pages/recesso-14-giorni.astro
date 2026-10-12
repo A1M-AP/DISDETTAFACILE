@@ -1,4 +1,5 @@
 ---
+import Icona from '../components/Icona.astro';
 import Base from '../layouts/Base.astro';
 import Generator from '../components/Generator.astro';
 import AdSlot from '../components/AdSlot.astro';
@@ -39,13 +40,13 @@ const faq = [
     <Generator tipo="recesso_14_giorni" titolo="Crea la lettera di recesso" />
 
     <section class="section" aria-labelledby="cos-titolo">
-      <h2 id="cos-titolo">Che cos'è il diritto di recesso (o di ripensamento)</h2>
+      <h2 class="titolo-ico" id="cos-titolo"><Icona nome="rewind" />Che cos'è il diritto di recesso (o di ripensamento)</h2>
       <p>Il Codice del Consumo riconosce in generale al consumatore la possibilità di recedere, entro 14 giorni e senza dover fornire una motivazione, dai contratti conclusi <strong>a distanza</strong> (online, per telefono, per corrispondenza) o <strong>fuori dai locali commerciali</strong> (ad esempio a casa, sul posto di lavoro, per strada o durante un'escursione organizzata dal venditore).</p>
       <p>È pensato per tutelarti quando non hai potuto valutare con calma l'offerta o vedere il prodotto prima dell'acquisto. Per i contratti firmati direttamente in negozio o in sede, invece, di norma non si applica, salvo condizioni più favorevoli previste dal contratto.</p>
     </section>
 
     <section class="section" aria-labelledby="quando-titolo">
-      <h2 id="quando-titolo">Quando si applica e quali sono le eccezioni</h2>
+      <h2 class="titolo-ico" id="quando-titolo"><Icona nome="clock" />Quando si applica e quali sono le eccezioni</h2>
       <ul class="check-list">
         <li><strong>Servizi</strong> (telefonia, pay TV, energia, abbonamenti, polizze…): il termine decorre in generale dalla conclusione del contratto.</li>
         <li><strong>Beni</strong>: il termine decorre in generale dalla consegna.</li>
@@ -55,7 +56,7 @@ const faq = [
     </section>
 
     <section class="section" aria-labelledby="passi-titolo">
-      <h2 id="passi-titolo">I passi da seguire</h2>
+      <h2 class="titolo-ico" id="passi-titolo"><Icona nome="steps" />I passi da seguire</h2>
       <ol class="steps-list">
         <li>Recupera la conferma del contratto (email, SMS, modulo firmato) e la data di conclusione o di consegna.</li>
         <li>Verifica di essere ancora nel termine e controlla se il fornitore indica un indirizzo o un modulo per il recesso.</li>
@@ -66,7 +67,7 @@ const faq = [
     </section>
 
     <section class="section" aria-labelledby="rimborso-titolo">
-      <h2 id="rimborso-titolo">Rimborso dei pagamenti</h2>
+      <h2 class="titolo-ico" id="rimborso-titolo"><Icona nome="euro" />Rimborso dei pagamenti</h2>
       <p>Dopo il recesso il fornitore deve rimborsare i pagamenti ricevuti nei tempi previsti dalla legge, di solito con lo stesso mezzo di pagamento usato da te. Nel generatore puoi indicare un IBAN per il rimborso: resta solo nel tuo browser.</p>
     </section>
   </div>
